@@ -1,0 +1,12 @@
+pr-ack  % [ parameters ]
+		: THEORY
+
+  BEGIN
+
+  % ASSUMING
+   % assuming declarations
+  % ENDASSUMING
+
+ 
+
+  END pr-ack
