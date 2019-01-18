@@ -12,28 +12,30 @@ nat_args(k: nat): TYPE+ = ArrayOf[k][nat]
 rfunc(k: nat): TYPE+ = [nat_args(k) -> nat]
 
 % Array helpers
-sub_args(k: nat, u: below(k), l: below(u+1))(a: nat_args(k)): nat_args(u-l)
+sub_args(k: nat, u: below(k), l: upto(u))(a: nat_args(k)): nat_args(u-l+1)
   = IF
       u = l
     THEN
       init
     ELSE
-      for[nat_args(u-l)]
-      (0, u-l-1, init, LAMBDA(i: subrange(0, u-l-1), m: nat_args(u-l)):
+      for[nat_args(u-l+1)]
+      (0, u-l, init, LAMBDA(i: subrange(0, u-l), m: nat_args(u-l+1)):
         m WITH [`i := a(i+l)])
     ENDIF
 
 expand_args(k: nat, j: nat)(a: nat_args(k)): nat_args(k+j)
   = for[nat_args(k+j)]
-    (0, k, init, LAMBDA(i: subrange(0, k-1), r: nat_args(k)):
+    (0, k-1, init, LAMBDA(i: subrange(0, k-1), r: nat_args(k+j)):
       r WITH [`i := a(i)])
 
 % Base functions
 zero(k: nat)(a: nat_args(k)): nat = 0
 
-succ(a: nat_args(1)): nat = a(0) + 1
+pr_succ(a: nat_args(1)): nat = a(0) + 1
 
 pi(k: nat, i: below(k))(a: nat_args(k)): nat = a(i)
+%pi(k: nat, i: below(k)): rfunc(k)
+%  = LAMBDA (a: nat_args(k)): a(i)
 
 % Operators
 
@@ -63,34 +65,29 @@ compose(r: nat, k: nat)(g: rfunc(r), h: ArrayOf[r][rfunc(k)]):
 %  m(i) = ns(i)
 % }
 
-%pr_build_g_m(k: nat)(ns: nat_args(k+1)): nat_args(k)
-%  = for[nat_args(k)]
-%    (0, k-1, init, LAMBDA(i: subrange(0, k-1), m: nat_args(k)):
-%    	m WITH [`i := ns(i)])
-pr_build_g_m(k: nat)(n: nat_args(k+1)): nat_args(k)
-  = sub_args(k+1, k-1, 0)(n)
+pr_build_h_m(k: nat)(n: nat_args(k+1), f_prev: nat): nat_args(k+2)
+  = LET j = k+1 IN expand_args(k+1, 1)(n) WITH [`k := n(k)-1] WITH [`j := f_prev]
 
-% Inline in pr machen, ansonsten muss ns(i) > 0 vorausgesetzt werden (dort ist es gegeben)
-%pr_build_h_m(k: nat)(ns: nat_args(k+1), f_prev: nat): nat_args(k+2)
-%  = for[nat_args(k+2)]
-%    (0, k, init, LAMBDA(i: subrange(0, k), m: nat_args(k+2)):
-%    	m WITH [`i :=
-%	  IF i = k
-%	     THEN f_prev
-%	  ELSIF i = k-1
-%	     THEN ns(i)-1
-%	     ELSE ns(i)
-%	  ENDIF])
-
-%pr_build_h_m(k: nat)(n: nat_args(k+1), f_prev: nat): nat_args(k+2)
-%  = expand_args(k+1, 1)(n) WITH [`k := n(k)-1] WITH [LET j := k+1 IN [`j := f_prev]]
+pr(k: nat, g:rfunc(k), h:rfunc(k+2))(n: nat_args(k+1)): RECURSIVE nat
+  = IF
+      n(k) = 0
+    THEN
+      IF k = 0 THEN g(init) ELSE g(sub_args(k+1, k-1, 0)(n)) ENDIF
+    ELSE
+      h(pr_build_h_m(k)(n, pr(k, g, h)(n WITH [`k := n(k)-1])))
+    ENDIF MEASURE n(k)
 
 
-%pr(k: nat, g: rfunc(k), h: rfunc(k+2)): RECURSIVE rfunc(k+1)
-%  = (LAMBDA (ns: ArrayOf[k+1][nat]):
-%    IF ns(k) = 0
-%    THEN g(pr_build_g_m(k)(ns))
-%    ELSE h(pr_build_h_m(k)(ns, pr(k, g, h)(ns WITH [`k := ns(k)-1]))) ENDIF)
-%MEASURE ns(k)
+% ADDITION
+
+%g_add(n: nat_args(1)): nat = pi(1, 1)(n)
+%h_add(n: nat_args(3)): nat = compose(1, 3)(pr_succ, init_with[rfunc(3)] WITH [`0 := pi(3, 3)])(n)
+
+
+
+%PREC: TYPE+
+
+%zero_in_prec: AXIOM
+
 
 END pr_ack
