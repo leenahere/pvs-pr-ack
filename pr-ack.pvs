@@ -7,14 +7,16 @@ BEGIN
 
 IMPORTING structures@arrays, structures@for_iterate
 
-rfunc(k: nat): TYPE+ = [ArrayOf[k][nat] -> nat]
+% Type aliases
+nat_args(k: nat): TYPE+ = ArrayOf[k][nat]
+rfunc(k: nat): TYPE+ = [nat_args(k) -> nat]
 
 % Base functions
-zero(k: nat)(a: ArrayOf[k][nat]): nat = 0
+zero(k: nat)(a: nat_args(k)): nat = 0
 
-succ(a: ArrayOf[1][nat]): nat = a(0) + 1
+succ(a: nat_args(1)): nat = a(0) + 1
 
-pi(k: nat, i: below(k))(a: ArrayOf[k][nat]): nat = a(i)
+pi(k: nat, i: below(k))(a: nat_args(k)): nat = a(i)
 
 % Operators
 
@@ -27,11 +29,13 @@ pi(k: nat, i: below(k))(a: ArrayOf[k][nat]): nat = a(i)
 % }
 
 % COMPOSITION
-comp_build_m(r: nat, k: nat)(h: ArrayOf[r][rfunc(k)], n: ArrayOf[k][nat]): ArrayOf[r][nat]
-  = for[ArrayOf[r][nat]](0, r-1, init, LAMBDA(i: subrange(0, r-1), m: ArrayOf[r][nat]): m WITH [`i := h(i)(n)])
+comp_build_m(r: nat, k: nat)(h: ArrayOf[r][rfunc(k)], n: nat_args(k)): nat_args(r)
+  = for[nat_args(r)]
+    (0, r-1, init, LAMBDA(i: subrange(0, r-1), m: nat_args(r)):
+      m WITH [`i := h(i)(n)])
 
 compose(r: nat, k: nat)(g: rfunc(r), h: ArrayOf[r][rfunc(k)]):
-  rfunc(k) = (LAMBDA (n: ArrayOf[k][nat]): g(comp_build_m(r, k)(h, n)))
+  rfunc(k) = (LAMBDA (n: nat_args(k)): g(comp_build_m(r, k)(h, n)))
 
 % PRIMITIVE RECURSION OPERATOR
 
@@ -42,18 +46,28 @@ compose(r: nat, k: nat)(g: rfunc(r), h: ArrayOf[r][rfunc(k)]):
 %  m(i) = ns(i)
 % }
 
-pr_build_g_m(k: nat)(ns: ArrayOf[k+1][nat]): ArrayOf[k][nat]
-  = for[ArrayOf[k][nat]](0, k-1, init, LAMBDA(i: subrange(0, k-1), m: ArrayOf[k][nat]): m WITH [`i := ns(i)])
+pr_build_g_m(k: nat)(ns: nat_args(k+1)): nat_args(k)
+  = for[nat_args(k)]
+    (0, k-1, init, LAMBDA(i: subrange(0, k-1), m: nat_args(k)):
+    	m WITH [`i := ns(i)])
 
-pr_build_h_m(k: nat)(ns: ArrayOf[k+1][nat], f_prev: nat): ArrayOf[k+2][nat]
-  = for[ArrayOf[k+2][nat]](0, k, init, LAMBDA(i: subrange(0, k), m: ArrayOf[k+2][nat]):
-    m WITH [`i := IF i = k THEN f_prev ELSIF i = k-1 THEN ns(i)-1 ELSE ns(i) ENDIF])
+% Inline in pr machen, ansonsten muss ns(i) > 0 vorausgesetzt werden (dort ist es gegeben)
+pr_build_h_m(k: nat)(ns: nat_args(k+1), f_prev: nat): nat_args(k+2)
+  = for[nat_args(k+2)]
+    (0, k, init, LAMBDA(i: subrange(0, k), m: nat_args(k+2)):
+    	m WITH [`i :=
+	  IF i = k
+	     THEN f_prev
+	  ELSIF i = k-1
+	     THEN ns(i)-1
+	     ELSE ns(i)
+	  ENDIF])
 
-pr(k: nat, g: rfunc(k), h: rfunc(k+2)): RECURSIVE rfunc(k+1)
-  = (LAMBDA (ns: ArrayOf[k+1][nat]):
-    IF ns(k) = 0
-    THEN g(pr_build_g_m(k)(ns))
-    ELSE h(pr_build_h_m(k)(ns, pr(k, g, h)(ns WITH [`k := ns(k)-1]))) ENDIF)
-MEASURE ns(k)
+%pr(k: nat, g: rfunc(k), h: rfunc(k+2)): RECURSIVE rfunc(k+1)
+%  = (LAMBDA (ns: ArrayOf[k+1][nat]):
+%    IF ns(k) = 0
+%    THEN g(pr_build_g_m(k)(ns))
+%    ELSE h(pr_build_h_m(k)(ns, pr(k, g, h)(ns WITH [`k := ns(k)-1]))) ENDIF)
+%MEASURE ns(k)
 
 END pr_ack
