@@ -11,6 +11,23 @@ IMPORTING structures@arrays, structures@for_iterate
 nat_args(k: nat): TYPE+ = ArrayOf[k][nat]
 rfunc(k: nat): TYPE+ = [nat_args(k) -> nat]
 
+% Array helpers
+sub_args(k: nat, u: below(k), l: below(u+1))(a: nat_args(k)): nat_args(u-l)
+  = IF
+      u = l
+    THEN
+      init
+    ELSE
+      for[nat_args(u-l)]
+      (0, u-l-1, init, LAMBDA(i: subrange(0, u-l-1), m: nat_args(u-l)):
+        m WITH [`i := a(i+l)])
+    ENDIF
+
+expand_args(k: nat, j: nat)(a: nat_args(k)): nat_args(k+j)
+  = for[nat_args(k+j)]
+    (0, k, init, LAMBDA(i: subrange(0, k-1), r: nat_args(k)):
+      r WITH [`i := a(i)])
+
 % Base functions
 zero(k: nat)(a: nat_args(k)): nat = 0
 
@@ -46,22 +63,28 @@ compose(r: nat, k: nat)(g: rfunc(r), h: ArrayOf[r][rfunc(k)]):
 %  m(i) = ns(i)
 % }
 
-pr_build_g_m(k: nat)(ns: nat_args(k+1)): nat_args(k)
-  = for[nat_args(k)]
-    (0, k-1, init, LAMBDA(i: subrange(0, k-1), m: nat_args(k)):
-    	m WITH [`i := ns(i)])
+%pr_build_g_m(k: nat)(ns: nat_args(k+1)): nat_args(k)
+%  = for[nat_args(k)]
+%    (0, k-1, init, LAMBDA(i: subrange(0, k-1), m: nat_args(k)):
+%    	m WITH [`i := ns(i)])
+pr_build_g_m(k: nat)(n: nat_args(k+1)): nat_args(k)
+  = sub_args(k+1, k-1, 0)(n)
 
 % Inline in pr machen, ansonsten muss ns(i) > 0 vorausgesetzt werden (dort ist es gegeben)
-pr_build_h_m(k: nat)(ns: nat_args(k+1), f_prev: nat): nat_args(k+2)
-  = for[nat_args(k+2)]
-    (0, k, init, LAMBDA(i: subrange(0, k), m: nat_args(k+2)):
-    	m WITH [`i :=
-	  IF i = k
-	     THEN f_prev
-	  ELSIF i = k-1
-	     THEN ns(i)-1
-	     ELSE ns(i)
-	  ENDIF])
+%pr_build_h_m(k: nat)(ns: nat_args(k+1), f_prev: nat): nat_args(k+2)
+%  = for[nat_args(k+2)]
+%    (0, k, init, LAMBDA(i: subrange(0, k), m: nat_args(k+2)):
+%    	m WITH [`i :=
+%	  IF i = k
+%	     THEN f_prev
+%	  ELSIF i = k-1
+%	     THEN ns(i)-1
+%	     ELSE ns(i)
+%	  ENDIF])
+
+%pr_build_h_m(k: nat)(n: nat_args(k+1), f_prev: nat): nat_args(k+2)
+%  = expand_args(k+1, 1)(n) WITH [`k := n(k)-1] WITH [LET j := k+1 IN [`j := f_prev]]
+
 
 %pr(k: nat, g: rfunc(k), h: rfunc(k+2)): RECURSIVE rfunc(k+1)
 %  = (LAMBDA (ns: ArrayOf[k+1][nat]):
