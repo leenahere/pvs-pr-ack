@@ -20,10 +20,11 @@ sub_args(k: nat, u: below(k), l: upto(u))(a: nat_args(k)): nat_args(u-l+1)
      (0, u-l, init, LAMBDA(i: subrange(0, u-l), m: nat_args(u-l+1)):
        m WITH [`i := a(i+l)])
 
-expand_args(k: nat, j: nat)(a: nat_args(k)): nat_args(k+j)
-  = for[nat_args(k+j)]
-    (0, k-1, init, LAMBDA(i: subrange(0, k-1), r: nat_args(k+j)):
-      r WITH [`i := a(i)])
+%without_last(k: posnat)(a: nat_args(k)): nat_args(k-1)
+%  = IF k = 1
+%    THEN init
+%    ELSE sub_args(k, k-1, 0)(a)
+%    ENDIF
 
 % Base functions
 zero(k: nat)(a: nat_args(k)): nat = 0
@@ -48,43 +49,33 @@ pi(k: nat, i: upto(k))(a: nat_args(k+1)): nat = a(i)
 comp_build_m(r: nat, k: nat)(h: ArrayOf[r][rfunc(k)], n: nat_args(k)): nat_args(r)
   = for[nat_args(r)]
     (0, r-1, init, LAMBDA(i: subrange(0, r-1), m: nat_args(r)):
-      m WITH [`i := h(i)(n)])
+      m WITH [i := h(i)(n)])
 
 compose(r: nat, k: nat)(g: rfunc(r), h: ArrayOf[r][rfunc(k)]):
   rfunc(k) = (LAMBDA (n: nat_args(k)): g(comp_build_m(r, k)(h, n)))
 
 % PRIMITIVE RECURSION OPERATOR
-
-% for loop
-% ns: ArrayOf[k+1][nat]
-% m: ArrayOf[k][nat] = {0, ..., 0}
-% for(i=0; i<=k-1; i++) {
-%  m(i) = ns(i)
-% }
-
-% Kann man noch besser schreiben durch WITH [(k) := n(k)-1, (k+1) := f_prev]
-pr_build_h_m(k: nat)(n: nat_args(k+1), f_prev: nat): nat_args(k+2)
-  = LET j = k+1 IN expand_args(k+1, 1)(n) WITH [`k := n(k)-1] WITH [`j := f_prev]
-
 pr(k: nat, g:rfunc(k), h:rfunc(k+2))(n: nat_args(k+1)): RECURSIVE nat
   = IF
       n(k) = 0
     THEN
       IF k = 0 THEN g(init) ELSE g(sub_args(k+1, k-1, 0)(n)) ENDIF
     ELSE
-      h(pr_build_h_m(k)(n, pr(k, g, h)(n WITH [`k := n(k)-1])))
+       LET m = n WITH [k := n(k)-1]
+       IN h(m WITH [(k+1) |-> pr(k, g, h)(m)])
     ENDIF MEASURE n(k)
 
 
 % ADDITION
 
 g_add: rfunc(1) = pi(0, 0)
+% FRAGE AN GESER: Warum stuerzt der typechecker ab, wenn init_with inline in h_add gemacht wird
 pi_arr_add: ArrayOf[1][rfunc(3)] = init_with[1][rfunc(3)](pi(2, 2))
 h_add: rfunc(3) = compose(1, 3)(pr_succ, pi_arr_add)
 pr_add_arr(n: nat_args(2)): nat = pr(1, g_add, h_add)(n)
 
-add_help_args(n: nat, m: nat): [Index[2] -> nat] = LAMBDA (i: Index[2]):
-  IF i = 0 THEN n ELSIF i = 1 THEN m ELSE 0 ENDIF
+% FRAGE AN GESER: Wie kann man hier statt dem lambda das passende init (fuer Nats) aus arrays verwenden?
+add_help_args(n: nat, m: nat): [Index[2] -> nat] = (LAMBDA (i: Index[2]): 0) WITH [0 := n, 1 := m]
 pr_add(n: nat, m: nat): nat = pr_add_arr(add_help_args(n, m))
 
 % FRAGE AN GESER: Wie kann man dieses Lemma beweisen?
@@ -96,8 +87,12 @@ addition_args: LEMMA
 pr_add_is_addition: FORMULA
   FORALL (n: nat): (FORALL (m: nat): pr_add(n, m) = n + m)
 
-%PREC: TYPE+
+% -------------------------------------------------------------
+% Definition der Menge aller primitiv rekursiven Funktionen
 
+% FRAGE AN GESER: Wie am besten hier axiomatische Definition?
+
+%PREC: TYPE+
 %zero_in_prec: AXIOM
 
 

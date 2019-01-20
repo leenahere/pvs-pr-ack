@@ -24,41 +24,6 @@
    nil))
  (pi_TCC1 0
   (pi_TCC1-1 nil 3756843421 ("" (subtype-tcc) nil nil) nil nil))
- (pr_build_h_m_TCC1 0
-  (pr_build_h_m_TCC1-1 nil 3756843421 ("" (subtype-tcc) nil nil) nil
-   nil))
- (pr_build_h_m_TCC2 0
-  (pr_build_h_m_TCC2-1 nil 3756843421 ("" (subtype-tcc) nil nil) nil
-   nil))
- (pr_build_h_m_TCC3 0
-  (pr_build_h_m_TCC3-1 nil 3756843421 ("" (subtype-tcc) nil nil)
-   ((boolean nonempty-type-decl nil booleans nil)
-    (bool nonempty-type-eq-decl nil booleans nil)
-    (NOT const-decl "[bool -> bool]" booleans nil)
-    (number nonempty-type-decl nil numbers nil)
-    (number_field_pred const-decl "[number -> boolean]" number_fields
-     nil)
-    (number_field nonempty-type-from-decl nil number_fields nil)
-    (real_pred const-decl "[number_field -> boolean]" reals nil)
-    (real nonempty-type-from-decl nil reals nil)
-    (>= const-decl "bool" reals nil)
-    (rational_pred const-decl "[real -> boolean]" rationals nil)
-    (rational nonempty-type-from-decl nil rationals nil)
-    (integer_pred const-decl "[rational -> boolean]" integers nil)
-    (int nonempty-type-eq-decl nil integers nil)
-    (nat nonempty-type-eq-decl nil naturalnumbers nil)
-    (> const-decl "bool" reals nil)
-    (nonneg_int nonempty-type-eq-decl nil integers nil)
-    (posint nonempty-type-eq-decl nil integers nil)
-    (real_ge_is_total_order name-judgement "(total_order?[real])"
-     real_props nil)
-    (real_gt_is_strict_total_order name-judgement
-     "(strict_total_order?[real])" real_props nil)
-    (posint_plus_nnint_is_posint application-judgement "posint"
-     integers nil)
-    (real_lt_is_strict_total_order name-judgement
-     "(strict_total_order?[real])" real_props nil))
-   nil))
  (pr_TCC1 0
   (pr_TCC1-1 nil 3756843421 ("" (subtype-tcc) nil nil) nil nil))
  (pr_TCC2 0
@@ -108,7 +73,9 @@
      real_props nil))
    nil))
  (pr_TCC5 0
-  (pr_TCC5-1 nil 3756843421 ("" (subtype-tcc) nil nil)
+  (pr_TCC5-1 nil 3756843421 ("" (subtype-tcc) nil nil) nil nil))
+ (pr_TCC6 0
+  (pr_TCC6-1 nil 3756843421 ("" (termination-tcc) nil nil)
    ((boolean nonempty-type-decl nil booleans nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (NOT const-decl "[bool -> bool]" booleans nil)
@@ -124,12 +91,41 @@
     (integer_pred const-decl "[rational -> boolean]" integers nil)
     (int nonempty-type-eq-decl nil integers nil)
     (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (< const-decl "bool" reals nil)
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (Index type-eq-decl nil arrays "structures/")
+    (int_minus_int_is_int application-judgement "int" integers nil)
+    (real_ge_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil))
+   nil))
+ (pr_TCC7 0
+  (pr_TCC7-1 nil 3757008441 ("" (termination-tcc) nil nil)
+   ((boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (number nonempty-type-decl nil numbers nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (>= const-decl "bool" reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
     (int_minus_int_is_int application-judgement "int" integers nil)
     (real_ge_is_total_order name-judgement "(total_order?[real])"
      real_props nil))
    nil))
- (pr_TCC6 0
-  (pr_TCC6-1 nil 3756843421 ("" (termination-tcc) nil nil) nil nil))
  (addition_args 0
   (addition_args-1 nil 3756887490
    ("" (skolem!)
@@ -173,39 +169,27 @@
                 (("2" (expand "pr" 1)
                   (("2" (expand "add_help_args" 1 5)
                     (("2" (inst -1 "j!1" "n!1" "1 + j!1")
-                      (("2" (replace -1 :dir rl :hide? t)
-                        (("2" (replace -1 :hide? t)
-                          (("2" (expand "add_help_args")
-                            (("2" (expand "h_add")
+                      (("2" (replace -1 :hide? t)
+                        (("2" (expand "add_help_args")
+                          (("2" (expand "h_add")
+                            (("2" (expand "pi_arr_add")
                               (("2"
-                                (expand "pi_arr_add")
+                                (expand "init_with")
                                 (("2"
-                                  (expand "init_with")
+                                  (expand "compose")
                                   (("2"
-                                    (expand "pr_build_h_m")
+                                    (expand "comp_build_m")
                                     (("2"
-                                      (expand "expand_args")
+                                      (expand "for")
                                       (("2"
-                                        (expand "compose")
+                                        (expand "for_it")
                                         (("2"
-                                          (expand "comp_build_m")
+                                          (expand "pi")
                                           (("2"
-                                            (expand "for")
+                                            (expand "pr_succ")
                                             (("2"
                                               (expand "for_it")
-                                              (("2"
-                                                (expand "pi")
-                                                (("2"
-                                                  (expand "pr_succ")
-                                                  (("2"
-                                                    (expand "for_it")
-                                                    (("2"
-                                                      (propax)
-                                                      nil
-                                                      nil))
-                                                    nil))
-                                                  nil))
-                                                nil))
+                                              (("2" (propax) nil nil))
                                               nil))
                                             nil))
                                           nil))
@@ -260,14 +244,12 @@
     (pr_add_arr const-decl "nat" pr_ack nil)
     (posint_plus_nnint_is_posint application-judgement "posint"
      integers nil)
-    (h_add const-decl "rfunc(3)" pr_ack nil)
-    (init_with const-decl "ArrayOf[T]" arrays "structures/")
-    (expand_args const-decl "nat_args(k + j)" pr_ack nil)
-    (comp_build_m const-decl "nat_args(r)" pr_ack nil)
-    (pr_succ const-decl "nat" pr_ack nil)
-    (compose const-decl "rfunc(k)" pr_ack nil)
-    (pr_build_h_m const-decl "nat_args(k + 2)" pr_ack nil)
     (pi_arr_add const-decl "ArrayOf[1][rfunc(3)]" pr_ack nil)
+    (compose const-decl "rfunc(k)" pr_ack nil)
+    (pr_succ const-decl "nat" pr_ack nil)
+    (comp_build_m const-decl "nat_args(r)" pr_ack nil)
+    (init_with const-decl "ArrayOf[T]" arrays "structures/")
+    (h_add const-decl "rfunc(3)" pr_ack nil)
     (addition_args formula-decl nil pr_ack nil))
    shostak)))
 
