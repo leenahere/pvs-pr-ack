@@ -108,6 +108,23 @@ pr_mult_is_multiplication: FORMULA
 
 % FRAGE AN GESER: Wie am besten hier axiomatische Definition?
 
+prim_rec?(k: nat)(f: rfunc(k)): INDUCTIVE bool =
+     (f = zero(k))
+  OR (k = 1 AND f = pr_succ)
+  OR (EXISTS (i: subrange(1, k)): f = pi(k, i))
+  OR (EXISTS (r: nat): (EXISTS (g: rfunc(r)): (EXISTS (h: ArrayOf[r][rfunc(k)]): f = compose(r, k)(g, h))))
+  OR ((k > 0) AND (EXISTS (g: rfunc(k-1)): (EXISTS (h: rfunc(k+1)): f = pr(k-1, g, h))))
+
+prim_rec(k: nat): TYPE+ = (prim_rec?(k))
+
+%prim_rec_preds: setofsets = {p | EXISTS (k: nat): p = prim_rec?(k)}
+
+%test: TYPE = { (x: nat) | x = 3 }
+
+%prim_rec: TYPE+ = { (FORALL (k: nat): (f: rfunc(k)) | prim_rec?(k)(f)) }
+
+
+
 %PREC: TYPE+
 %zero_in_prec: AXIOM
 
