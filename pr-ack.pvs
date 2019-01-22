@@ -31,9 +31,7 @@ zero(k: nat)(a: nat_args(k)): nat = 0
 
 pr_succ(a: nat_args(1)): nat = a(0) + 1
 
-pi(k: nat, i: upto(k))(a: nat_args(k+1)): nat = a(i)
-%pi(k: nat, i: below(k)): rfunc(k)
-%  = LAMBDA (a: nat_args(k)): a(i)
+pi(k: posnat, i: subrange(1, k))(a: nat_args(k)): nat = a(i-1)
 
 % Operators
 
@@ -68,14 +66,15 @@ pr(k: nat, g:rfunc(k), h:rfunc(k+2))(n: nat_args(k+1)): RECURSIVE nat
 
 % ADDITION
 
-g_add: rfunc(1) = pi(0, 0)
+g_add: rfunc(1) = pi(1, 1)
 % FRAGE AN GESER: Warum stuerzt der typechecker ab, wenn init_with inline in h_add gemacht wird
-pi_arr_add: ArrayOf[1][rfunc(3)] = init_with[1][rfunc(3)](pi(2, 2))
+pi_arr_add: ArrayOf[1][rfunc(3)] = init_with[1][rfunc(3)](pi(3, 3))
 h_add: rfunc(3) = compose(1, 3)(pr_succ, pi_arr_add)
 pr_add_arr(n: nat_args(2)): nat = pr(1, g_add, h_add)(n)
 
 % FRAGE AN GESER: Wie kann man hier statt dem lambda das passende init (fuer Nats) aus arrays verwenden?
 add_help_args(n: nat, m: nat): [Index[2] -> nat] = (LAMBDA (i: Index[2]): 0) WITH [0 := n, 1 := m]
+%add_help_args(n: nat, m: nat): nat_args(2) = arrays[2].init WITH [0 := n, 1 := m]
 pr_add(n: nat, m: nat): nat = pr_add_arr(add_help_args(n, m))
 
 % FRAGE AN GESER: Wie kann man dieses Lemma beweisen?
@@ -84,14 +83,20 @@ addition_args: LEMMA
     add_help_args(n, j) = add_help_args(n, m) WITH [(1) := j]
   ))
 
+arr_helper_lemma: LEMMA
+  FORALL (a: nat_args(2)):
+    a(1) > 0 IMPLIES (a WITH [1 := a(1)-1]) = ((LAMBDA (i: Index[2]): 0) WITH [0 := a(0), 1 := a(1) - 1])
+
 pr_add_is_addition: FORMULA
   FORALL (n: nat): (FORALL (m: nat): pr_add(n, m) = n + m)
 
+pr_add_arr_is_addition: FORMULA
+  FORALL (a: nat_args(2)): pr_add_arr(a) = a(0) + a(1)
 
 % MULTIPLIKATION
-g_mult: rfunc(1) = zero(0)
-pi_arr_mult: ArrayOf[2][rfunc(3)] = init_with[2][rfunc(3)](pi(0,2)) WITH [1 := pi(2,2)]
-h_mult: rfunc(3) = compose(1, 3)(pr_add_arr, pi_arr_mult)
+g_mult: rfunc(1) = zero(1)
+pi_arr_mult: ArrayOf[2][rfunc(3)] = init_with[2][rfunc(3)](pi(3,1)) WITH [1 := pi(3,3)]
+h_mult: rfunc(3) = compose(2, 3)(pr_add_arr, pi_arr_mult)
 pr_mult(n: nat, m: nat): nat = pr(1, g_mult, h_mult)((LAMBDA (i: Index[2]): 0) WITH [0 := n, 1 := m])
 
 % -------------------------------------------------------------
