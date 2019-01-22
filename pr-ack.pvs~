@@ -99,10 +99,6 @@ pi_arr_mult: ArrayOf[2][rfunc(3)] = init_with[2][rfunc(3)](pi(3,1)) WITH [1 := p
 h_mult: rfunc(3) = compose(2, 3)(pr_add_arr, pi_arr_mult)
 pr_mult(n: nat, m: nat): nat = pr(1, g_mult, h_mult)((LAMBDA (i: Index[2]): 0) WITH [0 := n, 1 := m])
 
-
-pr_mult_is_multiplication: FORMULA
-   FORALL (n: nat): (FORALL (m: nat): pr_mult(n, m) = n * m)
-
 % -------------------------------------------------------------
 % Definition der Menge aller primitiv rekursiven Funktionen
 
