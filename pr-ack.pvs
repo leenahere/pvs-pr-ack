@@ -13,16 +13,37 @@ rfunc(k: nat): TYPE+ = [nat_args(k) -> nat]
 copy_init(k: nat, l: upto(k))(a: nat_args(k)): nat_args(l)
   = LAMBDA (i: Index[l]): a(i)
 
+copy_init_rfunc(r: nat, l: upto(r), k: nat)(a: ArrayOf[r][rfunc(k)]): ArrayOf[l][rfunc(k)]
+  = LAMBDA (i: Index[l]): a(i)
+
 init_nats(k: nat): nat_args(k) = LAMBDA (i: Index[k]): 0
 
 % Besser: Mit fold schreiben
-all_of?[T: TYPE](k: nat)(a: ArrayOf[k][T], p: [T -> bool]): bool
-  = IF k = 0
+%all_of?[T: TYPE](k: nat)(a: ArrayOf[k][T], p: [T -> bool]): bool
+%  = IF k = 0
+%    THEN TRUE
+%    ELSE
+%      for[bool]
+%      (0, k-1, TRUE, (LAMBDA (i: subrange(0, k-1), b: bool): b AND p(a(i))))
+%    ENDIF
+all_of?(k: nat, r: nat)(a: ArrayOf[r][rfunc(k)], p: [rfunc(k) -> bool]): RECURSIVE bool
+  = IF r = 0
     THEN TRUE
     ELSE
-      for[bool]
-      (0, k-1, TRUE, (LAMBDA (i: subrange(0, k-1), b: bool): b AND p(a(i))))
-    ENDIF
+      LET b = copy_init_rfunc(r, r-1, k)(a) IN
+      p(a(r-1)) AND all_of?(k, r-1)(b, p)
+    ENDIF MEASURE r
+
+%= (r = 0)
+  %OR p(a(r-1)) AND all_of?(k, r-1)(copy_init_rfunc(r, r-1, k)(a), p)
+ % MEASURE r
+%= IF r = 0
+%    THEN TRUE
+%    ELSE
+%      for[bool]
+%      (0, r-1, TRUE, (LAMBDA (i: subrange(0, r-1), b: bool): b AND p(a(i))))
+%    ENDIF
+
 
 % PRIMITIVE RECURSIVE FUNCTION DEFINITIONS
 % ################################################################################
@@ -38,13 +59,8 @@ pi(k: posnat, i: subrange(1, k))(a: nat_args(k)): nat = a(i-1)
 % -------------------------------------------------------------------------------
 
 % Composition
-comp_build_m(r: nat, k: nat)(h: ArrayOf[r][rfunc(k)], n: nat_args(k)): nat_args(r)
-  = for[nat_args(r)]
-    (0, r-1, init, LAMBDA(i: subrange(0, r-1), m: nat_args(r)):
-      m WITH [i := h(i)(n)])
-
 compose(r: nat, k: nat)(g: rfunc(r), h: ArrayOf[r][rfunc(k)]):
-  rfunc(k) = (LAMBDA (n: nat_args(k)): g(comp_build_m(r, k)(h, n)))
+  rfunc(k) = (LAMBDA (n: nat_args(k)): g(LAMBDA (i: Index[r]): h(i)(n)))
 
 % -------------------------------------------------------------------------------
 
@@ -115,10 +131,10 @@ prim_rec?(k: nat)(f: rfunc(k)): INDUCTIVE bool =
      (f = zero(k))
   OR (k = 1 AND f = pr_succ)
   OR (EXISTS (i: subrange(1, k)): f = pi(k, i))
-%  OR (EXISTS (r: nat): (EXISTS (g: rfunc(r)): (EXISTS (h: ArrayOf[r][rfunc(k)]):
-%       prim_rec?(r)(g)
-%       AND all_of?[rfunc(k)](r)(h, prim_rec?(k))
-%       AND f = compose(r, k)(g, h))))
+  OR (EXISTS (r: nat): (EXISTS (g: rfunc(r)): (EXISTS (h: ArrayOf[r][rfunc(k)]):
+       prim_rec?(r)(g)
+       AND all_of?(r, k)(h, prim_rec?(k))
+       AND f = compose(r, k)(g, h))))
   OR ((k > 0) AND (EXISTS (g: rfunc(k-1)): (EXISTS (h: rfunc(k+1)):
      prim_rec?(k-1)(g) AND prim_rec?(k+1)(h) AND f = pr(k-1, g, h))))
 
