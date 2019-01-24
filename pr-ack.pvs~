@@ -1,30 +1,54 @@
 pr_ack: THEORY
 BEGIN
-
-  % ASSUMING
-   % assuming declarations
-  % ENDASSUMING
-
 IMPORTING structures@arrays, structures@for_iterate
+
+% TYPE DEFINITIONS AND HELPER FUNCTIONS
+% ################################################################################
 
 % Type aliases
 nat_args(k: nat): TYPE+ = ArrayOf[k][nat]
 rfunc(k: nat): TYPE+ = [nat_args(k) -> nat]
 
-% Array helpers
-% Mit WHERE reihenfolge der argumente verbessern (dieser Versuch funtkioniert nicht)
-%sub_args(k: nat, l, u)(a: nat_args(k)): nat_args(u-l+1)
+% Array helper functions
+copy_init(k: nat, l: upto(k))(a: nat_args(k)): nat_args(l)
+  = LAMBDA (i: Index[l]): a(i)
 
-sub_args(k: nat, u: below(k), l: upto(u))(a: nat_args(k)): nat_args(u-l+1)
-  =  for[nat_args(u-l+1)]
-     (0, u-l, init, LAMBDA(i: subrange(0, u-l), m: nat_args(u-l+1)):
-       m WITH [`i := a(i+l)])
+copy_init_rfunc(r: nat, l: upto(r), k: nat)(a: ArrayOf[r][rfunc(k)]): ArrayOf[l][rfunc(k)]
+  = LAMBDA (i: Index[l]): a(i)
 
-%without_last(k: posnat)(a: nat_args(k)): nat_args(k-1)
-%  = IF k = 1
-%    THEN init
-%    ELSE sub_args(k, k-1, 0)(a)
+init_nats(k: nat): nat_args(k) = LAMBDA (i: Index[k]): 0
+
+% Besser: Mit fold schreiben
+%all_of?[T: TYPE](k: nat)(a: ArrayOf[k][T], p: [T -> bool]): bool
+%  = IF k = 0
+%    THEN TRUE
+%    ELSE
+%      for[bool]
+%      (0, k-1, TRUE, (LAMBDA (i: subrange(0, k-1), b: bool): b AND p(a(i))))
 %    ENDIF
+all_of?(k: nat, r: nat)(a: ArrayOf[r][rfunc(k)], p: [rfunc(k) -> bool]): RECURSIVE bool
+  = IF r = 0
+    THEN TRUE
+    ELSE
+      LET b = copy_init_rfunc(r, r-1, k)(a) IN
+      p(a(r-1)) AND all_of?(k, r-1)(b, p)
+    ENDIF MEASURE r
+
+%Satz über all_of beweisen
+
+%= (r = 0)
+  %OR p(a(r-1)) AND all_of?(k, r-1)(copy_init_rfunc(r, r-1, k)(a), p)
+ % MEASURE r
+%= IF r = 0
+%    THEN TRUE
+%    ELSE
+%      for[bool]
+%      (0, r-1, TRUE, (LAMBDA (i: subrange(0, r-1), b: bool): b AND p(a(i))))
+%    ENDIF
+
+
+% PRIMITIVE RECURSIVE FUNCTION DEFINITIONS
+% ################################################################################
 
 % Base functions
 zero(k: nat)(a: nat_args(k)): nat = 0
@@ -34,58 +58,53 @@ pr_succ(a: nat_args(1)): nat = a(0) + 1
 pi(k: posnat, i: subrange(1, k))(a: nat_args(k)): nat = a(i-1)
 
 % Operators
+% -------------------------------------------------------------------------------
 
-% for loop
-% n: ArrayOf[k][nat]
-% h: ArrayOf[r][rfunc(k)]
-% m: ArrayOf[r][nat] = {0, ..., 0}
-% for(i=1; i<= n; i++) {
-%   m(i-1) = h(i-1)(n)
-% }
-
-% COMPOSITION
-comp_build_m(r: nat, k: nat)(h: ArrayOf[r][rfunc(k)], n: nat_args(k)): nat_args(r)
-  = for[nat_args(r)]
-    (0, r-1, init, LAMBDA(i: subrange(0, r-1), m: nat_args(r)):
-      m WITH [i := h(i)(n)])
-
+% Composition
 compose(r: nat, k: nat)(g: rfunc(r), h: ArrayOf[r][rfunc(k)]):
-  rfunc(k) = (LAMBDA (n: nat_args(k)): g(comp_build_m(r, k)(h, n)))
+  rfunc(k) = (LAMBDA (n: nat_args(k)): g(LAMBDA (i: Index[r]): h(i)(n)))
 
-% PRIMITIVE RECURSION OPERATOR
+% -------------------------------------------------------------------------------
+
+% Primitive Recursion
 pr(k: nat, g:rfunc(k), h:rfunc(k+2))(n: nat_args(k+1)): RECURSIVE nat
   = IF
       n(k) = 0
     THEN
-      IF k = 0 THEN g(init) ELSE g(sub_args(k+1, k-1, 0)(n)) ENDIF
+      IF k = 0 THEN g(init) ELSE g(copy_init(k+1, k)(n)) ENDIF
     ELSE
        LET m = n WITH [k := n(k)-1]
        IN h(m WITH [(k+1) |-> pr(k, g, h)(m)])
     ENDIF MEASURE n(k)
 
+% -------------------------------------------------------------------------------
+
+
+% EXAMPLES: ARITHMETIC FUNCTIONS AS PR-FUNCTIONS
+% ################################################################################
 
 % ADDITION
+% -------------------------------------------------------------------------------
 
+% PR-Arguments g, h
 g_add: rfunc(1) = pi(1, 1)
-% FRAGE AN GESER: Warum stuerzt der typechecker ab, wenn init_with inline in h_add gemacht wird
-pi_arr_add: ArrayOf[1][rfunc(3)] = init_with[1][rfunc(3)](pi(3, 3))
+% Typechecker stuerzt ab, wenn init_with inline in h gemacht wird
+pi_arr_add: ArrayOf[1][rfunc(3)] = init_with[1][rfunc(3)](pi(3, 3)) 
 h_add: rfunc(3) = compose(1, 3)(pr_succ, pi_arr_add)
+
+% PR-Addition
 pr_add_arr(n: nat_args(2)): nat = pr(1, g_add, h_add)(n)
+pr_add(n: nat, m: nat): nat = pr_add_arr(init_nats(2) WITH [0 := n, 1 := m])
 
-% FRAGE AN GESER: Wie kann man hier statt dem lambda das passende init (fuer Nats) aus arrays verwenden?
-add_help_args(n: nat, m: nat): [Index[2] -> nat] = (LAMBDA (i: Index[2]): 0) WITH [0 := n, 1 := m]
-%add_help_args(n: nat, m: nat): nat_args(2) = arrays[2].init WITH [0 := n, 1 := m]
-pr_add(n: nat, m: nat): nat = pr_add_arr(add_help_args(n, m))
-
-% FRAGE AN GESER: Wie kann man dieses Lemma beweisen?
+% Lemmata and Theorems
 addition_args: LEMMA
   FORALL (j: nat): (FORALL (n: nat): (FORALL (m: nat):
-    add_help_args(n, j) = add_help_args(n, m) WITH [(1) := j]
+     init_nats(2) WITH [0 := n, 1 := j] = (init_nats(2) WITH [0 := n, 1 := m]) WITH [1 := j]
   ))
 
 arr_helper_lemma: LEMMA
   FORALL (a: nat_args(2)):
-    a(1) > 0 IMPLIES (a WITH [1 := a(1)-1]) = ((LAMBDA (i: Index[2]): 0) WITH [0 := a(0), 1 := a(1) - 1])
+    a(1) > 0 IMPLIES (a WITH [1 := a(1)-1]) = (init_nats(2) WITH [0 := a(0), 1 := a(1) - 1])
 
 pr_add_is_addition: FORMULA
   FORALL (n: nat): (FORALL (m: nat): pr_add(n, m) = n + m)
@@ -93,19 +112,65 @@ pr_add_is_addition: FORMULA
 pr_add_arr_is_addition: FORMULA
   FORALL (a: nat_args(2)): pr_add_arr(a) = a(0) + a(1)
 
-% MULTIPLIKATION
+% MULTIPLICATION
+% -------------------------------------------------------------------------------
+
 g_mult: rfunc(1) = zero(1)
 pi_arr_mult: ArrayOf[2][rfunc(3)] = init_with[2][rfunc(3)](pi(3,1)) WITH [1 := pi(3,3)]
 h_mult: rfunc(3) = compose(2, 3)(pr_add_arr, pi_arr_mult)
-pr_mult(n: nat, m: nat): nat = pr(1, g_mult, h_mult)((LAMBDA (i: Index[2]): 0) WITH [0 := n, 1 := m])
+pr_mult(n: nat, m: nat): nat = pr(1, g_mult, h_mult)(init_nats(2) WITH [0 := n, 1 := m])
 
-% -------------------------------------------------------------
-% Definition der Menge aller primitiv rekursiven Funktionen
 
-% FRAGE AN GESER: Wie am besten hier axiomatische Definition?
+pr_mult_is_multiplication: FORMULA
+   FORALL (n: nat): (FORALL (m: nat): pr_mult(n, m) = n * m)
+
+
+% DEFINITION: SET OF PRIMITIVE RECURSIVE FUNCTIONS
+% ################################################################################
+
+% k-ary PR-Functions predicate
+prim_rec?(k: nat)(f: rfunc(k)): INDUCTIVE bool =
+     (f = zero(k))
+  OR (k = 1 AND f = pr_succ)
+  OR (EXISTS (i: subrange(1, k)): f = pi(k, i))
+%  OR (EXISTS (r: nat): (EXISTS (g: rfunc(r)): (EXISTS (h: ArrayOf[r][rfunc(k)]):
+%  OR (EXISTS (r: nat): (EXISTS (g: rfunc(r)): (EXISTS (h: [Index[r] -> rfunc(k)]):
+%       prim_rec?(r)(g)
+%       AND all_of?(r, k)(h, prim_rec?(k))
+%       AND f = compose(r, k)(g, h))))
+  OR ((k > 0) AND (EXISTS (g: rfunc(k-1)): (EXISTS (h: rfunc(k+1)):
+     prim_rec?(k-1)(g) AND prim_rec?(k+1)(h) AND f = pr(k-1, g, h))))
+
+prim_rec(k: nat): TYPE+ = (prim_rec?(k)) CONTAINING zero(k)
+
+%prim_rec_preds: setofsets = {p | EXISTS (k: nat): p = prim_rec?(k)}
+
+%test: TYPE = { (x: nat) | x = 3 }
+
+%prim_rec: TYPE+ = { (FORALL (k: nat): (f: rfunc(k)) | prim_rec?(k)(f)) }
+
+
 
 %PREC: TYPE+
 %zero_in_prec: AXIOM
 
+
+% DEFINITION: ACKERMANN FUNCTION
+% ################################################################################
+
+ack(x: nat, y: nat): RECURSIVE nat =
+  IF x = 0
+  THEN y + 1
+  ELSIF y = 0
+  THEN ack(x-1, 1)
+  ELSE ack(x-1, ack(x, y-1))
+  ENDIF MEASURE lex2(x, y)
+
+ack_prop1: LEMMA
+  FORALL (x: nat): (FORALL (y: nat): ack(x, y) > x + y)
+
+ack_prop2: LEMMA
+  FORALL (x: nat): (FORALL (y: nat): (FORALL (z: nat):
+    y > z IMPLIES ack(x, y) > ack(x, z)))
 
 END pr_ack

@@ -166,11 +166,35 @@ ack(x: nat, y: nat): RECURSIVE nat =
   ELSE ack(x-1, ack(x, y-1))
   ENDIF MEASURE lex2(x, y)
 
-ack_prop1: LEMMA
-  FORALL (x: nat): (FORALL (y: nat): ack(x, y) > x + y)
+%ack_prop1: LEMMA
+%  FORALL (x: nat): (FORALL (y: nat): ack(x, y) > x + y)
 
-ack_prop2: LEMMA
-  FORALL (x: nat): (FORALL (y: nat): (FORALL (z: nat):
-    y > z IMPLIES ack(x, y) > ack(x, z)))
+ack_prop4: LEMMA
+   FORALL (x: nat): FORALL (y: nat): y < ack(x, y)
+
+ack_prop5_helper: LEMMA
+   FORALL (x: nat): FORALL (y: nat): ack(x, y) < ack(x, y + 1)
+
+ack_prop5: LEMMA
+   FORALL (x: nat): FORALL (y1: nat): FORALL (y2: nat): y1 < y2 IMPLIES ack(x, y1) < ack(x, y2)
+
+ack_prop6: LEMMA
+   FORALL (x: nat): FORALL (y: nat): ack(x, y + 1) <= ack(x + 1, y) 
+
+ack_prop7_helper: LEMMA
+   FORALL (x: nat): FORALL (y: nat): ack(x, y) < ack(x + 1, y)
+
+ack_prop7: LEMMA
+   FORALL (x1: nat): FORALL (x2: nat): FORALL (y: nat): x1 < x2 IMPLIES ack(x1, y) < ack(x2, y)
+
+ack_prop8: LEMMA
+   FORALL (y: nat): ack(1, y) = y + 2
+
+ack_prop9: LEMMA
+   FORALL (y: nat): ack(2, y) = 2 * y + 3
+    
+%ack_prop2: LEMMA
+%  FORALL (x: nat): (FORALL (y: nat): (FORALL (z: nat):
+%    y > z IMPLIES ack(x, y) > ack(x, z)))
 
 END pr_ack
