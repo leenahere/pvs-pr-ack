@@ -26,13 +26,13 @@ init_nats(k: nat): nat_args(k) = LAMBDA (i: Index[k]): 0
 %      for[bool]
 %      (0, k-1, TRUE, (LAMBDA (i: subrange(0, k-1), b: bool): b AND p(a(i))))
 %    ENDIF
-all_of?(k: nat, r: nat)(a: ArrayOf[r][rfunc(k)], p: [rfunc(k) -> bool]): RECURSIVE bool
-  = IF r = 0
-    THEN TRUE
-    ELSE
-      LET b = copy_init_rfunc(r, r-1, k)(a) IN
-      p(a(r-1)) AND all_of?(k, r-1)(b, p)
-    ENDIF MEASURE r
+%all_of?(k: nat, r: nat)(a: ArrayOf[r][rfunc(k)], p: [rfunc(k) -> bool]): RECURSIVE bool
+%  = IF r = 0
+%    THEN TRUE
+%    ELSE
+%      LET b = copy_init_rfunc(r, r-1, k)(a) IN
+%      p(a(r-1)) AND all_of?(k, r-1)(b, p)
+%    ENDIF MEASURE r
 
 %Satz über all_of beweisen
 
@@ -134,10 +134,11 @@ prim_rec?(k: nat)(f: rfunc(k)): INDUCTIVE bool =
   OR (k = 1 AND f = pr_succ)
   OR (EXISTS (i: subrange(1, k)): f = pi(k, i))
 %  OR (EXISTS (r: nat): (EXISTS (g: rfunc(r)): (EXISTS (h: ArrayOf[r][rfunc(k)]):
-%  OR (EXISTS (r: nat): (EXISTS (g: rfunc(r)): (EXISTS (h: [Index[r] -> rfunc(k)]):
-%       prim_rec?(r)(g)
+  OR (EXISTS (r: nat): (EXISTS (g: rfunc(r)): (EXISTS (h: [Index[r] -> rfunc(k)]):
+       prim_rec?(r)(g)
 %       AND all_of?(r, k)(h, prim_rec?(k))
-%       AND f = compose(r, k)(g, h))))
+       AND ((r = 0) OR ((r > 0) AND (FORALL (i: subrange(0, r-1)): prim_rec?(k)(h(i)))))
+       AND f = compose(r, k)(g, h))))
   OR ((k > 0) AND (EXISTS (g: rfunc(k-1)): (EXISTS (h: rfunc(k+1)):
      prim_rec?(k-1)(g) AND prim_rec?(k+1)(h) AND f = pr(k-1, g, h))))
 
