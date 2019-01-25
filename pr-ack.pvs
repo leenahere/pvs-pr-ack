@@ -211,19 +211,59 @@ ack_prop10: LEMMA
 % nat_args version of the Ackermann function
 ack_arr(n: nat_args(2)): nat = ack(n(0), n(1))
 
+% Majorization Predicate
+maj_by_ack?(k: nat)(f: rfunc(k)): bool
+  = EXISTS (c: nat): FORALL (n: nat_args(k)): f(n) < ack(c, max_nats(k)(n))
+
+% nat_args version of the Majorization Prediacte
+maj_by_ack_arr?(k: nat)(f: rfunc(k)): bool
+  = EXISTS (c: nat): FORALL (n: nat_args(k)):
+      f(n) < ack_arr(init_nats(2) WITH [0 := c, 1 := max_nats(k)(n)])
+
+% Inductive steps to show majorization
+
+% 1: Zero
+pr_zero_maj_by_ack: THEOREM
+  FORALL (k: nat, f: rfunc(k)): f = zero(k) IMPLIES maj_by_ack?(k)(f)
+
+% 2: Succ
+pr_succ_maj_by_ack: THEOREM
+  FORALL (k: nat, f: rfunc(k)): (k = 1 AND f = pr_succ) IMPLIES maj_by_ack?(k)(f) 
+
+% 3: Projection
+pr_pi_maj_by_ack: THEOREM
+  FORALL (k: nat, f: rfunc(k)): (EXISTS (i: subrange(1, k)): f = pi(k, i)) IMPLIES maj_by_ack?(k)(f)
+
+% 4: Composition
+pr_comp_maj_by_ack: THEOREM
+  FORALL (k: nat, f: rfunc(k)):
+    (EXISTS (r: posnat): (EXISTS (g: rfunc(r)): (EXISTS (h: [Index[r] -> rfunc(k)]):
+      maj_by_ack?(r)(g) AND (FORALL (i: Index[r]): maj_by_ack?(k)(h(i))) AND f = compose(r, k)(g, h))))
+    IMPLIES maj_by_ack?(k)(f)
+
+% 5: Primitive Recursion
+pr_rec_maj_by_ack: THEOREM
+  FORALL (k: nat, f: rfunc(k)):
+    ((k > 0) AND (EXISTS (g: rfunc(k - 1)): (EXISTS (h: rfunc(k + 1)):
+      maj_by_ack?(k - 1)(g) AND maj_by_ack?(k + 1)(h) AND f = pr(k - 1, g, h))))
+    IMPLIES maj_by_ack?(k)(f)
+
+% ALTERNATIVE VERSION:
+% f(n) < A(c, max(n))
+pr_maj_by_ack_alt: THEOREM
+  FORALL (k: nat): FORALL (f: rfunc(k)):
+    prim_rec?(k)(f) IMPLIES maj_by_ack?(k)(f)
+
 % FORALL f in PR: EXISTS c: FORALL n:
 %   f(n) < A(c, max(n))
 pr_maj_by_ack: THEOREM
   FORALL (k: nat): FORALL (f: rfunc(k)):
-    prim_rec?(k)(f) IMPLIES
-      EXISTS (c: nat): FORALL (n: nat_args(k)): f(n) < ack(c, max_nats(k)(n))
+    prim_rec?(k)(f) IMPLIES maj_by_ack?(k)(f)
 
 % nat_args version of the Theorem above
 pr_maj_by_ack_arr: THEOREM
   FORALL (k: nat): FORALL (f: rfunc(k)):
-    prim_rec?(k)(f) IMPLIES
-      EXISTS (c: nat): FORALL (n: nat_args(k)):
-        f(n) < ack_arr(init_nats(2) WITH [0 := c, 1 := max_nats(k)(n)])
+    prim_rec?(k)(f) IMPLIES maj_by_ack_arr?(k)(f)      
 
 % Contradiction Theorem & associated Lemmas
 % ----------------------------------------------
