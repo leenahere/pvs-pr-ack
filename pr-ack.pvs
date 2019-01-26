@@ -201,6 +201,9 @@ ack_prop9: LEMMA
 ack_prop10: LEMMA
   FORALL (x, x_: nat): EXISTS (k: nat): FORALL (y: nat): ack(x, ack(x_, y)) < ack(k, y)
 
+ack_prop10_constant: LEMMA
+  FORALL (x, x_, y: nat): ack(x, ack(x_, y)) < ack(x + x_ + 2, y)
+
 
 % THEOREMS
 % -------------------------------------------------------------------------------
@@ -214,6 +217,11 @@ ack_arr(n: nat_args(2)): nat = ack(n(0), n(1))
 % Majorization Predicate
 maj_by_ack?(k: nat)(f: rfunc(k)): bool
   = EXISTS (c: nat): FORALL (n: nat_args(k)): f(n) < ack(c, max_nats(k)(n))
+
+% Lemma used to show TCC for maj_constants_array
+maj_by_ack_implies_maj_const_existance: LEMMA
+  FORALL (k: nat): FORALL (f: rfunc(k)):
+    maj_by_ack?(k)(f) IMPLIES EXISTS (c: nat): FORALL (n: nat_args(k)): f(n) < ack(c, max_nats(k)(n)) 
 
 % nat_args version of the Majorization Prediacte
 maj_by_ack_arr?(k: nat)(f: rfunc(k)): bool
@@ -234,6 +242,36 @@ pr_succ_maj_by_ack: THEOREM
 pr_pi_maj_by_ack: THEOREM
   FORALL (k: nat, f: rfunc(k)): (EXISTS (i: subrange(1, k)): f = pi(k, i)) IMPLIES maj_by_ack?(k)(f)
 
+% Helper function used in the majorization proof
+maj_by_ack(k: nat): TYPE+ = (maj_by_ack?(k)) CONTAINING zero(k)
+
+maj_by_ack_constant?(k: nat)(f: maj_by_ack(k))(c: nat): bool
+  = FORALL (n: nat_args(k)): f(n) < ack(c, max_nats(k)(n))
+
+maj_constant_min(k: nat)(f: maj_by_ack(k)): nat
+  = min(maj_by_ack_constant?(k)(f))
+
+% Choose constants for an array of majorized h_i
+maj_constants_array(r: posnat, k: nat)(h: [Index[r] -> maj_by_ack(k)]): nat_args(r)
+%  = LAMBDA (i: Index[r]): choose(maj_by_ack_constant?(k)(h(i)))
+  = LAMBDA (i: Index[r]): maj_constant_min(k)(h(i))
+
+% Helper lemma for the following lemma
+% maj_by_ack_constant?(k)(f)(c) IMPLIE
+maj_constant_ineq: LEMMA
+  FORALL (k: nat, f: maj_by_ack(k), c: nat):
+    maj_by_ack_constant?(k)(f)(c) IMPLIES FORALL (n: nat_args(k)): f(n) < ack(c, max_nats(k)(n))
+
+% Helper lemma used in Composition proof:
+%   If an array h of functions has majorization constants
+%   there exists a universal majorization constant
+%   majorizing all the functions
+universal_maj_constant: LEMMA
+  FORALL (r: posnat): FORALL (k: nat): FORALL (h: [Index[r] -> maj_by_ack(k)]):
+      (FORALL (i: Index[r]): maj_by_ack?(k)(h(i)))
+    IMPLIES
+      (EXISTS (c: nat): FORALL (i: Index[r]): maj_by_ack_constant?(k)(h(i))(c))
+
 % 4: Composition
 pr_comp_maj_by_ack: THEOREM
   FORALL (k: nat, f: rfunc(k)):
@@ -249,10 +287,16 @@ pr_rec_maj_by_ack: THEOREM
     IMPLIES maj_by_ack?(k)(f)
 
 % ALTERNATIVE VERSION:
-% f(n) < A(c, max(n))
-pr_maj_by_ack_alt: THEOREM
-  FORALL (k: nat): FORALL (f: rfunc(k)):
-    prim_rec?(k)(f) IMPLIES maj_by_ack?(k)(f)
+
+pr_maj_lemma_weak_ind_antecedent: LEMMA
+  FORALL (k: nat, f: rfunc(k)):
+       (f = zero(k)) OR (k = 1 AND f = pr_succ)
+    OR (EXISTS (i: subrange(1, k)): f = pi(k, i))
+    OR (EXISTS (r: posnat): (EXISTS (g: rfunc(r)): (EXISTS (h: [Index[r] -> rfunc(k)]):
+         maj_by_ack?(r)(g) AND (FORALL (i: Index[r]): maj_by_ack?(k)(h(i))) AND f = compose(r, k)(g, h))))
+    OR ((k > 0) AND (EXISTS (g: rfunc(k - 1)): (EXISTS (h: rfunc(k + 1)):
+         maj_by_ack?(k - 1)(g) AND maj_by_ack?(k + 1)(h) AND f = pr(k - 1, g, h))))
+    IMPLIES maj_by_ack?(k)(f)
 
 % FORALL f in PR: EXISTS c: FORALL n:
 %   f(n) < A(c, max(n))
