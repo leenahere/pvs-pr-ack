@@ -1759,7 +1759,7 @@
     (boolean nonempty-type-decl nil booleans nil)
     (number nonempty-type-decl nil numbers nil)
     (maj_by_ack_constant? const-decl "bool" pr_ack nil)
-    (maj_constant_ineq formula-decl nil pr_ack nil) nil
+    (maj_constant_ineq formula-decl nil pr_ack nil)
     (maj_constant_min const-decl "nat" pr_ack nil)
     (max_nats const-decl "nat" pr_ack nil)
     (NOT const-decl "[bool -> bool]" booleans nil)
@@ -1943,12 +1943,9 @@
       nil))
     nil)
    ((maj_by_ack? const-decl "bool" pr_ack nil)
-    (h0 skolem-const-decl "[Index[r0] -> rfunc(k0)]" pr_ack nil)
-    (k0 skolem-const-decl "nat" pr_ack nil)
     (rfunc nonempty-type-eq-decl nil pr_ack nil)
     (nat_args nonempty-type-eq-decl nil pr_ack nil)
     (Index type-eq-decl nil arrays "structures/")
-    (r0 skolem-const-decl "posnat" pr_ack nil)
     (posnat nonempty-type-eq-decl nil integers nil)
     (> const-decl "bool" reals nil)
     (nonneg_int nonempty-type-eq-decl nil integers nil)
@@ -1972,7 +1969,6 @@
     (nnint_plus_nnint_is_nnint application-judgement "nonneg_int"
      integers nil)
     (max_nats const-decl "nat" pr_ack nil)
-    (m0 skolem-const-decl "[Index[r0] -> nat]" pr_ack nil)
     (ack_prop5 formula-decl nil pr_ack nil)
     (posint_plus_nnint_is_posint application-judgement "posint"
      integers nil)
@@ -2010,8 +2006,652 @@
     (universal_maj_constant formula-decl nil pr_ack nil)
     (compose const-decl "rfunc(k)" pr_ack nil))
    shostak))
- (pr_rec_maj_by_ack_TCC1 0
-  (pr_rec_maj_by_ack_TCC1-1 nil 3757446082 ("" (subtype-tcc) nil nil)
+ (remove_appended_el_eq_TCC1 0
+  (remove_appended_el_eq_TCC1-1 nil 3757515065
+   ("" (subtype-tcc) nil nil) nil nil))
+ (remove_appended_el_eq_TCC2 0
+  (remove_appended_el_eq_TCC2-1 nil 3757515065
+   ("" (subtype-tcc) nil nil) nil nil))
+ (remove_appended_el_eq 0
+  (remove_appended_el_eq-1 nil 3757515066
+   ("" (skolem 1 "k0")
+    (("" (skolem 1 "n0")
+      (("" (skolem 1 "x0")
+        (("" (expand "copy_init") (("" (decompose-equality) nil nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((copy_init const-decl "nat_args(l)" pr_ack nil)
+    (nat_args nonempty-type-eq-decl nil pr_ack nil)
+    (number nonempty-type-decl nil numbers nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (>= const-decl "bool" reals nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (< const-decl "bool" reals nil)
+    (Index type-eq-decl nil arrays "structures/"))
+   shostak))
+ (max_ab_le_sum 0
+  (max_ab_le_sum-1 nil 3757516309
+   ("" (skolem 1 ("a0" "b0"))
+    (("" (expand "max")
+      (("" (case "a0 < b0")
+        (("1" (assert) nil nil) ("2" (assert) nil nil)) nil))
+      nil))
+    nil)
+   ((max const-decl "{p: real | p >= m AND p >= n}" real_defs nil)
+    (nnint_plus_nnint_is_nnint application-judgement "nonneg_int"
+     integers nil)
+    (real_le_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (number nonempty-type-decl nil numbers nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (< const-decl "bool" reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (>= const-decl "bool" reals nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil))
+   shostak))
+ (max_append_smaller_TCC1 0
+  (max_append_smaller_TCC1-1 nil 3757522106 ("" (subtype-tcc) nil nil)
+   nil nil))
+ (max_append_smaller 0
+  (max_append_smaller-1 nil 3757522123
+   ("" (skolem 1 ("k0" "n0"))
+    (("" (skolem 1 "a0")
+      (("" (flatten)
+        (("" (name "max_n" "max_nats(k0)(n0)")
+          (("" (name "max_na" "max_nats(k0 + 1)(n0 WITH [k0 |-> a0])")
+            (("" (expand "max_nats" 1 1)
+              (("" (case "k0 = 0")
+                (("1" (assert)
+                  (("1" (expand "max_nats" -4) (("1" (assert) nil nil))
+                    nil))
+                  nil)
+                 ("2" (assert)
+                  (("2" (expand "max_nats" -2)
+                    (("2" (replace -2)
+                      (("2" (lemma "max_it_is[k0 + 1, nat, <=]")
+                        (("2" (name "m0" "n0 WITH [k0 |-> a0]")
+                          (("2" (replace -1)
+                            (("2" (inst -2 "m0" "max_n")
+                              (("2"
+                                (replace -3)
+                                (("2"
+                                  (expand "max_nats" -5)
+                                  (("2"
+                                    (replace -4)
+                                    (("2"
+                                      (split)
+                                      (("1"
+                                        (assert)
+                                        (("1"
+                                          (expand "max_nats" -3)
+                                          (("1" (assert) nil nil))
+                                          nil))
+                                        nil)
+                                       ("2"
+                                        (skolem 1 "i0")
+                                        (("2"
+                                          (case "i0 < k0")
+                                          (("1"
+                                            (typepred
+                                             "max[k0, nat, restrict[[real, real], [nat, nat], boolean](<=)](n0)")
+                                            (("1"
+                                              (replace -6)
+                                              (("1"
+                                                (inst -1 "i0")
+                                                (("1"
+                                                  (assert)
+                                                  (("1"
+                                                    (expand "restrict")
+                                                    (("1"
+                                                      (assert)
+                                                      nil
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil)
+                                           ("2" (assert) nil nil))
+                                          nil))
+                                        nil)
+                                       ("3"
+                                        (assert)
+                                        (("3"
+                                          (expand "in?")
+                                          (("3"
+                                            (typepred
+                                             "max[k0, nat, restrict[[real, real], [nat, nat], boolean](<=)](n0)")
+                                            (("3"
+                                              (replace -5)
+                                              (("3"
+                                                (skolem -2 "i_max")
+                                                (("3"
+                                                  (inst 1 "i_max")
+                                                  (("3"
+                                                    (hide -1)
+                                                    (("3"
+                                                      (assert)
+                                                      nil
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((max_nats const-decl "nat" pr_ack nil)
+    (nat_args nonempty-type-eq-decl nil pr_ack nil)
+    (Index type-eq-decl nil arrays "structures/")
+    (< const-decl "bool" reals nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (>= const-decl "bool" reals nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number nonempty-type-decl nil numbers nil)
+    (OR const-decl "[bool, bool -> bool]" booleans nil)
+    (below type-eq-decl nil naturalnumbers nil) nil nil
+    (> const-decl "bool" reals nil)
+    (real_gt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (max const-decl
+         "{t: T | (FORALL ii: A(ii) <= t) AND (EXISTS jj: A(jj) = t)}"
+         max_array "structures/")
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (in? const-decl "bool" below_arrays "structures/")
+    (int_minus_int_is_int application-judgement "int" integers nil)
+    (<= const-decl "bool" reals nil)
+    (restrict const-decl "R" restrict nil)
+    (max_it_is formula-decl nil max_array "structures/")
+    (reflexive_restrict application-judgement "(reflexive?[S])"
+     restrict_order_props nil)
+    (antisymmetric_restrict application-judgement "(antisymmetric?[S])"
+     restrict_order_props nil)
+    (transitive_restrict application-judgement "(transitive?[S])"
+     restrict_order_props nil)
+    (preorder_restrict application-judgement "(preorder?[S])"
+     restrict_order_props nil)
+    (partial_order_restrict application-judgement "(partial_order?[S])"
+     restrict_order_props nil)
+    (dichotomous_restrict application-judgement "(dichotomous?[S])"
+     restrict_order_props nil)
+    (total_order_restrict application-judgement "(total_order?[S])"
+     restrict_order_props nil)
+    (real_le_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (nnint_plus_posint_is_posint application-judgement "posint"
+     integers nil)
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (+ const-decl "[numfield, numfield -> numfield]" number_fields
+       nil))
+   shostak))
+ (max_expanded_n_eq_TCC1 0
+  (max_expanded_n_eq_TCC1-1 nil 3757523619 ("" (subtype-tcc) nil nil)
+   nil nil))
+ (max_expanded_n_eq 0
+  (max_expanded_n_eq-2 "snd_try" 3757524549
+   ("" (skolem 1 ("k0" "n0"))
+    (("" (skolem 1 "a0")
+      (("" (case "k0 = 0")
+        (("1" (expand "max_nats" 1 2)
+          (("1" (assert)
+            (("1" (expand "max")
+              (("1" (assert)
+                (("1" (typepred "a0")
+                  (("1" (assert)
+                    (("1" (expand "max_nats")
+                      (("1"
+                        (name "max_m"
+                              "max[1 + k0, nat, restrict[[real, real], [nat, nat], boolean](<=)](n0 WITH [k0 |-> a0])")
+                        (("1" (name "m0" "n0 WITH [k0 |-> a0]")
+                          (("1" (replace -1)
+                            (("1" (replace -2)
+                              (("1"
+                                (typepred
+                                 "max[1 + k0, nat, restrict[[real, real], [nat, nat], boolean](<=)](m0)")
+                                (("1"
+                                  (replace -4)
+                                  (("1"
+                                    (hide -1 -2)
+                                    (("1"
+                                      (lemma "imax_1[1, nat, <=]")
+                                      (("1"
+                                        (inst -1 "n0 WITH [k0 |-> a0]")
+                                        (("1"
+                                          (lemma
+                                           "imax_lem[1, nat, <=]")
+                                          (("1"
+                                            (inst
+                                             -1
+                                             "n0 WITH [k0 |-> a0]")
+                                            (("1"
+                                              (split)
+                                              (("1"
+                                                (assert)
+                                                (("1"
+                                                  (case "a0 = 0")
+                                                  (("1"
+                                                    (assert)
+                                                    (("1"
+                                                      (replace
+                                                       -4
+                                                       :dir
+                                                       rl)
+                                                      (("1"
+                                                        (assert)
+                                                        (("1"
+                                                          (replace -1)
+                                                          (("1"
+                                                            (assert)
+                                                            (("1"
+                                                              (replace
+                                                               -5
+                                                               :dir
+                                                               rl)
+                                                              (("1"
+                                                                (replace
+                                                                 -7)
+                                                                (("1"
+                                                                  (assert)
+                                                                  (("1"
+                                                                    (typepred
+                                                                     "max[1 + k0, nat, <=](n0 WITH [(0) |-> 0])")
+                                                                    (("1"
+                                                                      (assert)
+                                                                      nil
+                                                                      nil))
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil)
+                                                   ("2"
+                                                    (assert)
+                                                    (("2"
+                                                      (typepred
+                                                       "max[1 + k0, nat, <=](n0 WITH [(0) |-> 0])")
+                                                      (("2"
+                                                        (assert)
+                                                        (("2"
+                                                          (replace
+                                                           -5
+                                                           :dir
+                                                           rl)
+                                                          (("2"
+                                                            (assert)
+                                                            (("2"
+                                                              (replace
+                                                               -6
+                                                               :dir
+                                                               rl)
+                                                              (("2"
+                                                                (hide
+                                                                 -1
+                                                                 -2)
+                                                                (("2"
+                                                                  (lemma
+                                                                   "max_it_is[k0 + 1, nat, <=]")
+                                                                  (("2"
+                                                                    (replace
+                                                                     -5)
+                                                                    (("2"
+                                                                      (replace
+                                                                       -4)
+                                                                      (("2"
+                                                                        (inst
+                                                                         -1
+                                                                         "m0"
+                                                                         "a0")
+                                                                        (("2"
+                                                                          (typepred
+                                                                           "max[k0 + 1, nat, <=](m0)")
+                                                                          (("2"
+                                                                            (hide
+                                                                             -2)
+                                                                            (("2"
+                                                                              (hide
+                                                                               -1)
+                                                                              (("2"
+                                                                                (split)
+                                                                                (("1"
+                                                                                  (assert)
+                                                                                  nil
+                                                                                  nil)
+                                                                                 ("2"
+                                                                                  (typepred
+                                                                                   "max[k0 + 1, nat, <=](m0)")
+                                                                                  (("2"
+                                                                                    (hide
+                                                                                     -2)
+                                                                                    (("2"
+                                                                                      (skolem
+                                                                                       1
+                                                                                       "i0")
+                                                                                      (("2"
+                                                                                        (inst
+                                                                                         -1
+                                                                                         "i0")
+                                                                                        (("2"
+                                                                                          (assert)
+                                                                                          nil
+                                                                                          nil))
+                                                                                        nil))
+                                                                                      nil))
+                                                                                    nil))
+                                                                                  nil)
+                                                                                 ("3"
+                                                                                  (expand
+                                                                                   "in?")
+                                                                                  (("3"
+                                                                                    (assert)
+                                                                                    (("3"
+                                                                                      (inst
+                                                                                       1
+                                                                                       "k0")
+                                                                                      nil
+                                                                                      nil))
+                                                                                    nil))
+                                                                                  nil))
+                                                                                nil))
+                                                                              nil))
+                                                                            nil))
+                                                                          nil))
+                                                                        nil))
+                                                                      nil))
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil)
+                                               ("2" (propax) nil nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil)
+         ("2" (name "m0" "n0 WITH [k0 |-> a0]")
+          (("2" (replace -1)
+            (("2" (expand "max_nats")
+              (("2" (assert)
+                (("2"
+                  (name "max_m"
+                        "max[1 + k0, nat, restrict[[real, real], [nat, nat], boolean](<=)](m0)")
+                  (("2" (replace -1)
+                    (("2"
+                      (name "max_n"
+                            "max[k0, nat, restrict[[real, real], [nat, nat], boolean](<=)](n0)")
+                      (("2" (replace -1)
+                        (("2" (case "a0 >= max_n")
+                          (("1" (expand "max")
+                            (("1" (lemma "max_it_is[k0 + 1, nat, <=]")
+                              (("1"
+                                (inst -1 "m0" "a0")
+                                (("1"
+                                  (split)
+                                  (("1"
+                                    (assert)
+                                    (("1"
+                                      (case "a0 > max_n")
+                                      (("1" (assert) nil nil)
+                                       ("2" (assert) nil nil))
+                                      nil))
+                                    nil)
+                                   ("2"
+                                    (skolem 1 "i0")
+                                    (("2"
+                                      (case "i0 < k0")
+                                      (("1"
+                                        (typepred "max_n")
+                                        (("1"
+                                          (inst -1 "i0")
+                                          (("1"
+                                            (expand "restrict")
+                                            (("1" (assert) nil nil))
+                                            nil))
+                                          nil))
+                                        nil)
+                                       ("2" (assert) nil nil))
+                                      nil))
+                                    nil)
+                                   ("3"
+                                    (expand "in?")
+                                    (("3"
+                                      (inst 1 "k0")
+                                      (("3" (assert) nil nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil)
+                           ("2" (lemma "max_append_smaller")
+                            (("2" (inst -1 "k0" "n0" "a0")
+                              (("2"
+                                (assert)
+                                (("2"
+                                  (split)
+                                  (("1"
+                                    (assert)
+                                    (("1"
+                                      (expand "max_nats")
+                                      (("1"
+                                        (assert)
+                                        (("1"
+                                          (expand "max")
+                                          (("1" (assert) nil nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil)
+                                   ("2"
+                                    (assert)
+                                    (("2"
+                                      (expand "max_nats")
+                                      (("2" (assert) nil nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (>= const-decl "bool" reals nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number nonempty-type-decl nil numbers nil)
+    (nonneg_rat_max application-judgement
+     "{s: nonneg_rat | s >= q AND s >= r}" real_defs nil)
+    (nat_max application-judgement "{k: nat | i <= k AND j <= k}"
+     real_defs nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (real_ge_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (total_order_restrict application-judgement "(total_order?[S])"
+     restrict_order_props nil)
+    (dichotomous_restrict application-judgement "(dichotomous?[S])"
+     restrict_order_props nil)
+    (partial_order_restrict application-judgement "(partial_order?[S])"
+     restrict_order_props nil)
+    (preorder_restrict application-judgement "(preorder?[S])"
+     restrict_order_props nil)
+    (transitive_restrict application-judgement "(transitive?[S])"
+     restrict_order_props nil)
+    (antisymmetric_restrict application-judgement "(antisymmetric?[S])"
+     restrict_order_props nil)
+    (reflexive_restrict application-judgement "(reflexive?[S])"
+     restrict_order_props nil)
+    (< const-decl "bool" reals nil)
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (below type-eq-decl nil naturalnumbers nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (restrict const-decl "R" restrict nil)
+    (<= const-decl "bool" reals nil)
+    (max const-decl
+         "{t: T | (FORALL ii: A(ii) <= t) AND (EXISTS jj: A(jj) = t)}"
+         max_array "structures/")
+    (Index type-eq-decl nil arrays "structures/")
+    (nat_args nonempty-type-eq-decl nil pr_ack nil)
+    (int_minus_int_is_int application-judgement "int" integers nil)
+    (odd_minus_odd_is_even application-judgement "even_int" integers
+     nil)
+    (in? const-decl "bool" below_arrays "structures/")
+    (max_it_is formula-decl nil max_array "structures/")
+    (nnint_plus_posint_is_posint application-judgement "posint"
+     integers nil)
+    (imax_lem formula-decl nil max_array "structures/")
+    (imax_1 formula-decl nil max_array "structures/")
+    (real_le_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (OR const-decl "[bool, bool -> bool]" booleans nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (max const-decl "{p: real | p >= m AND p >= n}" real_defs nil)
+    (max_nats const-decl "nat" pr_ack nil)
+    (max_append_smaller formula-decl nil pr_ack nil)
+    (i0 skolem-const-decl "below(k0 + 1)" pr_ack nil)
+    (k0 skolem-const-decl "nat" pr_ack nil)
+    (> const-decl "bool" reals nil)
+    (real_gt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil))
+   shostak)
+  (max_expanded_n_eq-1 nil 3757518788
+   ("" (skolem 1 ("k0" "n0"))
+    (("" (skolem 1 ("a0" "b0"))
+      (("" (expand "max_nats")
+        (("" (case "k0 - 1 = 0")
+          (("1" (assert)
+            (("1" (case "a0 = 0")
+              (("1" (assert)
+                (("1" (expand "max")
+                  (("1" (assert)
+                    (("1"
+                      (typepred
+                       "max[1 + k0, nat, restrict[[real, real], [nat, nat], boolean](<=)](n0 WITH [(k0 - 1) |-> a0, (k0) |-> b0])")
+                      (("1" (assert)
+                        (("1" (skolem -2 "i_max")
+                          (("1" (postpone) nil nil)) nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil)
+               ("2" (postpone) nil nil))
+              nil))
+            nil)
+           ("2" (postpone) nil nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   nil shostak))
+ (pr_rec_maj_by_ack_inductive_part_mixed_TCC1 0
+  (pr_rec_maj_by_ack_inductive_part_mixed_TCC1-1 nil 3757513608
+   ("" (subtype-tcc) nil nil)
    ((boolean nonempty-type-decl nil booleans nil)
     (bool nonempty-type-eq-decl nil booleans nil)
     (NOT const-decl "[bool -> bool]" booleans nil)
@@ -2033,9 +2673,319 @@
     (real_ge_is_total_order name-judgement "(total_order?[real])"
      real_props nil))
    nil))
+ (pr_rec_maj_by_ack_inductive_part_mixed_TCC2 0
+  (pr_rec_maj_by_ack_inductive_part_mixed_TCC2-1 nil 3757513608
+   ("" (subtype-tcc) nil nil)
+   ((boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (number nonempty-type-decl nil numbers nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (>= const-decl "bool" reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (real_ge_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (real_gt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (int_minus_int_is_int application-judgement "int" integers nil)
+    (maj_by_ack? const-decl "bool" pr_ack nil)
+    (max_nats const-decl "nat" pr_ack nil))
+   nil))
+ (pr_rec_maj_by_ack_inductive_part_mixed 0
+  (pr_rec_maj_by_ack_inductive_part_mixed-1 nil 3757513868
+   ("" (skolem 1 ("k0" "f0"))
+    (("" (flatten)
+      (("" (skolem -2 "g0")
+        (("" (skolem -2 "h0")
+          (("" (flatten)
+            (("" (expand "maj_by_ack?")
+              (("" (skolem -2 "c_g")
+                (("" (skolem -3 "c_h")
+                  (("" (name "c_max" "max(c_g, c_h)")
+                    (("" (inst 1 "c_max + 1")
+                      (("" (skolem 1 "n0")
+                        (("" (induct "x")
+                          (("1" (replace -5)
+                            (("1" (expand "pr" 1)
+                              (("1"
+                                (case "k0 - 1 = 0")
+                                (("1"
+                                  (assert)
+                                  (("1"
+                                    (inst -4 "init_with(0)")
+                                    (("1"
+                                      (expand "max_nats" -4)
+                                      (("1"
+                                        (assert)
+                                        (("1"
+                                          (lemma "ack_prop5")
+                                          (("1"
+                                            (inst
+                                             -1
+                                             "c_g"
+                                             "0"
+                                             "max_nats(k0 - 1)(n0)")
+                                            (("1"
+                                              (lemma "ack_prop7")
+                                              (("1"
+                                                (inst
+                                                 -1
+                                                 "c_g"
+                                                 "1 + c_max"
+                                                 "max_nats(k0 - 1)(n0)")
+                                                (("1"
+                                                  (assert)
+                                                  nil
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil)
+                                 ("2"
+                                  (assert)
+                                  (("2"
+                                    (name
+                                     "m0"
+                                     "copy_init(k0, k0 - 1)(n0 WITH [(k0 - 1) |-> 0])")
+                                    (("2"
+                                      (replace -1)
+                                      (("2"
+                                        (inst -4 "m0")
+                                        (("2"
+                                          (lemma "ack_prop7")
+                                          (("2"
+                                            (lemma
+                                             "remove_appended_el_eq")
+                                            (("2"
+                                              (inst
+                                               -1
+                                               "k0 - 1"
+                                               "n0"
+                                               "0")
+                                              (("2"
+                                                (assert)
+                                                (("2"
+                                                  (inst
+                                                   -2
+                                                   "c_g"
+                                                   "1 + c_max"
+                                                   "max_nats(k0 - 1)(n0)")
+                                                  (("2"
+                                                    (assert)
+                                                    nil
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil)
+                           ("2" (skolem 1 "x0")
+                            (("2" (flatten)
+                              (("2"
+                                (replace -6)
+                                (("2"
+                                  (expand "pr" 1)
+                                  (("2"
+                                    (hide -4)
+                                    (("2"
+                                      (hide -5)
+                                      (("2"
+                                        (name
+                                         "f_prev"
+                                         "pr(k0 - 1, g0, h0)(n0 WITH [(k0 - 1) |-> x0])")
+                                        (("1"
+                                          (replace -1)
+                                          (("1"
+                                            (hide -1)
+                                            (("1"
+                                              (name
+                                               "max_n_x"
+                                               "max(max_nats(k0 - 1)(n0), x0)")
+                                              (("1"
+                                                (lemma "max_ab_le_sum")
+                                                (("1"
+                                                  (name
+                                                   "max_n0"
+                                                   "max_nats(k0 - 1)(n0)")
+                                                  (("1"
+                                                    (replace -1)
+                                                    (("1"
+                                                      (hide -1)
+                                                      (("1"
+                                                        (inst
+                                                         -1
+                                                         "max_n0"
+                                                         "x0")
+                                                        (("1"
+                                                          (replace -2)
+                                                          (("1"
+                                                            (lemma
+                                                             "ack_prop4")
+                                                            (("1"
+                                                              (inst
+                                                               -1
+                                                               "c_max"
+                                                               "max_n0 + x0")
+                                                              (("1"
+                                                                (name
+                                                                 "m0"
+                                                                 "n0 WITH [(k0 - 1) |-> x0, (k0) |-> f_prev]")
+                                                                (("1"
+                                                                  (replace
+                                                                   -1)
+                                                                  (("1"
+                                                                    (lemma
+                                                                     "max_le")
+                                                                    (("1"
+                                                                      (inst
+                                                                       -1
+                                                                       "max_n_x"
+                                                                       "f_prev"
+                                                                       "ack(1 + c_max, max_n0 + x0)")
+                                                                      (("1"
+                                                                        (lemma
+                                                                         "ack_prop7")
+                                                                        (("1"
+                                                                          (postpone)
+                                                                          nil
+                                                                          nil))
+                                                                        nil))
+                                                                      nil))
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil)
+                                         ("2" (postpone) nil nil)
+                                         ("3" (postpone) nil nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil)
+                           ("3" (postpone) nil nil)
+                           ("4" (postpone) nil nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   nil shostak))
+ (pr_rec_maj_by_ack_inductive_part_TCC1 0
+  (pr_rec_maj_by_ack_inductive_part_TCC1-1 nil 3757512784
+   ("" (subtype-tcc) nil nil)
+   ((boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (number nonempty-type-decl nil numbers nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (>= const-decl "bool" reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (real_ge_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (real_gt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (int_minus_int_is_int application-judgement "int" integers nil)
+    (maj_by_ack? const-decl "bool" pr_ack nil)
+    (max_nats const-decl "nat" pr_ack nil))
+   nil))
+ (pr_rec_maj_by_ack_inductive_part 0
+  (pr_rec_maj_by_ack_inductive_part-1 nil 3757512848
+   ("" (skolem 1 ("k0" "f0"))
+    (("" (flatten)
+      (("" (skolem -2 "g0")
+        (("" (skolem -2 "h0")
+          (("" (flatten)
+            (("" (expand "maj_by_ack?")
+              (("" (skolem -2 "c_g")
+                (("" (skolem -3 "c_h")
+                  (("" (name "c_max" "max(c_g, c_h)")
+                    (("" (inst 1 "c_max + 1") (("" (postpone) nil nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   nil shostak))
  (pr_rec_maj_by_ack 0
   (pr_rec_maj_by_ack-1 nil 3757492368 ("" (postpone) nil nil) nil
    shostak))
+ (pr_maj_lemma_weak_ind_antecedent_TCC1 0
+  (pr_maj_lemma_weak_ind_antecedent_TCC1-1 nil 3757515065
+   ("" (subtype-tcc) nil nil)
+   ((boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (number nonempty-type-decl nil numbers nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (>= const-decl "bool" reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (real_ge_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil))
+   nil))
+ (pr_maj_lemma_weak_ind_antecedent_TCC2 0
+  (pr_maj_lemma_weak_ind_antecedent_TCC2-1 nil 3757515065
+   ("" (subtype-tcc) nil nil) nil nil))
  (pr_maj_lemma_weak_ind_antecedent 0
   (pr_maj_lemma_weak_ind_antecedent-1 nil 3757488068
    ("" (skolem 1 ("k0" "f0"))

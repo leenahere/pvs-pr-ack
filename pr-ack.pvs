@@ -242,6 +242,9 @@ pr_succ_maj_by_ack: THEOREM
 pr_pi_maj_by_ack: THEOREM
   FORALL (k: nat, f: rfunc(k)): (EXISTS (i: subrange(1, k)): f = pi(k, i)) IMPLIES maj_by_ack?(k)(f)
 
+% 4: Composition
+% ----------------------------------------------
+
 % Helper function used in the majorization proof
 maj_by_ack(k: nat): TYPE+ = (maj_by_ack?(k)) CONTAINING zero(k)
 
@@ -272,7 +275,7 @@ universal_maj_constant: LEMMA
     IMPLIES
       (EXISTS (c: nat): FORALL (i: Index[r]): maj_by_ack_constant?(k)(h(i))(c))
 
-% 4: Composition
+% Main Proof: Composition is majorized
 pr_comp_maj_by_ack: THEOREM
   FORALL (k: nat, f: rfunc(k)):
     (EXISTS (r: posnat): (EXISTS (g: rfunc(r)): (EXISTS (h: [Index[r] -> rfunc(k)]):
@@ -280,13 +283,60 @@ pr_comp_maj_by_ack: THEOREM
     IMPLIES maj_by_ack?(k)(f)
 
 % 5: Primitive Recursion
+% ----------------------------------------------
+
+% Helper Lemma used for the mixed version
+remove_appended_el_eq: LEMMA
+  FORALL (k: nat): FORALL (n: nat_args(k)): FORALL (x: nat):
+    copy_init(k+1, k)(n WITH [k |-> x]) = n
+
+% Helper Lemma used for the mixed version
+max_ab_le_sum: LEMMA
+  FORALL (a, b: nat): max(a, b) <= a + b
+
+% Helper Lemma for max_expanded
+max_append_smaller: LEMMA
+  FORALL (k: nat, n: nat_args(k)):
+    FORALL (a: nat):
+      a < max_nats(k)(n) IMPLIES max_nats(k)(n) = max_nats(k+1)(n WITH [k |-> a])
+      
+% Helper Lemma used for the mixed version
+max_expanded_n_eq: LEMMA
+  FORALL (k: nat, n: nat_args(k)):
+    FORALL (a: nat):
+      max_nats(k+1)(n WITH [k |-> a]) = max(max_nats(k)(n), a)
+
+% Helper Lemma, mixed version
+% f = pr(k-1, g, h) => EX c: ALL m = (n:i): f(m) < A(c, n + i)
+pr_rec_maj_by_ack_inductive_part_mixed: LEMMA
+  FORALL (k: nat, f: rfunc(k)):
+    ((k > 0) AND (EXISTS (g: rfunc(k - 1)): (EXISTS (h: rfunc(k + 1)):
+      maj_by_ack?(k - 1)(g) AND maj_by_ack?(k + 1)(h) AND f = pr(k - 1, g, h))))
+    IMPLIES
+      EXISTS (c: nat): FORALL (n: nat_args(k-1)): FORALL (x: nat):
+        f(n WITH [(k-1) |-> x]) < ack(c, x + max_nats(k-1)(n))
+
+
+% Helper Lemma
+% f = pr(k-1, g, h) => EX c: ALL m = (n:i): f(m) < A(c, n + i)
+pr_rec_maj_by_ack_inductive_part: LEMMA
+  FORALL (k: nat, f: rfunc(k)):
+    ((k > 0) AND (EXISTS (g: rfunc(k - 1)): (EXISTS (h: rfunc(k + 1)):
+      maj_by_ack?(k - 1)(g) AND maj_by_ack?(k + 1)(h) AND f = pr(k - 1, g, h))))
+    IMPLIES
+      EXISTS (c: nat): FORALL (n: nat_args(k)):
+        f(n) < ack(c, n(k-1) + max_nats(k-1)(copy_init(k, k-1)(n)))
+
+% Main Proof: Primitive recursion is majorized
 pr_rec_maj_by_ack: THEOREM
   FORALL (k: nat, f: rfunc(k)):
     ((k > 0) AND (EXISTS (g: rfunc(k - 1)): (EXISTS (h: rfunc(k + 1)):
       maj_by_ack?(k - 1)(g) AND maj_by_ack?(k + 1)(h) AND f = pr(k - 1, g, h))))
     IMPLIES maj_by_ack?(k)(f)
 
-% ALTERNATIVE VERSION:
+
+% MAIN THEOREM: Proof by contradiction
+% ----------------------------------------------
 
 pr_maj_lemma_weak_ind_antecedent: LEMMA
   FORALL (k: nat, f: rfunc(k)):
