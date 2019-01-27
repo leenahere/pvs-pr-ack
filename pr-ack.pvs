@@ -88,6 +88,7 @@ arr_helper_lemma: LEMMA
   FORALL (a: nat_args(2)):
     a(1) > 0 IMPLIES (a WITH [1 := a(1)-1]) = (init_nats(2) WITH [0 := a(0), 1 := a(1) - 1])
 
+% REDO SOME PROOF STEPS BECAUSE OF CHANGED DEFINITIONS
 pr_add_is_addition: FORMULA
   FORALL (n: nat): (FORALL (m: nat): pr_add(n, m) = n + m)
 
@@ -290,6 +291,11 @@ remove_appended_el_eq: LEMMA
   FORALL (k: nat): FORALL (n: nat_args(k)): FORALL (x: nat):
     copy_init(k+1, k)(n WITH [k |-> x]) = n
 
+% Helper lemma used after the mixed version
+split_at_last_eq: LEMMA
+  FORALL (k: nat, n: nat_args(k+1)):
+    n = copy_init(k+1, k)(n) WITH [k |-> n(k)]
+
 % Helper Lemma used for the mixed version
 max_ab_le_sum: LEMMA
   FORALL (a, b: nat): max(a, b) <= a + b
@@ -306,6 +312,12 @@ max_expanded_n_eq: LEMMA
     FORALL (a: nat):
       max_nats(k+1)(n WITH [k |-> a]) = max(max_nats(k)(n), a)
 
+% Helper Lemma
+max_expanded2_n_eq: LEMMA
+  FORALL (k: nat, n: nat_args(k)):
+    FORALL (a, b: nat):
+      max_nats(k+2)(n WITH [k |-> a, (k+1) |-> b]) = max(max(max_nats(k)(n), a), b)
+
 % Helper Lemma, mixed version
 % f = pr(k-1, g, h) => EX c: ALL m = (n:i): f(m) < A(c, n + i)
 pr_rec_maj_by_ack_inductive_part_mixed: LEMMA
@@ -319,13 +331,17 @@ pr_rec_maj_by_ack_inductive_part_mixed: LEMMA
 
 % Helper Lemma
 % f = pr(k-1, g, h) => EX c: ALL m = (n:i): f(m) < A(c, n + i)
-pr_rec_maj_by_ack_inductive_part: LEMMA
-  FORALL (k: nat, f: rfunc(k)):
-    ((k > 0) AND (EXISTS (g: rfunc(k - 1)): (EXISTS (h: rfunc(k + 1)):
-      maj_by_ack?(k - 1)(g) AND maj_by_ack?(k + 1)(h) AND f = pr(k - 1, g, h))))
-    IMPLIES
-      EXISTS (c: nat): FORALL (n: nat_args(k)):
-        f(n) < ack(c, n(k-1) + max_nats(k-1)(copy_init(k, k-1)(n)))
+%pr_rec_maj_by_ack_inductive_part: LEMMA
+%  FORALL (k: nat, f: rfunc(k)):
+%    ((k > 0) AND (EXISTS (g: rfunc(k - 1)): (EXISTS (h: rfunc(k + 1)):
+%      maj_by_ack?(k - 1)(g) AND maj_by_ack?(k + 1)(h) AND f = pr(k - 1, g, h))))
+%    IMPLIES
+%      EXISTS (c: nat): FORALL (n: nat_args(k)):
+%        f(n) < ack(c, n(k-1) + max_nats(k-1)(copy_init(k, k-1)(n)))
+
+% Main Proof, mixed version
+%pr_rec_maj_by_ack_mixed: THEOREM
+  
 
 % Main Proof: Primitive recursion is majorized
 pr_rec_maj_by_ack: THEOREM

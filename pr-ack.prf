@@ -240,35 +240,10 @@
                   (("2" (expand "h_add")
                     (("2" (expand "pr_succ")
                       (("2" (expand "compose")
-                        (("2" (expand "comp_build_m")
-                          (("2" (expand "for")
-                            (("2" (expand "for_it")
-                              (("2"
-                                (assert)
-                                (("2"
-                                  (expand "for_it")
-                                  (("2"
-                                    (assert)
-                                    (("2"
-                                      (expand "pi_arr_add")
-                                      (("2"
-                                        (expand "init_with")
-                                        (("2"
-                                          (expand "pi")
-                                          (("2"
-                                            (lemma "arr_helper_lemma")
-                                            (("2"
-                                              (inst - "a!1")
-                                              (("2" (assert) nil nil))
-                                              nil))
-                                            nil))
-                                          nil))
-                                        nil))
-                                      nil))
-                                    nil))
-                                  nil))
-                                nil))
-                              nil))
+                        (("2" (assert)
+                          (("2" (lemma "arr_helper_lemma")
+                            (("2" (inst - "a!1")
+                              (("2" (assert) nil nil)) nil))
                             nil))
                           nil))
                         nil))
@@ -307,13 +282,12 @@
     (pi const-decl "nat" pr_ack nil) (pr def-decl "nat" pr_ack nil)
     (h_add const-decl "rfunc(3)" pr_ack nil)
     (compose const-decl "rfunc(k)" pr_ack nil)
-    (int_minus_int_is_int application-judgement "int" integers nil)
-    (posint_plus_nnint_is_posint application-judgement "posint"
-     integers nil)
-    (init_with const-decl "ArrayOf[T]" arrays "structures/")
     (arr_helper_lemma formula-decl nil pr_ack nil)
     (real_gt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil)
+    (int_minus_int_is_int application-judgement "int" integers nil)
     (pr_succ const-decl "nat" pr_ack nil)
     (pr_add_arr const-decl "nat" pr_ack nil)
     (pr_add const-decl "nat" pr_ack nil)
@@ -618,31 +592,31 @@
         nil))
       nil))
     nil)
-   ((nnint_plus_posint_is_posint application-judgement "posint"
-     integers nil)
-    (numfield nonempty-type-eq-decl nil number_fields nil)
-    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
-    (posint_plus_nnint_is_posint application-judgement "posint"
-     integers nil)
-    (real_lt_is_strict_total_order name-judgement
-     "(strict_total_order?[real])" real_props nil)
-    (nat_induction formula-decl nil naturalnumbers nil)
-    (ack def-decl "nat" pr_ack nil) (< const-decl "bool" reals nil)
-    (pred type-eq-decl nil defined_types nil)
-    (nat nonempty-type-eq-decl nil naturalnumbers nil)
-    (>= const-decl "bool" reals nil)
-    (bool nonempty-type-eq-decl nil booleans nil)
-    (int nonempty-type-eq-decl nil integers nil)
-    (integer_pred const-decl "[rational -> boolean]" integers nil)
-    (rational nonempty-type-from-decl nil rationals nil)
-    (rational_pred const-decl "[real -> boolean]" rationals nil)
-    (real nonempty-type-from-decl nil reals nil)
-    (real_pred const-decl "[number_field -> boolean]" reals nil)
-    (number_field nonempty-type-from-decl nil number_fields nil)
+   ((number nonempty-type-decl nil numbers nil)
+    (boolean nonempty-type-decl nil booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (boolean nonempty-type-decl nil booleans nil)
-    (number nonempty-type-decl nil numbers nil))
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (>= const-decl "bool" reals nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (pred type-eq-decl nil defined_types nil)
+    (< const-decl "bool" reals nil) (ack def-decl "nat" pr_ack nil)
+    (nat_induction formula-decl nil naturalnumbers nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil)
+    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (nnint_plus_posint_is_posint application-judgement "posint"
+     integers nil))
    shostak))
  (ack_prop5_base 0
   (ack_prop5_base-1 nil 3757398856
@@ -660,32 +634,32 @@
         nil))
       nil))
     nil)
-   ((ack_prop4 formula-decl nil pr_ack nil)
-    (posint_plus_nnint_is_posint application-judgement "posint"
+   ((nnint_plus_posint_is_posint application-judgement "posint"
      integers nil)
-    (real_lt_is_strict_total_order name-judgement
-     "(strict_total_order?[real])" real_props nil)
-    (nat_induction formula-decl nil naturalnumbers nil)
-    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
-    (numfield nonempty-type-eq-decl nil number_fields nil)
-    (ack def-decl "nat" pr_ack nil) (< const-decl "bool" reals nil)
-    (pred type-eq-decl nil defined_types nil)
-    (nat nonempty-type-eq-decl nil naturalnumbers nil)
-    (>= const-decl "bool" reals nil)
-    (bool nonempty-type-eq-decl nil booleans nil)
-    (int nonempty-type-eq-decl nil integers nil)
-    (integer_pred const-decl "[rational -> boolean]" integers nil)
-    (rational nonempty-type-from-decl nil rationals nil)
-    (rational_pred const-decl "[real -> boolean]" rationals nil)
-    (real nonempty-type-from-decl nil reals nil)
-    (real_pred const-decl "[number_field -> boolean]" reals nil)
-    (number_field nonempty-type-from-decl nil number_fields nil)
+    (number nonempty-type-decl nil numbers nil)
+    (boolean nonempty-type-decl nil booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (boolean nonempty-type-decl nil booleans nil)
-    (number nonempty-type-decl nil numbers nil)
-    (nnint_plus_posint_is_posint application-judgement "posint"
-     integers nil))
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (>= const-decl "bool" reals nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (pred type-eq-decl nil defined_types nil)
+    (< const-decl "bool" reals nil) (ack def-decl "nat" pr_ack nil)
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (nat_induction formula-decl nil naturalnumbers nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil)
+    (ack_prop4 formula-decl nil pr_ack nil))
    shostak))
  (ack_prop5_diff 0
   (ack_prop5_diff-1 nil 3757399284
@@ -718,37 +692,37 @@
         nil))
       nil))
     nil)
-   ((nnint_plus_nnint_is_nnint application-judgement "nonneg_int"
-     integers nil)
-    (posint_plus_nnint_is_posint application-judgement "posint"
-     integers nil)
-    (ack_prop5_base formula-decl nil pr_ack nil)
-    (real_lt_is_strict_total_order name-judgement
-     "(strict_total_order?[real])" real_props nil)
-    (nnint_plus_posint_is_posint application-judgement "posint"
-     integers nil)
-    (even_plus_odd_is_odd application-judgement "odd_int" integers nil)
-    (nat_induction formula-decl nil naturalnumbers nil)
-    (ack def-decl "nat" pr_ack nil) (< const-decl "bool" reals nil)
-    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
-    (numfield nonempty-type-eq-decl nil number_fields nil)
-    (= const-decl "[T, T -> boolean]" equalities nil)
-    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
-    (pred type-eq-decl nil defined_types nil)
-    (nat nonempty-type-eq-decl nil naturalnumbers nil)
-    (>= const-decl "bool" reals nil)
-    (bool nonempty-type-eq-decl nil booleans nil)
-    (int nonempty-type-eq-decl nil integers nil)
-    (integer_pred const-decl "[rational -> boolean]" integers nil)
-    (rational nonempty-type-from-decl nil rationals nil)
-    (rational_pred const-decl "[real -> boolean]" rationals nil)
-    (real nonempty-type-from-decl nil reals nil)
-    (real_pred const-decl "[number_field -> boolean]" reals nil)
-    (number_field nonempty-type-from-decl nil number_fields nil)
+   ((number nonempty-type-decl nil numbers nil)
+    (boolean nonempty-type-decl nil booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (boolean nonempty-type-decl nil booleans nil)
-    (number nonempty-type-decl nil numbers nil))
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (>= const-decl "bool" reals nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (pred type-eq-decl nil defined_types nil)
+    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (< const-decl "bool" reals nil) (ack def-decl "nat" pr_ack nil)
+    (nat_induction formula-decl nil naturalnumbers nil)
+    (even_plus_odd_is_odd application-judgement "odd_int" integers nil)
+    (nnint_plus_posint_is_posint application-judgement "posint"
+     integers nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (ack_prop5_base formula-decl nil pr_ack nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil)
+    (nnint_plus_nnint_is_nnint application-judgement "nonneg_int"
+     integers nil))
    shostak))
  (ack_prop5 0
   (ack_prop5-1 nil 3757359859
@@ -764,30 +738,30 @@
         nil))
       nil))
     nil)
-   ((real_lt_is_strict_total_order name-judgement
-     "(strict_total_order?[real])" real_props nil)
-    (int_plus_int_is_int application-judgement "int" integers nil)
-    (number nonempty-type-decl nil numbers nil)
-    (boolean nonempty-type-decl nil booleans nil)
-    (number_field_pred const-decl "[number -> boolean]" number_fields
-     nil)
-    (number_field nonempty-type-from-decl nil number_fields nil)
-    (real_pred const-decl "[number_field -> boolean]" reals nil)
-    (real nonempty-type-from-decl nil reals nil)
-    (bool nonempty-type-eq-decl nil booleans nil)
-    (>= const-decl "bool" reals nil)
-    (numfield nonempty-type-eq-decl nil number_fields nil)
-    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
-    (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
-    (rational_pred const-decl "[real -> boolean]" rationals nil)
-    (rational nonempty-type-from-decl nil rationals nil)
-    (integer_pred const-decl "[rational -> boolean]" integers nil)
-    (int nonempty-type-eq-decl nil integers nil)
-    (nat nonempty-type-eq-decl nil naturalnumbers nil)
-    (int_minus_int_is_int application-judgement "int" integers nil)
+   ((ack_prop5_diff formula-decl nil pr_ack nil)
     (real_ge_is_total_order name-judgement "(total_order?[real])"
      real_props nil)
-    (ack_prop5_diff formula-decl nil pr_ack nil))
+    (int_minus_int_is_int application-judgement "int" integers nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (>= const-decl "bool" reals nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number nonempty-type-decl nil numbers nil)
+    (int_plus_int_is_int application-judgement "int" integers nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil))
    shostak))
  (ack_prop6 0
   (ack_prop6-1 nil 3757400679
@@ -861,32 +835,32 @@
         nil))
       nil))
     nil)
-   ((ack_prop6 formula-decl nil pr_ack nil)
-    (real_lt_is_strict_total_order name-judgement
-     "(strict_total_order?[real])" real_props nil)
-    (posint_plus_nnint_is_posint application-judgement "posint"
-     integers nil)
-    (real_le_is_total_order name-judgement "(total_order?[real])"
-     real_props nil)
-    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
-    (numfield nonempty-type-eq-decl nil number_fields nil)
-    (nat nonempty-type-eq-decl nil naturalnumbers nil)
-    (>= const-decl "bool" reals nil)
-    (bool nonempty-type-eq-decl nil booleans nil)
-    (int nonempty-type-eq-decl nil integers nil)
-    (integer_pred const-decl "[rational -> boolean]" integers nil)
-    (rational nonempty-type-from-decl nil rationals nil)
-    (rational_pred const-decl "[real -> boolean]" rationals nil)
-    (real nonempty-type-from-decl nil reals nil)
-    (real_pred const-decl "[number_field -> boolean]" reals nil)
-    (number_field nonempty-type-from-decl nil number_fields nil)
-    (number_field_pred const-decl "[number -> boolean]" number_fields
-     nil)
-    (boolean nonempty-type-decl nil booleans nil)
-    (number nonempty-type-decl nil numbers nil)
+   ((ack_prop5 formula-decl nil pr_ack nil)
     (nnint_plus_posint_is_posint application-judgement "posint"
      integers nil)
-    (ack_prop5 formula-decl nil pr_ack nil))
+    (number nonempty-type-decl nil numbers nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (>= const-decl "bool" reals nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (real_le_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (ack_prop6 formula-decl nil pr_ack nil))
    shostak))
  (ack_prop7_diff 0
   (ack_prop7_diff-1 nil 3757401682
@@ -923,37 +897,37 @@
         nil))
       nil))
     nil)
-   ((nnint_plus_nnint_is_nnint application-judgement "nonneg_int"
-     integers nil)
-    (posint_plus_nnint_is_posint application-judgement "posint"
-     integers nil)
-    (real_lt_is_strict_total_order name-judgement
-     "(strict_total_order?[real])" real_props nil)
-    (even_plus_odd_is_odd application-judgement "odd_int" integers nil)
-    (nnint_plus_posint_is_posint application-judgement "posint"
-     integers nil)
-    (ack_prop7_base formula-decl nil pr_ack nil)
-    (nat_induction formula-decl nil naturalnumbers nil)
-    (ack def-decl "nat" pr_ack nil) (< const-decl "bool" reals nil)
-    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
-    (numfield nonempty-type-eq-decl nil number_fields nil)
-    (= const-decl "[T, T -> boolean]" equalities nil)
-    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
-    (pred type-eq-decl nil defined_types nil)
-    (nat nonempty-type-eq-decl nil naturalnumbers nil)
-    (>= const-decl "bool" reals nil)
-    (bool nonempty-type-eq-decl nil booleans nil)
-    (int nonempty-type-eq-decl nil integers nil)
-    (integer_pred const-decl "[rational -> boolean]" integers nil)
-    (rational nonempty-type-from-decl nil rationals nil)
-    (rational_pred const-decl "[real -> boolean]" rationals nil)
-    (real nonempty-type-from-decl nil reals nil)
-    (real_pred const-decl "[number_field -> boolean]" reals nil)
-    (number_field nonempty-type-from-decl nil number_fields nil)
+   ((number nonempty-type-decl nil numbers nil)
+    (boolean nonempty-type-decl nil booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (boolean nonempty-type-decl nil booleans nil)
-    (number nonempty-type-decl nil numbers nil))
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (>= const-decl "bool" reals nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (pred type-eq-decl nil defined_types nil)
+    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (< const-decl "bool" reals nil) (ack def-decl "nat" pr_ack nil)
+    (nat_induction formula-decl nil naturalnumbers nil)
+    (ack_prop7_base formula-decl nil pr_ack nil)
+    (nnint_plus_posint_is_posint application-judgement "posint"
+     integers nil)
+    (even_plus_odd_is_odd application-judgement "odd_int" integers nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil)
+    (nnint_plus_nnint_is_nnint application-judgement "nonneg_int"
+     integers nil))
    shostak))
  (ack_prop7 0
   (ack_prop7-1 nil 3757401928
@@ -969,30 +943,30 @@
         nil))
       nil))
     nil)
-   ((real_ge_is_total_order name-judgement "(total_order?[real])"
-     real_props nil)
-    (int_minus_int_is_int application-judgement "int" integers nil)
-    (nat nonempty-type-eq-decl nil naturalnumbers nil)
-    (int nonempty-type-eq-decl nil integers nil)
-    (integer_pred const-decl "[rational -> boolean]" integers nil)
-    (rational nonempty-type-from-decl nil rationals nil)
-    (rational_pred const-decl "[real -> boolean]" rationals nil)
-    (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
-    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
-    (numfield nonempty-type-eq-decl nil number_fields nil)
-    (>= const-decl "bool" reals nil)
-    (bool nonempty-type-eq-decl nil booleans nil)
-    (real nonempty-type-from-decl nil reals nil)
-    (real_pred const-decl "[number_field -> boolean]" reals nil)
-    (number_field nonempty-type-from-decl nil number_fields nil)
-    (number_field_pred const-decl "[number -> boolean]" number_fields
-     nil)
-    (boolean nonempty-type-decl nil booleans nil)
-    (number nonempty-type-decl nil numbers nil)
+   ((ack_prop7_diff formula-decl nil pr_ack nil)
+    (int_plus_int_is_int application-judgement "int" integers nil)
     (real_lt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
-    (int_plus_int_is_int application-judgement "int" integers nil)
-    (ack_prop7_diff formula-decl nil pr_ack nil))
+    (number nonempty-type-decl nil numbers nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (>= const-decl "bool" reals nil)
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (int_minus_int_is_int application-judgement "int" integers nil)
+    (real_ge_is_total_order name-judgement "(total_order?[real])"
+     real_props nil))
    shostak))
  (ack_prop8 0
   (ack_prop8-1 nil 3757402354
@@ -1011,30 +985,30 @@
         nil))
       nil))
     nil)
-   ((posint_plus_nnint_is_posint application-judgement "posint"
-     integers nil)
-    (nnint_plus_posint_is_posint application-judgement "posint"
-     integers nil)
-    (nat_induction formula-decl nil naturalnumbers nil)
-    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
-    (numfield nonempty-type-eq-decl nil number_fields nil)
-    (ack def-decl "nat" pr_ack nil)
-    (= const-decl "[T, T -> boolean]" equalities nil)
-    (pred type-eq-decl nil defined_types nil)
-    (nat nonempty-type-eq-decl nil naturalnumbers nil)
-    (>= const-decl "bool" reals nil)
-    (bool nonempty-type-eq-decl nil booleans nil)
-    (int nonempty-type-eq-decl nil integers nil)
-    (integer_pred const-decl "[rational -> boolean]" integers nil)
-    (rational nonempty-type-from-decl nil rationals nil)
-    (rational_pred const-decl "[real -> boolean]" rationals nil)
-    (real nonempty-type-from-decl nil reals nil)
-    (real_pred const-decl "[number_field -> boolean]" reals nil)
-    (number_field nonempty-type-from-decl nil number_fields nil)
+   ((number nonempty-type-decl nil numbers nil)
+    (boolean nonempty-type-decl nil booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (boolean nonempty-type-decl nil booleans nil)
-    (number nonempty-type-decl nil numbers nil))
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (>= const-decl "bool" reals nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (pred type-eq-decl nil defined_types nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (ack def-decl "nat" pr_ack nil)
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (nat_induction formula-decl nil naturalnumbers nil)
+    (nnint_plus_posint_is_posint application-judgement "posint"
+     integers nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil))
    shostak))
  (ack_prop9 0
   (ack_prop9-1 nil 3757402444
@@ -1070,44 +1044,44 @@
         nil))
       nil))
     nil)
-   ((posint_times_posint_is_posint application-judgement "posint"
-     integers nil)
-    (mult_divides2 application-judgement "(divides(m))" divides nil)
-    (mult_divides1 application-judgement "(divides(n))" divides nil)
-    (even_times_int_is_even application-judgement "even_int" integers
-     nil)
-    (nnint_times_nnint_is_nnint application-judgement "nonneg_int"
-     integers nil)
-    (even_plus_odd_is_odd application-judgement "odd_int" integers nil)
-    (nnint_plus_posint_is_posint application-judgement "posint"
-     integers nil)
-    (even_plus_even_is_even application-judgement "even_int" integers
-     nil)
-    (ack_prop8 formula-decl nil pr_ack nil)
-    (posint_plus_nnint_is_posint application-judgement "posint"
-     integers nil)
-    (odd_plus_even_is_odd application-judgement "odd_int" integers nil)
-    (nat_induction formula-decl nil naturalnumbers nil)
-    (* const-decl "[numfield, numfield -> numfield]" number_fields nil)
-    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
-    (numfield nonempty-type-eq-decl nil number_fields nil)
-    (ack def-decl "nat" pr_ack nil)
-    (= const-decl "[T, T -> boolean]" equalities nil)
-    (pred type-eq-decl nil defined_types nil)
-    (nat nonempty-type-eq-decl nil naturalnumbers nil)
-    (>= const-decl "bool" reals nil)
-    (bool nonempty-type-eq-decl nil booleans nil)
-    (int nonempty-type-eq-decl nil integers nil)
-    (integer_pred const-decl "[rational -> boolean]" integers nil)
-    (rational nonempty-type-from-decl nil rationals nil)
-    (rational_pred const-decl "[real -> boolean]" rationals nil)
-    (real nonempty-type-from-decl nil reals nil)
-    (real_pred const-decl "[number_field -> boolean]" reals nil)
-    (number_field nonempty-type-from-decl nil number_fields nil)
+   ((number nonempty-type-decl nil numbers nil)
+    (boolean nonempty-type-decl nil booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (boolean nonempty-type-decl nil booleans nil)
-    (number nonempty-type-decl nil numbers nil))
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (>= const-decl "bool" reals nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (pred type-eq-decl nil defined_types nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (ack def-decl "nat" pr_ack nil)
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (* const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (nat_induction formula-decl nil naturalnumbers nil)
+    (odd_plus_even_is_odd application-judgement "odd_int" integers nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil)
+    (ack_prop8 formula-decl nil pr_ack nil)
+    (even_plus_even_is_even application-judgement "even_int" integers
+     nil)
+    (nnint_plus_posint_is_posint application-judgement "posint"
+     integers nil)
+    (even_plus_odd_is_odd application-judgement "odd_int" integers nil)
+    (nnint_times_nnint_is_nnint application-judgement "nonneg_int"
+     integers nil)
+    (even_times_int_is_even application-judgement "even_int" integers
+     nil)
+    (mult_divides1 application-judgement "(divides(n))" divides nil)
+    (mult_divides2 application-judgement "(divides(m))" divides nil)
+    (posint_times_posint_is_posint application-judgement "posint"
+     integers nil))
    shostak))
  (ack_prop10 0
   (ack_prop10-1 nil 3757405319
@@ -1145,36 +1119,36 @@
         nil))
       nil))
     nil)
-   ((ack_prop5 formula-decl nil pr_ack nil)
-    (nnint_plus_posint_is_posint application-judgement "posint"
-     integers nil)
-    (number nonempty-type-decl nil numbers nil)
-    (boolean nonempty-type-decl nil booleans nil)
-    (number_field_pred const-decl "[number -> boolean]" number_fields
-     nil)
-    (number_field nonempty-type-from-decl nil number_fields nil)
-    (real_pred const-decl "[number_field -> boolean]" reals nil)
-    (real nonempty-type-from-decl nil reals nil)
-    (rational_pred const-decl "[real -> boolean]" rationals nil)
-    (rational nonempty-type-from-decl nil rationals nil)
-    (integer_pred const-decl "[rational -> boolean]" integers nil)
-    (int nonempty-type-eq-decl nil integers nil)
-    (bool nonempty-type-eq-decl nil booleans nil)
-    (>= const-decl "bool" reals nil)
-    (nat nonempty-type-eq-decl nil naturalnumbers nil)
-    (numfield nonempty-type-eq-decl nil number_fields nil)
-    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
-    (nnint_plus_nnint_is_nnint application-judgement "nonneg_int"
-     integers nil)
-    (ack def-decl "nat" pr_ack nil)
-    (posint_plus_nnint_is_posint application-judgement "posint"
-     integers nil)
-    (real_lt_is_strict_total_order name-judgement
-     "(strict_total_order?[real])" real_props nil)
+   ((ack_prop7 formula-decl nil pr_ack nil)
+    (ack_prop6 formula-decl nil pr_ack nil)
     (real_le_is_total_order name-judgement "(total_order?[real])"
      real_props nil)
-    (ack_prop6 formula-decl nil pr_ack nil)
-    (ack_prop7 formula-decl nil pr_ack nil))
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil)
+    (ack def-decl "nat" pr_ack nil)
+    (nnint_plus_nnint_is_nnint application-judgement "nonneg_int"
+     integers nil)
+    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (>= const-decl "bool" reals nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number nonempty-type-decl nil numbers nil)
+    (nnint_plus_posint_is_posint application-judgement "posint"
+     integers nil)
+    (ack_prop5 formula-decl nil pr_ack nil))
    shostak))
  (ack_prop10_constant 0
   (ack_prop10_constant-1 nil 3757509799
@@ -1206,36 +1180,36 @@
         nil))
       nil))
     nil)
-   ((ack_prop5 formula-decl nil pr_ack nil)
-    (nnint_plus_nnint_is_nnint application-judgement "nonneg_int"
-     integers nil)
-    (number nonempty-type-decl nil numbers nil)
-    (boolean nonempty-type-decl nil booleans nil)
-    (number_field_pred const-decl "[number -> boolean]" number_fields
-     nil)
-    (number_field nonempty-type-from-decl nil number_fields nil)
-    (real_pred const-decl "[number_field -> boolean]" reals nil)
-    (real nonempty-type-from-decl nil reals nil)
-    (rational_pred const-decl "[real -> boolean]" rationals nil)
-    (rational nonempty-type-from-decl nil rationals nil)
-    (integer_pred const-decl "[rational -> boolean]" integers nil)
-    (int nonempty-type-eq-decl nil integers nil)
-    (bool nonempty-type-eq-decl nil booleans nil)
-    (>= const-decl "bool" reals nil)
-    (nat nonempty-type-eq-decl nil naturalnumbers nil)
-    (numfield nonempty-type-eq-decl nil number_fields nil)
-    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
-    (ack def-decl "nat" pr_ack nil)
-    (posint_plus_nnint_is_posint application-judgement "posint"
-     integers nil)
-    (real_lt_is_strict_total_order name-judgement
-     "(strict_total_order?[real])" real_props nil)
-    (real_le_is_total_order name-judgement "(total_order?[real])"
-     real_props nil)
+   ((ack_prop7 formula-decl nil pr_ack nil)
+    (ack_prop6 formula-decl nil pr_ack nil)
     (nnint_plus_posint_is_posint application-judgement "posint"
      integers nil)
-    (ack_prop6 formula-decl nil pr_ack nil)
-    (ack_prop7 formula-decl nil pr_ack nil))
+    (real_le_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil)
+    (ack def-decl "nat" pr_ack nil)
+    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (>= const-decl "bool" reals nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number nonempty-type-decl nil numbers nil)
+    (nnint_plus_nnint_is_nnint application-judgement "nonneg_int"
+     integers nil)
+    (ack_prop5 formula-decl nil pr_ack nil))
    shostak))
  (maj_by_ack_implies_maj_const_existance 0
   (maj_by_ack_implies_maj_const_existance-1 nil 3757496647
@@ -1265,27 +1239,27 @@
         nil))
       nil))
     nil)
-   ((zero const-decl "nat" pr_ack nil)
-    (real_lt_is_strict_total_order name-judgement
-     "(strict_total_order?[real])" real_props nil)
-    (posint_plus_nnint_is_posint application-judgement "posint"
-     integers nil)
-    (ack def-decl "nat" pr_ack nil)
-    (nat nonempty-type-eq-decl nil naturalnumbers nil)
-    (>= const-decl "bool" reals nil)
-    (bool nonempty-type-eq-decl nil booleans nil)
-    (int nonempty-type-eq-decl nil integers nil)
-    (integer_pred const-decl "[rational -> boolean]" integers nil)
-    (rational nonempty-type-from-decl nil rationals nil)
-    (rational_pred const-decl "[real -> boolean]" rationals nil)
-    (real nonempty-type-from-decl nil reals nil)
-    (real_pred const-decl "[number_field -> boolean]" reals nil)
-    (number_field nonempty-type-from-decl nil number_fields nil)
+   ((maj_by_ack? const-decl "bool" pr_ack nil)
+    (number nonempty-type-decl nil numbers nil)
+    (boolean nonempty-type-decl nil booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (boolean nonempty-type-decl nil booleans nil)
-    (number nonempty-type-decl nil numbers nil)
-    (maj_by_ack? const-decl "bool" pr_ack nil))
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (>= const-decl "bool" reals nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (ack def-decl "nat" pr_ack nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (zero const-decl "nat" pr_ack nil))
    shostak))
  (pr_succ_maj_by_ack_TCC1 0
   (pr_succ_maj_by_ack_TCC1-1 nil 3757442870 ("" (subtype-tcc) nil nil)
@@ -1385,64 +1359,64 @@
         nil))
       nil))
     nil)
-   ((number nonempty-type-decl nil numbers nil)
-    (boolean nonempty-type-decl nil booleans nil)
-    (number_field_pred const-decl "[number -> boolean]" number_fields
-     nil)
-    (number_field nonempty-type-from-decl nil number_fields nil)
-    (real_pred const-decl "[number_field -> boolean]" reals nil)
-    (real nonempty-type-from-decl nil reals nil)
-    (rational_pred const-decl "[real -> boolean]" rationals nil)
-    (rational nonempty-type-from-decl nil rationals nil)
-    (integer_pred const-decl "[rational -> boolean]" integers nil)
-    (int nonempty-type-eq-decl nil integers nil)
-    (bool nonempty-type-eq-decl nil booleans nil)
-    (>= const-decl "bool" reals nil)
-    (nat nonempty-type-eq-decl nil naturalnumbers nil)
-    (pr_succ const-decl "nat" pr_ack nil)
-    (real_lt_is_strict_total_order name-judgement
-     "(strict_total_order?[real])" real_props nil)
-    (posint_plus_nnint_is_posint application-judgement "posint"
-     integers nil)
-    (imax_lem formula-decl nil max_array "structures/")
-    (real_gt_is_strict_total_order name-judgement
-     "(strict_total_order?[real])" real_props nil)
-    (max const-decl
-         "{t: T | (FORALL ii: A(ii) <= t) AND (EXISTS jj: A(jj) = t)}"
-         max_array "structures/")
-    (= const-decl "[T, T -> boolean]" equalities nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil)
-    (nnint_plus_posint_is_posint application-judgement "posint"
-     integers nil)
-    (NOT const-decl "[bool -> bool]" booleans nil)
-    (> const-decl "bool" reals nil)
-    (ack_prop8 formula-decl nil pr_ack nil)
-    (below type-eq-decl nil naturalnumbers nil)
-    (Index type-eq-decl nil arrays "structures/")
-    (nat_args nonempty-type-eq-decl nil pr_ack nil)
-    (< const-decl "bool" reals nil)
-    (IFF const-decl "[bool, bool -> bool]" booleans nil)
-    (<= const-decl "bool" reals nil)
-    (restrict const-decl "R" restrict nil)
-    (imax_1 formula-decl nil max_array "structures/")
-    (reflexive_restrict application-judgement "(reflexive?[S])"
-     restrict_order_props nil)
-    (antisymmetric_restrict application-judgement "(antisymmetric?[S])"
-     restrict_order_props nil)
-    (transitive_restrict application-judgement "(transitive?[S])"
-     restrict_order_props nil)
-    (preorder_restrict application-judgement "(preorder?[S])"
-     restrict_order_props nil)
-    (partial_order_restrict application-judgement "(partial_order?[S])"
+   ((maj_by_ack? const-decl "bool" pr_ack nil)
+    (max_nats const-decl "nat" pr_ack nil)
+    (real_le_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (total_order_restrict application-judgement "(total_order?[S])"
      restrict_order_props nil)
     (dichotomous_restrict application-judgement "(dichotomous?[S])"
      restrict_order_props nil)
-    (total_order_restrict application-judgement "(total_order?[S])"
+    (partial_order_restrict application-judgement "(partial_order?[S])"
      restrict_order_props nil)
-    (real_le_is_total_order name-judgement "(total_order?[real])"
-     real_props nil)
-    (max_nats const-decl "nat" pr_ack nil)
-    (maj_by_ack? const-decl "bool" pr_ack nil))
+    (preorder_restrict application-judgement "(preorder?[S])"
+     restrict_order_props nil)
+    (transitive_restrict application-judgement "(transitive?[S])"
+     restrict_order_props nil)
+    (antisymmetric_restrict application-judgement "(antisymmetric?[S])"
+     restrict_order_props nil)
+    (reflexive_restrict application-judgement "(reflexive?[S])"
+     restrict_order_props nil)
+    (imax_1 formula-decl nil max_array "structures/")
+    (restrict const-decl "R" restrict nil)
+    (<= const-decl "bool" reals nil)
+    (IFF const-decl "[bool, bool -> bool]" booleans nil)
+    (< const-decl "bool" reals nil)
+    (nat_args nonempty-type-eq-decl nil pr_ack nil)
+    (Index type-eq-decl nil arrays "structures/")
+    (below type-eq-decl nil naturalnumbers nil)
+    (ack_prop8 formula-decl nil pr_ack nil)
+    (> const-decl "bool" reals nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (nnint_plus_posint_is_posint application-judgement "posint"
+     integers nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (max const-decl
+         "{t: T | (FORALL ii: A(ii) <= t) AND (EXISTS jj: A(jj) = t)}"
+         max_array "structures/")
+    (real_gt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (imax_lem formula-decl nil max_array "structures/")
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (pr_succ const-decl "nat" pr_ack nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (>= const-decl "bool" reals nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number nonempty-type-decl nil numbers nil))
    shostak))
  (pr_pi_maj_by_ack_TCC1 0
   (pr_pi_maj_by_ack_TCC1-1 nil 3757443195 ("" (subtype-tcc) nil nil)
@@ -1483,65 +1457,65 @@
         nil))
       nil))
     nil)
-   ((maj_by_ack? const-decl "bool" pr_ack nil)
-    (pi const-decl "nat" pr_ack nil)
-    (max const-decl
-         "{t: T | (FORALL ii: A(ii) <= t) AND (EXISTS jj: A(jj) = t)}"
-         max_array "structures/")
-    (= const-decl "[T, T -> boolean]" equalities nil)
-    (AND const-decl "[bool, bool -> bool]" booleans nil)
-    (nat_args nonempty-type-eq-decl nil pr_ack nil)
-    (Index type-eq-decl nil arrays "structures/")
-    (<= const-decl "bool" reals nil)
-    (restrict const-decl "R" restrict nil)
-    (below type-eq-decl nil naturalnumbers nil)
-    (< const-decl "bool" reals nil)
-    (NOT const-decl "[bool -> bool]" booleans nil)
-    (reflexive_restrict application-judgement "(reflexive?[S])"
-     restrict_order_props nil)
-    (antisymmetric_restrict application-judgement "(antisymmetric?[S])"
-     restrict_order_props nil)
-    (transitive_restrict application-judgement "(transitive?[S])"
-     restrict_order_props nil)
-    (preorder_restrict application-judgement "(preorder?[S])"
-     restrict_order_props nil)
-    (partial_order_restrict application-judgement "(partial_order?[S])"
+   ((number nonempty-type-decl nil numbers nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (>= const-decl "bool" reals nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (max_nats const-decl "nat" pr_ack nil)
+    (real_ge_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (int_minus_int_is_int application-judgement "int" integers nil)
+    (subrange type-eq-decl nil integers nil)
+    (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (ack def-decl "nat" pr_ack nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil)
+    (real_le_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (> const-decl "bool" reals nil)
+    (real_gt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (total_order_restrict application-judgement "(total_order?[S])"
      restrict_order_props nil)
     (dichotomous_restrict application-judgement "(dichotomous?[S])"
      restrict_order_props nil)
-    (total_order_restrict application-judgement "(total_order?[S])"
+    (partial_order_restrict application-judgement "(partial_order?[S])"
      restrict_order_props nil)
-    (real_gt_is_strict_total_order name-judgement
-     "(strict_total_order?[real])" real_props nil)
-    (> const-decl "bool" reals nil)
-    (real_lt_is_strict_total_order name-judgement
-     "(strict_total_order?[real])" real_props nil)
-    (real_le_is_total_order name-judgement "(total_order?[real])"
-     real_props nil)
-    (posint_plus_nnint_is_posint application-judgement "posint"
-     integers nil)
-    (ack def-decl "nat" pr_ack nil)
-    (numfield nonempty-type-eq-decl nil number_fields nil)
-    (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
-    (subrange type-eq-decl nil integers nil)
-    (int_minus_int_is_int application-judgement "int" integers nil)
-    (real_ge_is_total_order name-judgement "(total_order?[real])"
-     real_props nil)
-    (max_nats const-decl "nat" pr_ack nil)
-    (nat nonempty-type-eq-decl nil naturalnumbers nil)
-    (>= const-decl "bool" reals nil)
-    (bool nonempty-type-eq-decl nil booleans nil)
-    (int nonempty-type-eq-decl nil integers nil)
-    (integer_pred const-decl "[rational -> boolean]" integers nil)
-    (rational nonempty-type-from-decl nil rationals nil)
-    (rational_pred const-decl "[real -> boolean]" rationals nil)
-    (real nonempty-type-from-decl nil reals nil)
-    (real_pred const-decl "[number_field -> boolean]" reals nil)
-    (number_field nonempty-type-from-decl nil number_fields nil)
-    (number_field_pred const-decl "[number -> boolean]" number_fields
-     nil)
-    (boolean nonempty-type-decl nil booleans nil)
-    (number nonempty-type-decl nil numbers nil))
+    (preorder_restrict application-judgement "(preorder?[S])"
+     restrict_order_props nil)
+    (transitive_restrict application-judgement "(transitive?[S])"
+     restrict_order_props nil)
+    (antisymmetric_restrict application-judgement "(antisymmetric?[S])"
+     restrict_order_props nil)
+    (reflexive_restrict application-judgement "(reflexive?[S])"
+     restrict_order_props nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (< const-decl "bool" reals nil)
+    (below type-eq-decl nil naturalnumbers nil)
+    (restrict const-decl "R" restrict nil)
+    (<= const-decl "bool" reals nil)
+    (Index type-eq-decl nil arrays "structures/")
+    (nat_args nonempty-type-eq-decl nil pr_ack nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (max const-decl
+         "{t: T | (FORALL ii: A(ii) <= t) AND (EXISTS jj: A(jj) = t)}"
+         max_array "structures/")
+    (pi const-decl "nat" pr_ack nil)
+    (maj_by_ack? const-decl "bool" pr_ack nil))
    shostak))
  (maj_by_ack_TCC1 0
   (maj_by_ack_TCC1-1 nil 3757491746
@@ -2009,9 +1983,6 @@
  (remove_appended_el_eq_TCC1 0
   (remove_appended_el_eq_TCC1-1 nil 3757515065
    ("" (subtype-tcc) nil nil) nil nil))
- (remove_appended_el_eq_TCC2 0
-  (remove_appended_el_eq_TCC2-1 nil 3757515065
-   ("" (subtype-tcc) nil nil) nil nil))
  (remove_appended_el_eq 0
   (remove_appended_el_eq-1 nil 3757515066
    ("" (skolem 1 "k0")
@@ -2022,8 +1993,44 @@
         nil))
       nil))
     nil)
-   ((copy_init const-decl "nat_args(l)" pr_ack nil)
+   ((Index type-eq-decl nil arrays "structures/")
+    (< const-decl "bool" reals nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (>= const-decl "bool" reals nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number nonempty-type-decl nil numbers nil)
     (nat_args nonempty-type-eq-decl nil pr_ack nil)
+    (copy_init const-decl "nat_args(l)" pr_ack nil))
+   shostak))
+ (split_at_last_eq_TCC1 0
+  (split_at_last_eq_TCC1-1 nil 3757580144 ("" (subtype-tcc) nil nil)
+   nil nil))
+ (split_at_last_eq_TCC2 0
+  (split_at_last_eq_TCC2-1 nil 3757580144 ("" (subtype-tcc) nil nil)
+   nil nil))
+ (split_at_last_eq 0
+  (split_at_last_eq-1 nil 3757580170
+   ("" (skolem 1 ("k0" "n0"))
+    (("" (expand "copy_init")
+      (("" (decompose-equality)
+        (("" (case "x!1 < k0")
+          (("1" (assert) nil nil) ("2" (assert) nil nil)) nil))
+        nil))
+      nil))
+    nil)
+   ((copy_init const-decl "nat_args(l)" pr_ack nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
     (number nonempty-type-decl nil numbers nil)
     (boolean nonempty-type-decl nil booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
@@ -2039,7 +2046,10 @@
     (>= const-decl "bool" reals nil)
     (nat nonempty-type-eq-decl nil naturalnumbers nil)
     (< const-decl "bool" reals nil)
-    (Index type-eq-decl nil arrays "structures/"))
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (Index type-eq-decl nil arrays "structures/")
+    (nat_args nonempty-type-eq-decl nil pr_ack nil))
    shostak))
  (max_ab_le_sum 0
   (max_ab_le_sum-1 nil 3757516309
@@ -2049,32 +2059,29 @@
         (("1" (assert) nil nil) ("2" (assert) nil nil)) nil))
       nil))
     nil)
-   ((max const-decl "{p: real | p >= m AND p >= n}" real_defs nil)
-    (nnint_plus_nnint_is_nnint application-judgement "nonneg_int"
-     integers nil)
-    (real_le_is_total_order name-judgement "(total_order?[real])"
-     real_props nil)
-    (real_lt_is_strict_total_order name-judgement
-     "(strict_total_order?[real])" real_props nil)
-    (number nonempty-type-decl nil numbers nil)
-    (boolean nonempty-type-decl nil booleans nil)
+   ((nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (>= const-decl "bool" reals nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (< const-decl "bool" reals nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (number_field nonempty-type-from-decl nil number_fields nil)
-    (real_pred const-decl "[number_field -> boolean]" reals nil)
-    (real nonempty-type-from-decl nil reals nil)
-    (bool nonempty-type-eq-decl nil booleans nil)
-    (< const-decl "bool" reals nil)
-    (rational_pred const-decl "[real -> boolean]" rationals nil)
-    (rational nonempty-type-from-decl nil rationals nil)
-    (integer_pred const-decl "[rational -> boolean]" integers nil)
-    (int nonempty-type-eq-decl nil integers nil)
-    (>= const-decl "bool" reals nil)
-    (nat nonempty-type-eq-decl nil naturalnumbers nil))
+    (boolean nonempty-type-decl nil booleans nil)
+    (number nonempty-type-decl nil numbers nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (real_le_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (nnint_plus_nnint_is_nnint application-judgement "nonneg_int"
+     integers nil)
+    (max const-decl "{p: real | p >= m AND p >= n}" real_defs nil))
    shostak))
- (max_append_smaller_TCC1 0
-  (max_append_smaller_TCC1-1 nil 3757522106 ("" (subtype-tcc) nil nil)
-   nil nil))
  (max_append_smaller 0
   (max_append_smaller-1 nil 3757522123
    ("" (skolem 1 ("k0" "n0"))
@@ -2181,69 +2188,65 @@
         nil))
       nil))
     nil)
-   ((max_nats const-decl "nat" pr_ack nil)
-    (nat_args nonempty-type-eq-decl nil pr_ack nil)
-    (Index type-eq-decl nil arrays "structures/")
-    (< const-decl "bool" reals nil)
-    (nat nonempty-type-eq-decl nil naturalnumbers nil)
-    (>= const-decl "bool" reals nil)
-    (bool nonempty-type-eq-decl nil booleans nil)
-    (int nonempty-type-eq-decl nil integers nil)
-    (integer_pred const-decl "[rational -> boolean]" integers nil)
-    (rational nonempty-type-from-decl nil rationals nil)
-    (rational_pred const-decl "[real -> boolean]" rationals nil)
-    (real nonempty-type-from-decl nil reals nil)
-    (real_pred const-decl "[number_field -> boolean]" reals nil)
-    (number_field nonempty-type-from-decl nil number_fields nil)
-    (number_field_pred const-decl "[number -> boolean]" number_fields
-     nil)
-    (= const-decl "[T, T -> boolean]" equalities nil)
-    (boolean nonempty-type-decl nil booleans nil)
-    (number nonempty-type-decl nil numbers nil)
-    (OR const-decl "[bool, bool -> bool]" booleans nil)
-    (below type-eq-decl nil naturalnumbers nil) nil nil
-    (> const-decl "bool" reals nil)
-    (real_gt_is_strict_total_order name-judgement
-     "(strict_total_order?[real])" real_props nil)
-    (max const-decl
-         "{t: T | (FORALL ii: A(ii) <= t) AND (EXISTS jj: A(jj) = t)}"
-         max_array "structures/")
-    (AND const-decl "[bool, bool -> bool]" booleans nil)
-    (NOT const-decl "[bool -> bool]" booleans nil)
-    (in? const-decl "bool" below_arrays "structures/")
-    (int_minus_int_is_int application-judgement "int" integers nil)
-    (<= const-decl "bool" reals nil)
-    (restrict const-decl "R" restrict nil)
-    (max_it_is formula-decl nil max_array "structures/")
-    (reflexive_restrict application-judgement "(reflexive?[S])"
-     restrict_order_props nil)
-    (antisymmetric_restrict application-judgement "(antisymmetric?[S])"
-     restrict_order_props nil)
-    (transitive_restrict application-judgement "(transitive?[S])"
-     restrict_order_props nil)
-    (preorder_restrict application-judgement "(preorder?[S])"
-     restrict_order_props nil)
-    (partial_order_restrict application-judgement "(partial_order?[S])"
-     restrict_order_props nil)
-    (dichotomous_restrict application-judgement "(dichotomous?[S])"
-     restrict_order_props nil)
-    (total_order_restrict application-judgement "(total_order?[S])"
-     restrict_order_props nil)
-    (real_le_is_total_order name-judgement "(total_order?[real])"
-     real_props nil)
-    (posint_plus_nnint_is_posint application-judgement "posint"
+   ((+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (nnint_plus_posint_is_posint application-judgement "posint"
      integers nil)
     (real_lt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
-    (nnint_plus_posint_is_posint application-judgement "posint"
+    (posint_plus_nnint_is_posint application-judgement "posint"
      integers nil)
-    (numfield nonempty-type-eq-decl nil number_fields nil)
-    (+ const-decl "[numfield, numfield -> numfield]" number_fields
-       nil))
+    (real_le_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (total_order_restrict application-judgement "(total_order?[S])"
+     restrict_order_props nil)
+    (dichotomous_restrict application-judgement "(dichotomous?[S])"
+     restrict_order_props nil)
+    (partial_order_restrict application-judgement "(partial_order?[S])"
+     restrict_order_props nil)
+    (preorder_restrict application-judgement "(preorder?[S])"
+     restrict_order_props nil)
+    (transitive_restrict application-judgement "(transitive?[S])"
+     restrict_order_props nil)
+    (antisymmetric_restrict application-judgement "(antisymmetric?[S])"
+     restrict_order_props nil)
+    (reflexive_restrict application-judgement "(reflexive?[S])"
+     restrict_order_props nil)
+    (max_it_is formula-decl nil max_array "structures/")
+    (restrict const-decl "R" restrict nil)
+    (<= const-decl "bool" reals nil)
+    (int_minus_int_is_int application-judgement "int" integers nil)
+    (in? const-decl "bool" below_arrays "structures/")
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (max const-decl
+         "{t: T | (FORALL ii: A(ii) <= t) AND (EXISTS jj: A(jj) = t)}"
+         max_array "structures/")
+    (real_gt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (> const-decl "bool" reals nil)
+    (below type-eq-decl nil naturalnumbers nil)
+    (OR const-decl "[bool, bool -> bool]" booleans nil)
+    (number nonempty-type-decl nil numbers nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (>= const-decl "bool" reals nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (< const-decl "bool" reals nil)
+    (Index type-eq-decl nil arrays "structures/")
+    (nat_args nonempty-type-eq-decl nil pr_ack nil)
+    (max_nats const-decl "nat" pr_ack nil))
    shostak))
- (max_expanded_n_eq_TCC1 0
-  (max_expanded_n_eq_TCC1-1 nil 3757523619 ("" (subtype-tcc) nil nil)
-   nil nil))
  (max_expanded_n_eq 0
   (max_expanded_n_eq-2 "snd_try" 3757524549
    ("" (skolem 1 ("k0" "n0"))
@@ -2613,8 +2616,6 @@
     (max const-decl "{p: real | p >= m AND p >= n}" real_defs nil)
     (max_nats const-decl "nat" pr_ack nil)
     (max_append_smaller formula-decl nil pr_ack nil)
-    (i0 skolem-const-decl "below(k0 + 1)" pr_ack nil)
-    (k0 skolem-const-decl "nat" pr_ack nil)
     (> const-decl "bool" reals nil)
     (real_gt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil))
@@ -2649,6 +2650,59 @@
       nil))
     nil)
    nil shostak))
+ (max_expanded2_n_eq_TCC1 0
+  (max_expanded2_n_eq_TCC1-1 nil 3757578091 ("" (subtype-tcc) nil nil)
+   nil nil))
+ (max_expanded2_n_eq_TCC2 0
+  (max_expanded2_n_eq_TCC2-1 nil 3757578091 ("" (subtype-tcc) nil nil)
+   nil nil))
+ (max_expanded2_n_eq 0
+  (max_expanded2_n_eq-1 nil 3757578092
+   ("" (lemma "max_expanded_n_eq")
+    (("" (copy -1)
+      (("" (skolem 1 ("k0" "n0"))
+        (("" (skolem 1 ("a0" "b0"))
+          (("" (inst -1 "k0" "n0" "a0")
+            (("" (replace -1 :dir rl)
+              (("" (inst -2 "k0 + 1" "n0 WITH [k0 |-> a0]" "b0")
+                (("" (assert) nil nil)) nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((nonneg_rat_max application-judgement
+     "{s: nonneg_rat | s >= q AND s >= r}" real_defs nil)
+    (nat_max application-judgement "{k: nat | i <= k AND j <= k}"
+     real_defs nil)
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (nnint_plus_posint_is_posint application-judgement "posint"
+     integers nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil)
+    (nat_args nonempty-type-eq-decl nil pr_ack nil)
+    (Index type-eq-decl nil arrays "structures/")
+    (< const-decl "bool" reals nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (>= const-decl "bool" reals nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number nonempty-type-decl nil numbers nil)
+    (max_expanded_n_eq formula-decl nil pr_ack nil))
+   shostak))
  (pr_rec_maj_by_ack_inductive_part_mixed_TCC1 0
   (pr_rec_maj_by_ack_inductive_part_mixed_TCC1-1 nil 3757513608
    ("" (subtype-tcc) nil nil)
@@ -2865,8 +2919,174 @@
                                                                         (lemma
                                                                          "ack_prop7")
                                                                         (("1"
-                                                                          (postpone)
-                                                                          nil
+                                                                          (inst
+                                                                           -10
+                                                                           "m0")
+                                                                          (("1"
+                                                                            (lemma
+                                                                             "max_expanded2_n_eq")
+                                                                            (("1"
+                                                                              (inst
+                                                                               -1
+                                                                               "k0 - 1"
+                                                                               "n0"
+                                                                               "x0"
+                                                                               "f_prev")
+                                                                              (("1"
+                                                                                (assert)
+                                                                                (("1"
+                                                                                  (replace
+                                                                                   -4)
+                                                                                  (("1"
+                                                                                    (use
+                                                                                     "max_n0")
+                                                                                    (("1"
+                                                                                      (replace
+                                                                                       -1)
+                                                                                      (("1"
+                                                                                        (replace
+                                                                                         -1
+                                                                                         :dir
+                                                                                         rl)
+                                                                                        (("1"
+                                                                                          (replace
+                                                                                           -2)
+                                                                                          (("1"
+                                                                                            (replace
+                                                                                             -8
+                                                                                             :dir
+                                                                                             rl)
+                                                                                            (("1"
+                                                                                              (replace
+                                                                                               -8)
+                                                                                              (("1"
+                                                                                                (hide
+                                                                                                 -10)
+                                                                                                (("1"
+                                                                                                  (hide
+                                                                                                   -5)
+                                                                                                  (("1"
+                                                                                                    (hide
+                                                                                                     -1)
+                                                                                                    (("1"
+                                                                                                      (lemma
+                                                                                                       "ack_prop4")
+                                                                                                      (("1"
+                                                                                                        (inst
+                                                                                                         -1
+                                                                                                         "1 + c_max"
+                                                                                                         "max_n0 + x0")
+                                                                                                        (("1"
+                                                                                                          (assert)
+                                                                                                          (("1"
+                                                                                                            (inst
+                                                                                                             -3
+                                                                                                             "c_h"
+                                                                                                             "c_max"
+                                                                                                             "ack(1 + c_max, max_n0 + x0)")
+                                                                                                            (("1"
+                                                                                                              (split)
+                                                                                                              (("1"
+                                                                                                                (assert)
+                                                                                                                (("1"
+                                                                                                                  (hide
+                                                                                                                   -7)
+                                                                                                                  (("1"
+                                                                                                                    (expand
+                                                                                                                     "ack"
+                                                                                                                     1)
+                                                                                                                    (("1"
+                                                                                                                      (assert)
+                                                                                                                      (("1"
+                                                                                                                        (lemma
+                                                                                                                         "ack_prop5")
+                                                                                                                        (("1"
+                                                                                                                          (inst
+                                                                                                                           -1
+                                                                                                                           "c_h"
+                                                                                                                           "max(max_n_x, f_prev)"
+                                                                                                                           "ack(1 + c_max, max_n0 + x0)")
+                                                                                                                          (("1"
+                                                                                                                            (assert)
+                                                                                                                            nil
+                                                                                                                            nil))
+                                                                                                                          nil))
+                                                                                                                        nil))
+                                                                                                                      nil))
+                                                                                                                    nil))
+                                                                                                                  nil))
+                                                                                                                nil)
+                                                                                                               ("2"
+                                                                                                                (lemma
+                                                                                                                 "ack_prop5")
+                                                                                                                (("2"
+                                                                                                                  (inst
+                                                                                                                   -1
+                                                                                                                   "c_h"
+                                                                                                                   "max(max_n_x, f_prev)"
+                                                                                                                   "ack(1 + c_max, max_n0 + x0)")
+                                                                                                                  (("2"
+                                                                                                                    (assert)
+                                                                                                                    (("2"
+                                                                                                                      (split)
+                                                                                                                      (("1"
+                                                                                                                        (assert)
+                                                                                                                        (("1"
+                                                                                                                          (case
+                                                                                                                           "c_h = c_max")
+                                                                                                                          (("1"
+                                                                                                                            (expand
+                                                                                                                             "ack"
+                                                                                                                             2)
+                                                                                                                            (("1"
+                                                                                                                              (assert)
+                                                                                                                              nil
+                                                                                                                              nil))
+                                                                                                                            nil)
+                                                                                                                           ("2"
+                                                                                                                            (assert)
+                                                                                                                            nil
+                                                                                                                            nil))
+                                                                                                                          nil))
+                                                                                                                        nil)
+                                                                                                                       ("2"
+                                                                                                                        (assert)
+                                                                                                                        (("2"
+                                                                                                                          (expand
+                                                                                                                           "ack"
+                                                                                                                           3)
+                                                                                                                          (("2"
+                                                                                                                            (assert)
+                                                                                                                            nil
+                                                                                                                            nil))
+                                                                                                                          nil))
+                                                                                                                        nil))
+                                                                                                                      nil))
+                                                                                                                    nil))
+                                                                                                                  nil))
+                                                                                                                nil))
+                                                                                                              nil))
+                                                                                                            nil))
+                                                                                                          nil))
+                                                                                                        nil))
+                                                                                                      nil))
+                                                                                                    nil))
+                                                                                                  nil))
+                                                                                                nil))
+                                                                                              nil))
+                                                                                            nil))
+                                                                                          nil))
+                                                                                        nil))
+                                                                                      nil))
+                                                                                    nil))
+                                                                                  nil))
+                                                                                nil)
+                                                                               ("2"
+                                                                                (assert)
+                                                                                nil
+                                                                                nil))
+                                                                              nil))
+                                                                            nil))
                                                                           nil))
                                                                         nil))
                                                                       nil))
@@ -2884,8 +3104,8 @@
                                               nil))
                                             nil))
                                           nil)
-                                         ("2" (postpone) nil nil)
-                                         ("3" (postpone) nil nil))
+                                         ("2" (assert) nil nil)
+                                         ("3" (assert) nil nil))
                                         nil))
                                       nil))
                                     nil))
@@ -2893,8 +3113,8 @@
                                 nil))
                               nil))
                             nil)
-                           ("3" (postpone) nil nil)
-                           ("4" (postpone) nil nil))
+                           ("3" (assert) nil nil)
+                           ("4" (assert) nil nil))
                           nil))
                         nil))
                       nil))
@@ -2907,45 +3127,265 @@
         nil))
       nil))
     nil)
-   nil shostak))
- (pr_rec_maj_by_ack_inductive_part_TCC1 0
-  (pr_rec_maj_by_ack_inductive_part_TCC1-1 nil 3757512784
-   ("" (subtype-tcc) nil nil)
-   ((boolean nonempty-type-decl nil booleans nil)
+   ((<= const-decl "bool" reals nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (max const-decl "{p: real | p >= m AND p >= n}" real_defs nil)
+    (>= const-decl "bool" reals nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
     (bool nonempty-type-eq-decl nil booleans nil)
-    (NOT const-decl "[bool -> bool]" booleans nil)
-    (number nonempty-type-decl nil numbers nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (number_field nonempty-type-from-decl nil number_fields nil)
-    (real_pred const-decl "[number_field -> boolean]" reals nil)
-    (real nonempty-type-from-decl nil reals nil)
-    (>= const-decl "bool" reals nil)
-    (rational_pred const-decl "[real -> boolean]" rationals nil)
-    (rational nonempty-type-from-decl nil rationals nil)
-    (integer_pred const-decl "[rational -> boolean]" integers nil)
-    (int nonempty-type-eq-decl nil integers nil)
-    (nat nonempty-type-eq-decl nil naturalnumbers nil)
-    (real_ge_is_total_order name-judgement "(total_order?[real])"
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number nonempty-type-decl nil numbers nil)
+    (nonneg_rat_max application-judgement
+     "{s: nonneg_rat | s >= q AND s >= r}" real_defs nil)
+    (nat_max application-judgement "{k: nat | i <= k AND j <= k}"
+     real_defs nil)
+    (max_ab_le_sum formula-decl nil pr_ack nil)
+    (ack_prop4 formula-decl nil pr_ack nil)
+    (OR const-decl "[bool, bool -> bool]" booleans nil)
+    (max_le formula-decl nil real_defs nil)
+    (max_expanded2_n_eq formula-decl nil pr_ack nil)
+    (real_le_is_total_order name-judgement "(total_order?[real])"
      real_props nil)
+    (init_with const-decl "Reals" arrays "structures/")
+    (Reals type-eq-decl nil arrays "structures/")
+    (ack_prop7 formula-decl nil pr_ack nil)
+    (ack_prop5 formula-decl nil pr_ack nil)
     (real_gt_is_strict_total_order name-judgement
      "(strict_total_order?[real])" real_props nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil)
+    (upto nonempty-type-eq-decl nil naturalnumbers nil)
+    (copy_init const-decl "nat_args(l)" pr_ack nil)
+    (remove_appended_el_eq formula-decl nil pr_ack nil)
+    (int_plus_int_is_int application-judgement "int" integers nil)
+    (pr def-decl "nat" pr_ack nil)
+    (nat_induction formula-decl nil naturalnumbers nil)
+    (pred type-eq-decl nil defined_types nil)
+    (< const-decl "bool" reals nil)
+    (Index type-eq-decl nil arrays "structures/")
+    (nat_args nonempty-type-eq-decl nil pr_ack nil)
+    (rfunc nonempty-type-eq-decl nil pr_ack nil)
+    (ack def-decl "nat" pr_ack nil)
+    (max_nats const-decl "nat" pr_ack nil)
+    (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
     (int_minus_int_is_int application-judgement "int" integers nil)
-    (maj_by_ack? const-decl "bool" pr_ack nil)
-    (max_nats const-decl "nat" pr_ack nil))
-   nil))
- (pr_rec_maj_by_ack_inductive_part 0
-  (pr_rec_maj_by_ack_inductive_part-1 nil 3757512848
+    (nnint_plus_nnint_is_nnint application-judgement "nonneg_int"
+     integers nil)
+    (real_ge_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (nnint_plus_posint_is_posint application-judgement "posint"
+     integers nil)
+    (maj_by_ack? const-decl "bool" pr_ack nil))
+   shostak))
+ (pr_rec_maj_by_ack_TCC1 0
+  (pr_rec_maj_by_ack_TCC1-1 nil 3757581628 ("" (subtype-tcc) nil nil)
+   nil nil))
+ (pr_rec_maj_by_ack 0
+  (pr_rec_maj_by_ack-1 nil 3757492368
    ("" (skolem 1 ("k0" "f0"))
     (("" (flatten)
       (("" (skolem -2 "g0")
         (("" (skolem -2 "h0")
           (("" (flatten)
-            (("" (expand "maj_by_ack?")
-              (("" (skolem -2 "c_g")
-                (("" (skolem -3 "c_h")
-                  (("" (name "c_max" "max(c_g, c_h)")
-                    (("" (inst 1 "c_max + 1") (("" (postpone) nil nil))
+            (("" (lemma "pr_rec_maj_by_ack_inductive_part_mixed")
+              (("" (inst -1 "k0" "f0")
+                (("" (split)
+                  (("1" (skolem -1 "c0")
+                    (("1" (expand "maj_by_ack?" 1)
+                      (("1" (inst 1 "c0 + 4")
+                        (("1" (skolem 1 "m0")
+                          (("1" (name "n0" "copy_init(k0, k0-1)(m0)")
+                            (("1" (inst -2 "n0")
+                              (("1"
+                                (name "x0" "m0(k0 - 1)")
+                                (("1"
+                                  (inst -3 "x0")
+                                  (("1"
+                                    (lemma "max_expanded_n_eq")
+                                    (("1"
+                                      (hide -6 -7)
+                                      (("1"
+                                        (hide -6)
+                                        (("1"
+                                          (lemma "split_at_last_eq")
+                                          (("1"
+                                            (inst -1 "k0 - 1" "m0")
+                                            (("1"
+                                              (assert)
+                                              (("1"
+                                                (replace -4)
+                                                (("1"
+                                                  (replace -3)
+                                                  (("1"
+                                                    (replace -1)
+                                                    (("1"
+                                                      (replace
+                                                       -1
+                                                       :dir
+                                                       rl)
+                                                      (("1"
+                                                        (inst
+                                                         -2
+                                                         "k0 - 1"
+                                                         "n0"
+                                                         "x0")
+                                                        (("1"
+                                                          (assert)
+                                                          (("1"
+                                                            (replace
+                                                             -1)
+                                                            (("1"
+                                                              (replace
+                                                               -1
+                                                               :dir
+                                                               rl)
+                                                              (("1"
+                                                                (name
+                                                                 "m_max"
+                                                                 "max_nats(k0)(m0)")
+                                                                (("1"
+                                                                  (replace
+                                                                   -1)
+                                                                  (("1"
+                                                                    (hide
+                                                                     -1)
+                                                                    (("1"
+                                                                      (name
+                                                                       "n_max"
+                                                                       "max_nats(k0 - 1)(n0)")
+                                                                      (("1"
+                                                                        (replace
+                                                                         -1)
+                                                                        (("1"
+                                                                          (hide
+                                                                           -1)
+                                                                          (("1"
+                                                                            (hide
+                                                                             -1)
+                                                                            (("1"
+                                                                              (hide
+                                                                               -2)
+                                                                              (("1"
+                                                                                (hide
+                                                                                 -2)
+                                                                                (("1"
+                                                                                  (lemma
+                                                                                   "ack_prop5")
+                                                                                  (("1"
+                                                                                    (inst
+                                                                                     -1
+                                                                                     "c0"
+                                                                                     "n_max + x0"
+                                                                                     "2 * m_max")
+                                                                                    (("1"
+                                                                                      (assert)
+                                                                                      (("1"
+                                                                                        (lemma
+                                                                                         "ack_prop9")
+                                                                                        (("1"
+                                                                                          (lemma
+                                                                                           "ack_prop5")
+                                                                                          (("1"
+                                                                                            (inst
+                                                                                             -1
+                                                                                             "c0"
+                                                                                             "2 * m_max"
+                                                                                             "2 * m_max + 3")
+                                                                                            (("1"
+                                                                                              (assert)
+                                                                                              (("1"
+                                                                                                (hide
+                                                                                                 -2)
+                                                                                                (("1"
+                                                                                                  (lemma
+                                                                                                   "ack_prop9")
+                                                                                                  (("1"
+                                                                                                    (inst
+                                                                                                     -1
+                                                                                                     "m_max")
+                                                                                                    (("1"
+                                                                                                      (assert)
+                                                                                                      (("1"
+                                                                                                        (lemma
+                                                                                                         "ack_prop10_constant")
+                                                                                                        (("1"
+                                                                                                          (inst
+                                                                                                           -1
+                                                                                                           "c0"
+                                                                                                           "2"
+                                                                                                           "m_max")
+                                                                                                          (("1"
+                                                                                                            (assert)
+                                                                                                            nil
+                                                                                                            nil))
+                                                                                                          nil))
+                                                                                                        nil))
+                                                                                                      nil))
+                                                                                                    nil))
+                                                                                                  nil))
+                                                                                                nil))
+                                                                                              nil))
+                                                                                            nil))
+                                                                                          nil))
+                                                                                        nil))
+                                                                                      nil))
+                                                                                    nil))
+                                                                                  nil))
+                                                                                nil))
+                                                                              nil))
+                                                                            nil))
+                                                                          nil))
+                                                                        nil))
+                                                                      nil))
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil)
+                                             ("2" (assert) nil nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil)
+                                 ("2" (assert) nil nil))
+                                nil))
+                              nil)
+                             ("2" (assert) nil nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil)
+                   ("2" (propax) nil nil)
+                   ("3" (assert)
+                    (("3" (assert)
+                      (("3" (inst 1 "g0")
+                        (("3" (inst 1 "h0") (("3" (assert) nil nil))
+                          nil))
+                        nil))
                       nil))
                     nil))
                   nil))
@@ -2956,12 +3396,73 @@
         nil))
       nil))
     nil)
-   nil shostak))
- (pr_rec_maj_by_ack 0
-  (pr_rec_maj_by_ack-1 nil 3757492368 ("" (postpone) nil nil) nil
+   ((pr_rec_maj_by_ack_inductive_part_mixed formula-decl nil pr_ack
+     nil)
+    (maj_by_ack? const-decl "bool" pr_ack nil)
+    (split_at_last_eq formula-decl nil pr_ack nil)
+    (real_gt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (nnint_plus_nnint_is_nnint application-judgement "nonneg_int"
+     integers nil)
+    (int_plus_int_is_int application-judgement "int" integers nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil)
+    (nonneg_rat_max application-judgement
+     "{s: nonneg_rat | s >= q AND s >= r}" real_defs nil)
+    (nat_max application-judgement "{k: nat | i <= k AND j <= k}"
+     real_defs nil)
+    (ack_prop5 formula-decl nil pr_ack nil)
+    (odd_plus_even_is_odd application-judgement "odd_int" integers nil)
+    (ack_prop10_constant formula-decl nil pr_ack nil)
+    (even_plus_odd_is_odd application-judgement "odd_int" integers nil)
+    (ack_prop9 formula-decl nil pr_ack nil)
+    (* const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (nnint_times_nnint_is_nnint application-judgement "nonneg_int"
+     integers nil)
+    (even_times_int_is_even application-judgement "even_int" integers
+     nil)
+    (mult_divides1 application-judgement "(divides(n))" divides nil)
+    (mult_divides2 application-judgement "(divides(m))" divides nil)
+    (max_nats const-decl "nat" pr_ack nil)
+    (k0 skolem-const-decl "nat" pr_ack nil)
+    (max_expanded_n_eq formula-decl nil pr_ack nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (real_le_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (real_ge_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (copy_init const-decl "nat_args(l)" pr_ack nil)
+    (upto nonempty-type-eq-decl nil naturalnumbers nil)
+    (<= const-decl "bool" reals nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (int_minus_int_is_int application-judgement "int" integers nil)
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (nnint_plus_posint_is_posint application-judgement "posint"
+     integers nil)
+    (rfunc nonempty-type-eq-decl nil pr_ack nil)
+    (nat_args nonempty-type-eq-decl nil pr_ack nil)
+    (Index type-eq-decl nil arrays "structures/")
+    (< const-decl "bool" reals nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (>= const-decl "bool" reals nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number nonempty-type-decl nil numbers nil))
    shostak))
  (pr_maj_lemma_weak_ind_antecedent_TCC1 0
-  (pr_maj_lemma_weak_ind_antecedent_TCC1-1 nil 3757515065
+  (pr_maj_lemma_weak_ind_antecedent_TCC1-1 nil 3757578091
    ("" (subtype-tcc) nil nil)
    ((boolean nonempty-type-decl nil booleans nil)
     (bool nonempty-type-eq-decl nil booleans nil)
@@ -2984,7 +3485,7 @@
      "(strict_total_order?[real])" real_props nil))
    nil))
  (pr_maj_lemma_weak_ind_antecedent_TCC2 0
-  (pr_maj_lemma_weak_ind_antecedent_TCC2-1 nil 3757515065
+  (pr_maj_lemma_weak_ind_antecedent_TCC2-1 nil 3757578091
    ("" (subtype-tcc) nil nil) nil nil))
  (pr_maj_lemma_weak_ind_antecedent 0
   (pr_maj_lemma_weak_ind_antecedent-1 nil 3757488068
@@ -3005,31 +3506,31 @@
         nil))
       nil))
     nil)
-   ((pr_rec_maj_by_ack formula-decl nil pr_ack nil)
-    (real_gt_is_strict_total_order name-judgement
-     "(strict_total_order?[real])" real_props nil)
-    (pr_comp_maj_by_ack formula-decl nil pr_ack nil)
-    (pr_pi_maj_by_ack formula-decl nil pr_ack nil)
-    (pr_succ_maj_by_ack formula-decl nil pr_ack nil)
-    (pr_zero_maj_by_ack formula-decl nil pr_ack nil)
-    (rfunc nonempty-type-eq-decl nil pr_ack nil)
-    (nat_args nonempty-type-eq-decl nil pr_ack nil)
-    (Index type-eq-decl nil arrays "structures/")
-    (< const-decl "bool" reals nil)
-    (nat nonempty-type-eq-decl nil naturalnumbers nil)
-    (>= const-decl "bool" reals nil)
-    (bool nonempty-type-eq-decl nil booleans nil)
-    (int nonempty-type-eq-decl nil integers nil)
-    (integer_pred const-decl "[rational -> boolean]" integers nil)
-    (rational nonempty-type-from-decl nil rationals nil)
-    (rational_pred const-decl "[real -> boolean]" rationals nil)
-    (real nonempty-type-from-decl nil reals nil)
-    (real_pred const-decl "[number_field -> boolean]" reals nil)
-    (number_field nonempty-type-from-decl nil number_fields nil)
+   ((number nonempty-type-decl nil numbers nil)
+    (boolean nonempty-type-decl nil booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (boolean nonempty-type-decl nil booleans nil)
-    (number nonempty-type-decl nil numbers nil))
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (>= const-decl "bool" reals nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (< const-decl "bool" reals nil)
+    (Index type-eq-decl nil arrays "structures/")
+    (nat_args nonempty-type-eq-decl nil pr_ack nil)
+    (rfunc nonempty-type-eq-decl nil pr_ack nil)
+    (pr_zero_maj_by_ack formula-decl nil pr_ack nil)
+    (pr_succ_maj_by_ack formula-decl nil pr_ack nil)
+    (pr_pi_maj_by_ack formula-decl nil pr_ack nil)
+    (pr_comp_maj_by_ack formula-decl nil pr_ack nil)
+    (real_gt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (pr_rec_maj_by_ack formula-decl nil pr_ack nil))
    shostak))
  (pr_maj_by_ack 0
   (pr_maj_by_ack-1 nil 3757413016
@@ -3052,27 +3553,27 @@
         nil))
       nil))
     nil)
-   ((pr_maj_lemma_weak_ind_antecedent formula-decl nil pr_ack nil)
-    (maj_by_ack? const-decl "bool" pr_ack nil)
-    (rfunc nonempty-type-eq-decl nil pr_ack nil)
-    (nat_args nonempty-type-eq-decl nil pr_ack nil)
-    (Index type-eq-decl nil arrays "structures/")
-    (< const-decl "bool" reals nil)
-    (nat nonempty-type-eq-decl nil naturalnumbers nil)
-    (>= const-decl "bool" reals nil)
-    (bool nonempty-type-eq-decl nil booleans nil)
-    (int nonempty-type-eq-decl nil integers nil)
-    (integer_pred const-decl "[rational -> boolean]" integers nil)
-    (rational nonempty-type-from-decl nil rationals nil)
-    (rational_pred const-decl "[real -> boolean]" rationals nil)
-    (real nonempty-type-from-decl nil reals nil)
-    (real_pred const-decl "[number_field -> boolean]" reals nil)
-    (number_field nonempty-type-from-decl nil number_fields nil)
+   ((prim_rec?_weak_induction formula-decl nil pr_ack nil)
+    (number nonempty-type-decl nil numbers nil)
+    (boolean nonempty-type-decl nil booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (boolean nonempty-type-decl nil booleans nil)
-    (number nonempty-type-decl nil numbers nil)
-    (prim_rec?_weak_induction formula-decl nil pr_ack nil))
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (>= const-decl "bool" reals nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (< const-decl "bool" reals nil)
+    (Index type-eq-decl nil arrays "structures/")
+    (nat_args nonempty-type-eq-decl nil pr_ack nil)
+    (rfunc nonempty-type-eq-decl nil pr_ack nil)
+    (maj_by_ack? const-decl "bool" pr_ack nil)
+    (pr_maj_lemma_weak_ind_antecedent formula-decl nil pr_ack nil))
    shostak))
  (pr_maj_by_ack_arr 0
   (pr_maj_by_ack_arr-1 nil 3757413038
@@ -3104,28 +3605,28 @@
         nil))
       nil))
     nil)
-   ((maj_by_ack_arr? const-decl "bool" pr_ack nil)
-    (ack_arr const-decl "nat" pr_ack nil)
-    (maj_by_ack? const-decl "bool" pr_ack nil)
-    (rfunc nonempty-type-eq-decl nil pr_ack nil)
-    (nat_args nonempty-type-eq-decl nil pr_ack nil)
-    (Index type-eq-decl nil arrays "structures/")
-    (< const-decl "bool" reals nil)
-    (nat nonempty-type-eq-decl nil naturalnumbers nil)
-    (>= const-decl "bool" reals nil)
-    (bool nonempty-type-eq-decl nil booleans nil)
-    (int nonempty-type-eq-decl nil integers nil)
-    (integer_pred const-decl "[rational -> boolean]" integers nil)
-    (rational nonempty-type-from-decl nil rationals nil)
-    (rational_pred const-decl "[real -> boolean]" rationals nil)
-    (real nonempty-type-from-decl nil reals nil)
-    (real_pred const-decl "[number_field -> boolean]" reals nil)
-    (number_field nonempty-type-from-decl nil number_fields nil)
+   ((pr_maj_by_ack formula-decl nil pr_ack nil)
+    (number nonempty-type-decl nil numbers nil)
+    (boolean nonempty-type-decl nil booleans nil)
     (number_field_pred const-decl "[number -> boolean]" number_fields
      nil)
-    (boolean nonempty-type-decl nil booleans nil)
-    (number nonempty-type-decl nil numbers nil)
-    (pr_maj_by_ack formula-decl nil pr_ack nil))
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (>= const-decl "bool" reals nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (< const-decl "bool" reals nil)
+    (Index type-eq-decl nil arrays "structures/")
+    (nat_args nonempty-type-eq-decl nil pr_ack nil)
+    (rfunc nonempty-type-eq-decl nil pr_ack nil)
+    (maj_by_ack? const-decl "bool" pr_ack nil)
+    (ack_arr const-decl "nat" pr_ack nil)
+    (maj_by_ack_arr? const-decl "bool" pr_ack nil))
    shostak))
  (ack_pr_implies_diag_pr 0
   (ack_pr_implies_diag_pr-1 nil 3757412875
