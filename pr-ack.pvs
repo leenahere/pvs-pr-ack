@@ -1,8 +1,35 @@
 pr_ack: THEORY
+% -------------------------------------------------------------------------------------
+% A proof that the Ackermann function is not primitive recursive
+%
+%   Authors: Lina Peters & Dennis Renz
+%
+% The proof was constructed from the following source materials:
+%
+%   [1] Nora Szasz:
+%         A machine checked proof that Ackermann's function is not primitive recursive
+%                   https://scholar.google.nl/citations?user=z6A66VQAAAAJ&hl=nl
+%                   https://pdfs.semanticscholar.org/4c05/82bf036b4a0fcf04f8807c7c0e3c57557f7e.pdf#page=345
+%       -> used for the ackermann properties and the contradicition argument
+%
+%   [2] Jonathan Kalechstain:
+%         Slides on termination
+%                   http://www.cs.tau.ac.il/~nachumd/term/Jonathan.pdf
+%       -> used for the majorization proofs of the pr base functions and operators
+%
+% ------------------------------------------------------------------------------------
+
 BEGIN
 IMPORTING structures@arrays, structures@max_array
 
 % TYPE DEFINITIONS AND HELPER FUNCTIONS
+%
+% Definitions and some utility functions for the basic types
+%   - nat_args(k): A k-tuple of natural numbers
+%   - rfunc(k): A function f: N^k -> N (not necessarily primitive recursive)
+%
+% Some initialization functions and a wrapper for the array version of max
+% to handle the case k = 0 are provided
 % ################################################################################
 
 % Type aliases
@@ -30,6 +57,15 @@ init_rfuncs(r: nat, k: nat): ArrayOf[r][rfunc(k)]
   = LAMBDA (i: Index[r]): LAMBDA (n: nat_args(k)): 0
 
 % PRIMITIVE RECURSIVE FUNCTION DEFINITIONS
+%
+% One variant of a few ways to define primitive recursive functions. We define
+% a k-ary zero, and pass the recursion parameters in the last two entries of the
+% expanded argument tuple for the pr-operator. For reference, this is similiar
+% to how the primitive recursive functions are defined in
+%
+%   Lutz Priese, Katrin Erk: Theoretische Informatik, Eine umfassende Einführung
+%     https://www.springer.com/gp/book/9783662574089
+%
 % ################################################################################
 
 % Base functions
@@ -63,6 +99,13 @@ pr(k: nat, g:rfunc(k), h:rfunc(k+2))(n: nat_args(k+1)): RECURSIVE nat
 
 
 % EXAMPLES: ARITHMETIC FUNCTIONS AS PR-FUNCTIONS
+%
+% Addition and multiplication realized with primitive recursive functions.
+% Definitions and proofs are given.
+%
+% These are not needed for the main proof, but illustrate nicely how primitive
+% recursion works
+%
 % ################################################################################
 
 % ADDITION
@@ -108,6 +151,16 @@ pr_mult_is_multiplication: FORMULA
 
 
 % DEFINITION: SET OF PRIMITIVE RECURSIVE FUNCTIONS
+%
+% The inductive definition of the set of primitive recursive functions. It is the
+% smallest set that contains the base functions and is closed under the
+% composition and primitive recursion operators.
+% 
+% We only define the k-ary sets of primitive recursive functions. The set of all
+% primitive recursive function is the union over the k-ary sets. Our base types
+% would need to be modified to be able to define this union and we therefore do
+% not implement it, because the k-ary sets are enough for our purposes.
+%
 % ################################################################################
 
 % k-ary PR-Functions predicate
@@ -125,7 +178,12 @@ prim_rec?(k: nat)(f: rfunc(k)): INDUCTIVE bool =
 prim_rec(k: nat): TYPE+ = (prim_rec?(k)) CONTAINING zero(k)
 
 
-% ACKERMANN FUNCTION
+% ACKERMANN FUNCTION DEFINITION & PROPERTIES
+%
+% Definition of Ackermann's Function and associated lemmas. They are numbered as
+% in [1]. These properties of the Ackermann Function will be used in the
+% majorization proofs later.
+%
 % ################################################################################
 
 % FUNCTION DEFINITION
@@ -196,11 +254,41 @@ ack_prop10_constant: LEMMA
   FORALL (x, x_, y: nat): ack(x, ack(x_, y)) < ack(x + x_ + 2, y)
 
 
-% THEOREMS
-% -------------------------------------------------------------------------------
+% THEOREMS: MAJORIZATION AND ACKERMANN NOT PR
+%
+% This is the main part of the proof. This is done in two parts:
+%
+% (I)  We show that every primitive recursive function is majorized by the
+%      ackermann function. We define that A majorizes f iff
+%
+%            EXISTS c: FORALL n: ||f(n)|| < A(c, ||n||)
+%        <=> EXISTS c: FORALL n: f(n) < A(c, ||n||) (since f: N^k -> N in our case)
+%
+%      where ||n|| = max(n_1, ..., n_k) for n in N^k.
+%      The majorization proofs are according to [2]. The proofs for the base
+%      functions are straightforward and easy, but for the operators a lot of
+%      technicalities are needed to proof the final results.
+%
+% (II) We construct a contradiction argument to conclude that A is not primitive
+%      recursive. This is according to [1] (P. 344), where it is done using a
+%      different norm, but that does matter for this argument.
+%      The contradicition goes as follows:
+%
+%      Assume A in PR. Then F = C[A, pi(1, 1), pi(1, 1)], i.e. F(x) = A(x, x)
+%      is also primitive recursive. From (I) we know:
+%
+%        EXISTS c in N: FORALL x in N: F(x) < A(c, x)
+%
+%      take (skolem) such a c, then it follows for x = c that
+%
+%        F(c) < A(c, c) = F(c)
+%
+%      which is a contradicition, so we can conclude that A is not in PR.
+%
+% --------------------------------------------------------------------------------
 
-% Majorization Theorems
-% ----------------------------------------------
+% (I) MAJORIZATION THEOREMS
+% ################################################################################
 
 % nat_args version of the Ackermann function
 ack_arr(n: nat_args(2)): nat = ack(n(0), n(1))
@@ -307,7 +395,7 @@ max_expanded2_n_eq: LEMMA
       max_nats(k+2)(n WITH [k |-> a, (k+1) |-> b]) = max(max(max_nats(k)(n), a), b)
 
 % Helper Lemma, mixed version
-% f = pr(k-1, g, h) => EX c: ALL m = (n:i): f(m) < A(c, n + i)
+% f = pr(k-1, g, h) => EX c: ALL m = (n,i): f(m) < A(c, max(n) + i)
 pr_rec_maj_by_ack_inductive_part_mixed: LEMMA
   FORALL (k: nat, f: rfunc(k)):
     ((k > 0) AND (EXISTS (g: rfunc(k - 1)): (EXISTS (h: rfunc(k + 1)):
@@ -316,7 +404,7 @@ pr_rec_maj_by_ack_inductive_part_mixed: LEMMA
       EXISTS (c: nat): FORALL (n: nat_args(k-1)): FORALL (x: nat):
         f(n WITH [(k-1) |-> x]) < ack(c, x + max_nats(k-1)(n))
 
-% Main Proof: Primitive recursion is majorized
+% Main Proof: Primitive recursion operator is majorized
 pr_rec_maj_by_ack: THEOREM
   FORALL (k: nat, f: rfunc(k)):
     ((k > 0) AND (EXISTS (g: rfunc(k - 1)): (EXISTS (h: rfunc(k + 1)):
@@ -324,7 +412,24 @@ pr_rec_maj_by_ack: THEOREM
     IMPLIES maj_by_ack?(k)(f)
 
 
-% MAIN THEOREM: Proof by contradiction
+% Lemma: Weak antecedent
+% ----------------------------------------------
+%
+% This is the antecedent of the
+%
+%   prim_rec?_weak_induction
+%
+% axiom that is automatically genereated because of the inductive definition
+% of prim_rec?. It can be viewed via
+%
+%   M-x prettyprint-expanded
+%
+% and would normally be used by rule-induct, however rule-induct would for some
+% reason not apply this correctly when we tried proving it, so we do it manually
+% by first proving the antecedent, using the 5 theorems proven earlier. We can
+% then in the next prove use this proven antecedent of the weak-induction axiom
+% to conclude that prim_rec? IMPLIES maj_by_ack?
+%
 % ----------------------------------------------
 
 pr_maj_lemma_weak_ind_antecedent: LEMMA
@@ -337,6 +442,8 @@ pr_maj_lemma_weak_ind_antecedent: LEMMA
          maj_by_ack?(k - 1)(g) AND maj_by_ack?(k + 1)(h) AND f = pr(k - 1, g, h))))
     IMPLIES maj_by_ack?(k)(f)
 
+% MAIN THEOREM: All primitive recursive functions are majorized by A
+%
 % FORALL f in PR: EXISTS c: FORALL n:
 %   f(n) < A(c, max(n))
 pr_maj_by_ack: THEOREM
@@ -348,8 +455,9 @@ pr_maj_by_ack_arr: THEOREM
   FORALL (k: nat): FORALL (f: rfunc(k)):
     prim_rec?(k)(f) IMPLIES maj_by_ack_arr?(k)(f)      
 
-% Contradiction Theorem & associated Lemmas
-% ----------------------------------------------
+
+% (II) CONTRADICTION ARGUMENT
+% ################################################################################
 
 % F(x) = A(x, x)
 ack_arr_diag(x: nat_args(1)): nat
