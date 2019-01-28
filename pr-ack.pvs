@@ -88,7 +88,6 @@ arr_helper_lemma: LEMMA
   FORALL (a: nat_args(2)):
     a(1) > 0 IMPLIES (a WITH [1 := a(1)-1]) = (init_nats(2) WITH [0 := a(0), 1 := a(1) - 1])
 
-% REDO SOME PROOF STEPS BECAUSE OF CHANGED DEFINITIONS
 pr_add_is_addition: FORMULA
   FORALL (n: nat): (FORALL (m: nat): pr_add(n, m) = n + m)
 
@@ -124,15 +123,6 @@ prim_rec?(k: nat)(f: rfunc(k)): INDUCTIVE bool =
      prim_rec?(k-1)(g) AND prim_rec?(k+1)(h) AND f = pr(k-1, g, h))))
 
 prim_rec(k: nat): TYPE+ = (prim_rec?(k)) CONTAINING zero(k)
-
-%prim_rec_preds: setofsets = {p | EXISTS (k: nat): p = prim_rec?(k)}
-
-%test: TYPE = { (x: nat) | x = 3 }
-
-%prim_rec: TYPE+ = { (FORALL (k: nat): (f: rfunc(k)) | prim_rec?(k)(f)) }
-
-%PREC: TYPE+
-%zero_in_prec: AXIOM
 
 
 % ACKERMANN FUNCTION
@@ -257,11 +247,9 @@ maj_constant_min(k: nat)(f: maj_by_ack(k)): nat
 
 % Choose constants for an array of majorized h_i
 maj_constants_array(r: posnat, k: nat)(h: [Index[r] -> maj_by_ack(k)]): nat_args(r)
-%  = LAMBDA (i: Index[r]): choose(maj_by_ack_constant?(k)(h(i)))
   = LAMBDA (i: Index[r]): maj_constant_min(k)(h(i))
 
 % Helper lemma for the following lemma
-% maj_by_ack_constant?(k)(f)(c) IMPLIE
 maj_constant_ineq: LEMMA
   FORALL (k: nat, f: maj_by_ack(k), c: nat):
     maj_by_ack_constant?(k)(f)(c) IMPLIES FORALL (n: nat_args(k)): f(n) < ack(c, max_nats(k)(n))
@@ -327,21 +315,6 @@ pr_rec_maj_by_ack_inductive_part_mixed: LEMMA
     IMPLIES
       EXISTS (c: nat): FORALL (n: nat_args(k-1)): FORALL (x: nat):
         f(n WITH [(k-1) |-> x]) < ack(c, x + max_nats(k-1)(n))
-
-
-% Helper Lemma
-% f = pr(k-1, g, h) => EX c: ALL m = (n:i): f(m) < A(c, n + i)
-%pr_rec_maj_by_ack_inductive_part: LEMMA
-%  FORALL (k: nat, f: rfunc(k)):
-%    ((k > 0) AND (EXISTS (g: rfunc(k - 1)): (EXISTS (h: rfunc(k + 1)):
-%      maj_by_ack?(k - 1)(g) AND maj_by_ack?(k + 1)(h) AND f = pr(k - 1, g, h))))
-%    IMPLIES
-%      EXISTS (c: nat): FORALL (n: nat_args(k)):
-%        f(n) < ack(c, n(k-1) + max_nats(k-1)(copy_init(k, k-1)(n)))
-
-% Main Proof, mixed version
-%pr_rec_maj_by_ack_mixed: THEOREM
-  
 
 % Main Proof: Primitive recursion is majorized
 pr_rec_maj_by_ack: THEOREM
