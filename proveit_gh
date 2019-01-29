@@ -15,7 +15,7 @@
 # Script for batch proving in PVS 
 #  
 
-PVSPATH="/home/dennis/pvs60_alt_install"
+PVSPATH="/Users/lina/Documents/pvs/pvs-6.0-ix86-MacOSX-allegro"
 VERSION="ProofLite-6.0.10 (xx/xx/xx)"
 
 export PROVEITVERSION="proveit - $VERSION"

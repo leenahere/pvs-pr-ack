@@ -475,6 +475,16 @@ contradiction_arg_lemma: LEMMA
         init_rfuncs(2, 1) WITH [(0) := pi(1, 1), (1) := pi(1, 1)](i)
 	((LAMBDA (i: Index[1]): 0) WITH [(0) := c])
 
+contradiction_arg_max_of_one_element: LEMMA
+   FORALL (c: nat):
+        max_nats(1)(init_nats(1) WITH [0 := c]) = c
+
+contradiction_arg_lemma_2: LEMMA
+   FORALL (c: nat):
+       init_nats(2) WITH [0 := c, 1 := max_nats(1)(init_nats(1) WITH [0 := c])]
+     = LAMBDA (i: Index[2]):
+               init_rfuncs(2, 1) WITH [0 := pi(1, 1), 1 := pi(1, 1)](i)(init_nats(1) WITH [0 := c])
+
 % A in PR => EXISTS c: F(c) < F(c) (CONTRADICTION)
 ack_prim_rec_diag_contradiction: THEOREM
   prim_rec?(2)(ack_arr) IMPLIES EXISTS (c: nat):

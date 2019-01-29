@@ -1,15 +1,44 @@
 pr_ack: THEORY
+% -------------------------------------------------------------------------------------
+% A proof that the Ackermann function is not primitive recursive
+%
+%   Authors: Lina Peters & Dennis Renz
+%
+% The proof was constructed from the following source materials:
+%
+%   [1] Nora Szasz:
+%         A machine checked proof that Ackermann's function is not primitive recursive
+%                   https://scholar.google.nl/citations?user=z6A66VQAAAAJ&hl=nl
+%                   https://pdfs.semanticscholar.org/4c05/82bf036b4a0fcf04f8807c7c0e3c57557f7e.pdf#page=345
+%       -> used for the ackermann properties and the contradicition argument
+%
+%   [2] Jonathan Kalechstain:
+%         Slides on termination
+%                   http://www.cs.tau.ac.il/~nachumd/term/Jonathan.pdf
+%       -> used for the majorization proofs of the pr base functions and operators
+%
+% ------------------------------------------------------------------------------------
+
 BEGIN
-IMPORTING structures@arrays, structures@for_iterate
+IMPORTING structures@arrays, structures@max_array
 
 % TYPE DEFINITIONS AND HELPER FUNCTIONS
+%
+% Definitions and some utility functions for the basic types
+%   - nat_args(k): A k-tuple of natural numbers
+%   - rfunc(k): A function f: N^k -> N (not necessarily primitive recursive)
+%
+% Some initialization functions and a wrapper for the array version of max
+% to handle the case k = 0 are provided
 % ################################################################################
 
 % Type aliases
 nat_args(k: nat): TYPE+ = ArrayOf[k][nat]
 rfunc(k: nat): TYPE+ = [nat_args(k) -> nat]
 
-% Array helper functions
+% Custom array init functions
+% - These are defined here because the structures@arrays builtin
+%   initializer functions sometimes crash the typechecker
 copy_init(k: nat, l: upto(k))(a: nat_args(k)): nat_args(l)
   = LAMBDA (i: Index[l]): a(i)
 
@@ -18,36 +47,25 @@ copy_init_rfunc(r: nat, l: upto(r), k: nat)(a: ArrayOf[r][rfunc(k)]): ArrayOf[l]
 
 init_nats(k: nat): nat_args(k) = LAMBDA (i: Index[k]): 0
 
-% Besser: Mit fold schreiben
-%all_of?[T: TYPE](k: nat)(a: ArrayOf[k][T], p: [T -> bool]): bool
-%  = IF k = 0
-%    THEN TRUE
-%    ELSE
-%      for[bool]
-%      (0, k-1, TRUE, (LAMBDA (i: subrange(0, k-1), b: bool): b AND p(a(i))))
-%    ENDIF
-all_of?(k: nat, r: nat)(a: ArrayOf[r][rfunc(k)], p: [rfunc(k) -> bool]): RECURSIVE bool
-  = IF r = 0
-    THEN TRUE
-    ELSE
-      LET b = copy_init_rfunc(r, r-1, k)(a) IN
-      p(a(r-1)) AND all_of?(k, r-1)(b, p)
-    ENDIF MEASURE r
+max_nats(k: nat)(a: nat_args(k)): nat =
+  IF k = 0
+  THEN 0
+  ELSE max[k, nat, <=](a)
+  ENDIF
 
-%Satz über all_of beweisen
-
-%= (r = 0)
-  %OR p(a(r-1)) AND all_of?(k, r-1)(copy_init_rfunc(r, r-1, k)(a), p)
- % MEASURE r
-%= IF r = 0
-%    THEN TRUE
-%    ELSE
-%      for[bool]
-%      (0, r-1, TRUE, (LAMBDA (i: subrange(0, r-1), b: bool): b AND p(a(i))))
-%    ENDIF
-
+init_rfuncs(r: nat, k: nat): ArrayOf[r][rfunc(k)]
+  = LAMBDA (i: Index[r]): LAMBDA (n: nat_args(k)): 0
 
 % PRIMITIVE RECURSIVE FUNCTION DEFINITIONS
+%
+% One variant of a few ways to define primitive recursive functions. We define
+% a k-ary zero, and pass the recursion parameters in the last two entries of the
+% expanded argument tuple for the pr-operator. For reference, this is similiar
+% to how the primitive recursive functions are defined in
+%
+%   Lutz Priese, Katrin Erk: Theoretische Informatik, Eine umfassende Einführung
+%     https://www.springer.com/gp/book/9783662574089
+%
 % ################################################################################
 
 % Base functions
@@ -61,7 +79,7 @@ pi(k: posnat, i: subrange(1, k))(a: nat_args(k)): nat = a(i-1)
 % -------------------------------------------------------------------------------
 
 % Composition
-compose(r: nat, k: nat)(g: rfunc(r), h: ArrayOf[r][rfunc(k)]):
+compose(r: posnat, k: nat)(g: rfunc(r), h: ArrayOf[r][rfunc(k)]):
   rfunc(k) = (LAMBDA (n: nat_args(k)): g(LAMBDA (i: Index[r]): h(i)(n)))
 
 % -------------------------------------------------------------------------------
@@ -81,6 +99,13 @@ pr(k: nat, g:rfunc(k), h:rfunc(k+2))(n: nat_args(k+1)): RECURSIVE nat
 
 
 % EXAMPLES: ARITHMETIC FUNCTIONS AS PR-FUNCTIONS
+%
+% Addition and multiplication realized with primitive recursive functions.
+% Definitions and proofs are given.
+%
+% These are not needed for the main proof, but illustrate nicely how primitive
+% recursion works
+%
 % ################################################################################
 
 % ADDITION
@@ -88,9 +113,9 @@ pr(k: nat, g:rfunc(k), h:rfunc(k+2))(n: nat_args(k+1)): RECURSIVE nat
 
 % PR-Arguments g, h
 g_add: rfunc(1) = pi(1, 1)
-% Typechecker stuerzt ab, wenn init_with inline in h gemacht wird
-pi_arr_add: ArrayOf[1][rfunc(3)] = init_with[1][rfunc(3)](pi(3, 3)) 
-h_add: rfunc(3) = compose(1, 3)(pr_succ, pi_arr_add)
+% Typechecker crashes if h is initialized inline by init_with
+h_add_pi_arr: ArrayOf[1][rfunc(3)] = init_with[1][rfunc(3)](pi(3, 3)) 
+h_add: rfunc(3) = compose(1, 3)(pr_succ, h_add_pi_arr)
 
 % PR-Addition
 pr_add_arr(n: nat_args(2)): nat = pr(1, g_add, h_add)(n)
@@ -126,6 +151,16 @@ pr_mult_is_multiplication: FORMULA
 
 
 % DEFINITION: SET OF PRIMITIVE RECURSIVE FUNCTIONS
+%
+% The inductive definition of the set of primitive recursive functions. It is the
+% smallest set that contains the base functions and is closed under the
+% composition and primitive recursion operators.
+% 
+% We only define the k-ary sets of primitive recursive functions. The set of all
+% primitive recursive function is the union over the k-ary sets. Our base types
+% would need to be modified to be able to define this union and we therefore do
+% not implement it, because the k-ary sets are enough for our purposes.
+%
 % ################################################################################
 
 % k-ary PR-Functions predicate
@@ -133,30 +168,26 @@ prim_rec?(k: nat)(f: rfunc(k)): INDUCTIVE bool =
      (f = zero(k))
   OR (k = 1 AND f = pr_succ)
   OR (EXISTS (i: subrange(1, k)): f = pi(k, i))
-%  OR (EXISTS (r: nat): (EXISTS (g: rfunc(r)): (EXISTS (h: ArrayOf[r][rfunc(k)]):
-%  OR (EXISTS (r: nat): (EXISTS (g: rfunc(r)): (EXISTS (h: [Index[r] -> rfunc(k)]):
-%       prim_rec?(r)(g)
-%       AND all_of?(r, k)(h, prim_rec?(k))
-%       AND f = compose(r, k)(g, h))))
+  OR (EXISTS (r: posnat): (EXISTS (g: rfunc(r)): (EXISTS (h: [Index[r] -> rfunc(k)]):
+       prim_rec?(r)(g)
+       AND (FORALL (i: Index[r]): prim_rec?(k)(h(i)))
+       AND f = compose(r, k)(g, h))))
   OR ((k > 0) AND (EXISTS (g: rfunc(k-1)): (EXISTS (h: rfunc(k+1)):
      prim_rec?(k-1)(g) AND prim_rec?(k+1)(h) AND f = pr(k-1, g, h))))
 
 prim_rec(k: nat): TYPE+ = (prim_rec?(k)) CONTAINING zero(k)
 
-%prim_rec_preds: setofsets = {p | EXISTS (k: nat): p = prim_rec?(k)}
 
-%test: TYPE = { (x: nat) | x = 3 }
-
-%prim_rec: TYPE+ = { (FORALL (k: nat): (f: rfunc(k)) | prim_rec?(k)(f)) }
-
-
-
-%PREC: TYPE+
-%zero_in_prec: AXIOM
-
-
-% DEFINITION: ACKERMANN FUNCTION
+% ACKERMANN FUNCTION DEFINITION & PROPERTIES
+%
+% Definition of Ackermann's Function and associated lemmas. They are numbered as
+% in [1]. These properties of the Ackermann Function will be used in the
+% majorization proofs later.
+%
 % ################################################################################
+
+% FUNCTION DEFINITION
+% -------------------------------------------------------------------------------
 
 ack(x: nat, y: nat): RECURSIVE nat =
   IF x = 0
@@ -166,11 +197,294 @@ ack(x: nat, y: nat): RECURSIVE nat =
   ELSE ack(x-1, ack(x, y-1))
   ENDIF MEASURE lex2(x, y)
 
-ack_prop1: LEMMA
-  FORALL (x: nat): (FORALL (y: nat): ack(x, y) > x + y)
 
-ack_prop2: LEMMA
-  FORALL (x: nat): (FORALL (y: nat): (FORALL (z: nat):
-    y > z IMPLIES ack(x, y) > ack(x, z)))
+% LEMMATA
+% -------------------------------------------------------------------------------
+
+% Prop 4: y < A(x, y)
+% ----------------------------------------------
+ack_prop4: LEMMA
+  FORALL (x: nat): FORALL (y: nat): y < ack(x, y)
+
+% Prop 5: Monotonicity in y
+%   y < y_ => A(x, y) < A(x, y_)
+% ----------------------------------------------
+ack_prop5_base: LEMMA
+  FORALL (x: nat): FORALL (y: nat): ack(x, y) < ack(x, y + 1)
+
+ack_prop5_diff: LEMMA
+  FORALL (d: nat): FORALL (x, y, y_: nat): y_ = y + (d + 1) IMPLIES ack(x, y) < ack(x, y_)
+
+ack_prop5: LEMMA
+  FORALL (x: nat): FORALL (y: nat): FORALL (y_: nat): y < y_ IMPLIES ack(x, y) < ack(x, y_)
+
+% Prop 6: A(x, y+1) <= A(x+1, y)
+% ----------------------------------------------
+ack_prop6: LEMMA
+  FORALL (x: nat): FORALL (y: nat): ack(x, y + 1) <= ack(x + 1, y) 
+
+% Prop 7: Monotonicity in x
+%   x < x_ => A(x, y) < A(x_, y)
+% ----------------------------------------------
+ack_prop7_base: LEMMA
+  FORALL (x: nat): FORALL (y: nat): ack(x, y) < ack(x + 1, y)
+
+ack_prop7_diff: LEMMA
+  FORALL (d: nat): FORALL (x, x_, y: nat): x_ = x + (d + 1) IMPLIES ack(x, y) < ack(x_, y)
+
+ack_prop7: LEMMA
+  FORALL (x: nat): FORALL (x_: nat): FORALL (y: nat): x < x_ IMPLIES ack(x, y) < ack(x_, y)
+
+% Prop 8: A(1, y) = y + 2
+% ----------------------------------------------
+ack_prop8: LEMMA
+  FORALL (y: nat): ack(1, y) = y + 2
+
+% Prop 9: A(2, y) = 2y + 3
+% ----------------------------------------------
+ack_prop9: LEMMA
+  FORALL (y: nat): ack(2, y) = 2 * y + 3
+
+% Prop 10: EXISTS k: A(x, A(x_, y)) < A(k, y)
+% ----------------------------------------------
+ack_prop10: LEMMA
+  FORALL (x, x_: nat): EXISTS (k: nat): FORALL (y: nat): ack(x, ack(x_, y)) < ack(k, y)
+
+ack_prop10_constant: LEMMA
+  FORALL (x, x_, y: nat): ack(x, ack(x_, y)) < ack(x + x_ + 2, y)
+
+
+% THEOREMS: MAJORIZATION AND ACKERMANN NOT PR
+%
+% This is the main part of the proof. This is done in two parts:
+%
+% (I)  We show that every primitive recursive function is majorized by the
+%      ackermann function. We define that A majorizes f iff
+%
+%            EXISTS c: FORALL n: ||f(n)|| < A(c, ||n||)
+%        <=> EXISTS c: FORALL n: f(n) < A(c, ||n||) (since f: N^k -> N in our case)
+%
+%      where ||n|| = max(n_1, ..., n_k) for n in N^k.
+%      The majorization proofs are according to [2]. The proofs for the base
+%      functions are straightforward and easy, but for the operators a lot of
+%      technicalities are needed to proof the final results.
+%
+% (II) We construct a contradiction argument to conclude that A is not primitive
+%      recursive. This is according to [1] (P. 344), where it is done using a
+%      different norm, but that does matter for this argument.
+%      The contradicition goes as follows:
+%
+%      Assume A in PR. Then F = C[A, pi(1, 1), pi(1, 1)], i.e. F(x) = A(x, x)
+%      is also primitive recursive. From (I) we know:
+%
+%        EXISTS c in N: FORALL x in N: F(x) < A(c, x)
+%
+%      take (skolem) such a c, then it follows for x = c that
+%
+%        F(c) < A(c, c) = F(c)
+%
+%      which is a contradicition, so we can conclude that A is not in PR.
+%
+% --------------------------------------------------------------------------------
+
+% (I) MAJORIZATION THEOREMS
+% ################################################################################
+
+% nat_args version of the Ackermann function
+ack_arr(n: nat_args(2)): nat = ack(n(0), n(1))
+
+% Majorization Predicate
+maj_by_ack?(k: nat)(f: rfunc(k)): bool
+  = EXISTS (c: nat): FORALL (n: nat_args(k)): f(n) < ack(c, max_nats(k)(n))
+
+% Lemma used to show TCC for maj_constants_array
+maj_by_ack_implies_maj_const_existance: LEMMA
+  FORALL (k: nat): FORALL (f: rfunc(k)):
+    maj_by_ack?(k)(f) IMPLIES EXISTS (c: nat): FORALL (n: nat_args(k)): f(n) < ack(c, max_nats(k)(n)) 
+
+% nat_args version of the Majorization Prediacte
+maj_by_ack_arr?(k: nat)(f: rfunc(k)): bool
+  = EXISTS (c: nat): FORALL (n: nat_args(k)):
+      f(n) < ack_arr(init_nats(2) WITH [0 := c, 1 := max_nats(k)(n)])
+
+% Inductive steps to show majorization
+
+% 1: Zero
+pr_zero_maj_by_ack: THEOREM
+  FORALL (k: nat, f: rfunc(k)): f = zero(k) IMPLIES maj_by_ack?(k)(f)
+
+% 2: Succ
+pr_succ_maj_by_ack: THEOREM
+  FORALL (k: nat, f: rfunc(k)): (k = 1 AND f = pr_succ) IMPLIES maj_by_ack?(k)(f) 
+
+% 3: Projection
+pr_pi_maj_by_ack: THEOREM
+  FORALL (k: nat, f: rfunc(k)): (EXISTS (i: subrange(1, k)): f = pi(k, i)) IMPLIES maj_by_ack?(k)(f)
+
+% 4: Composition
+% ----------------------------------------------
+
+% Helper function used in the majorization proof
+maj_by_ack(k: nat): TYPE+ = (maj_by_ack?(k)) CONTAINING zero(k)
+
+maj_by_ack_constant?(k: nat)(f: maj_by_ack(k))(c: nat): bool
+  = FORALL (n: nat_args(k)): f(n) < ack(c, max_nats(k)(n))
+
+maj_constant_min(k: nat)(f: maj_by_ack(k)): nat
+  = min(maj_by_ack_constant?(k)(f))
+
+% Choose constants for an array of majorized h_i
+maj_constants_array(r: posnat, k: nat)(h: [Index[r] -> maj_by_ack(k)]): nat_args(r)
+  = LAMBDA (i: Index[r]): maj_constant_min(k)(h(i))
+
+% Helper lemma for the following lemma
+maj_constant_ineq: LEMMA
+  FORALL (k: nat, f: maj_by_ack(k), c: nat):
+    maj_by_ack_constant?(k)(f)(c) IMPLIES FORALL (n: nat_args(k)): f(n) < ack(c, max_nats(k)(n))
+
+% Helper lemma used in Composition proof:
+%   If an array h of functions has majorization constants
+%   there exists a universal majorization constant
+%   majorizing all the functions
+universal_maj_constant: LEMMA
+  FORALL (r: posnat): FORALL (k: nat): FORALL (h: [Index[r] -> maj_by_ack(k)]):
+      (FORALL (i: Index[r]): maj_by_ack?(k)(h(i)))
+    IMPLIES
+      (EXISTS (c: nat): FORALL (i: Index[r]): maj_by_ack_constant?(k)(h(i))(c))
+
+% Main Proof: Composition is majorized
+pr_comp_maj_by_ack: THEOREM
+  FORALL (k: nat, f: rfunc(k)):
+    (EXISTS (r: posnat): (EXISTS (g: rfunc(r)): (EXISTS (h: [Index[r] -> rfunc(k)]):
+      maj_by_ack?(r)(g) AND (FORALL (i: Index[r]): maj_by_ack?(k)(h(i))) AND f = compose(r, k)(g, h))))
+    IMPLIES maj_by_ack?(k)(f)
+
+% 5: Primitive Recursion
+% ----------------------------------------------
+
+% Helper Lemma used for the mixed version
+remove_appended_el_eq: LEMMA
+  FORALL (k: nat): FORALL (n: nat_args(k)): FORALL (x: nat):
+    copy_init(k+1, k)(n WITH [k |-> x]) = n
+
+% Helper lemma used after the mixed version
+split_at_last_eq: LEMMA
+  FORALL (k: nat, n: nat_args(k+1)):
+    n = copy_init(k+1, k)(n) WITH [k |-> n(k)]
+
+% Helper Lemma used for the mixed version
+max_ab_le_sum: LEMMA
+  FORALL (a, b: nat): max(a, b) <= a + b
+
+% Helper Lemma for max_expanded
+max_append_smaller: LEMMA
+  FORALL (k: nat, n: nat_args(k)):
+    FORALL (a: nat):
+      a < max_nats(k)(n) IMPLIES max_nats(k)(n) = max_nats(k+1)(n WITH [k |-> a])
+      
+% Helper Lemma used for the mixed version
+max_expanded_n_eq: LEMMA
+  FORALL (k: nat, n: nat_args(k)):
+    FORALL (a: nat):
+      max_nats(k+1)(n WITH [k |-> a]) = max(max_nats(k)(n), a)
+
+% Helper Lemma
+max_expanded2_n_eq: LEMMA
+  FORALL (k: nat, n: nat_args(k)):
+    FORALL (a, b: nat):
+      max_nats(k+2)(n WITH [k |-> a, (k+1) |-> b]) = max(max(max_nats(k)(n), a), b)
+
+% Helper Lemma, mixed version
+% f = pr(k-1, g, h) => EX c: ALL m = (n,i): f(m) < A(c, max(n) + i)
+pr_rec_maj_by_ack_inductive_part_mixed: LEMMA
+  FORALL (k: nat, f: rfunc(k)):
+    ((k > 0) AND (EXISTS (g: rfunc(k - 1)): (EXISTS (h: rfunc(k + 1)):
+      maj_by_ack?(k - 1)(g) AND maj_by_ack?(k + 1)(h) AND f = pr(k - 1, g, h))))
+    IMPLIES
+      EXISTS (c: nat): FORALL (n: nat_args(k-1)): FORALL (x: nat):
+        f(n WITH [(k-1) |-> x]) < ack(c, x + max_nats(k-1)(n))
+
+% Main Proof: Primitive recursion operator is majorized
+pr_rec_maj_by_ack: THEOREM
+  FORALL (k: nat, f: rfunc(k)):
+    ((k > 0) AND (EXISTS (g: rfunc(k - 1)): (EXISTS (h: rfunc(k + 1)):
+      maj_by_ack?(k - 1)(g) AND maj_by_ack?(k + 1)(h) AND f = pr(k - 1, g, h))))
+    IMPLIES maj_by_ack?(k)(f)
+
+
+% Lemma: Weak antecedent
+% ----------------------------------------------
+%
+% This is the antecedent of the
+%
+%   prim_rec?_weak_induction
+%
+% axiom that is automatically genereated because of the inductive definition
+% of prim_rec?. It can be viewed via
+%
+%   M-x prettyprint-expanded
+%
+% and would normally be used by rule-induct, however rule-induct would for some
+% reason not apply this correctly when we tried proving it, so we do it manually
+% by first proving the antecedent, using the 5 theorems proven earlier. We can
+% then in the next prove use this proven antecedent of the weak-induction axiom
+% to conclude that prim_rec? IMPLIES maj_by_ack?
+%
+% ----------------------------------------------
+
+pr_maj_lemma_weak_ind_antecedent: LEMMA
+  FORALL (k: nat, f: rfunc(k)):
+       (f = zero(k)) OR (k = 1 AND f = pr_succ)
+    OR (EXISTS (i: subrange(1, k)): f = pi(k, i))
+    OR (EXISTS (r: posnat): (EXISTS (g: rfunc(r)): (EXISTS (h: [Index[r] -> rfunc(k)]):
+         maj_by_ack?(r)(g) AND (FORALL (i: Index[r]): maj_by_ack?(k)(h(i))) AND f = compose(r, k)(g, h))))
+    OR ((k > 0) AND (EXISTS (g: rfunc(k - 1)): (EXISTS (h: rfunc(k + 1)):
+         maj_by_ack?(k - 1)(g) AND maj_by_ack?(k + 1)(h) AND f = pr(k - 1, g, h))))
+    IMPLIES maj_by_ack?(k)(f)
+
+% MAIN THEOREM: All primitive recursive functions are majorized by A
+%
+% FORALL f in PR: EXISTS c: FORALL n:
+%   f(n) < A(c, max(n))
+pr_maj_by_ack: THEOREM
+  FORALL (k: nat): FORALL (f: rfunc(k)):
+    prim_rec?(k)(f) IMPLIES maj_by_ack?(k)(f)
+
+% nat_args version of the Theorem above
+pr_maj_by_ack_arr: THEOREM
+  FORALL (k: nat): FORALL (f: rfunc(k)):
+    prim_rec?(k)(f) IMPLIES maj_by_ack_arr?(k)(f)      
+
+
+% (II) CONTRADICTION ARGUMENT
+% ################################################################################
+
+% F(x) = A(x, x)
+ack_arr_diag(x: nat_args(1)): nat
+  = compose(2, 1)(ack_arr, init_rfuncs(2, 1) WITH [0 := pi(1, 1), 1 := pi(1, 1)])(x)
+
+% A in PR => F in PR
+ack_pr_implies_diag_pr: LEMMA
+  prim_rec?(2)(ack_arr) IMPLIES prim_rec?(1)(ack_arr_diag)
+
+% Technical Helper Lemma used in the Theorem 
+contradiction_arg_lemma: LEMMA
+  FORALL (c: nat):
+      (LAMBDA (i: Index[2]): 0) WITH [(0) := c, (1) := c]
+    = LAMBDA (i: Index[2]):
+        init_rfuncs(2, 1) WITH [(0) := pi(1, 1), (1) := pi(1, 1)](i)
+	((LAMBDA (i: Index[1]): 0) WITH [(0) := c])
+
+% A in PR => EXISTS c: F(c) < F(c) (CONTRADICTION)
+ack_prim_rec_diag_contradiction: THEOREM
+  prim_rec?(2)(ack_arr) IMPLIES EXISTS (c: nat):
+    ack_arr_diag(init_nats(1) WITH [0 := c]) < ack_arr_diag(init_nats(1) WITH [0 := c])
+
+% Main Theorem (proven by Contradiction Theorem)
+% ----------------------------------------------
+
+% A not_in PR
+ack_not_prim_rec: THEOREM
+  NOT prim_rec?(2)(ack_arr)
 
 END pr_ack
